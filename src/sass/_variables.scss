@@ -8,6 +8,9 @@ $spacing-250: 2.5rem;
 $spacing-300: 3rem;
 $spacing-400: 4rem;
 $spacing-500: 5rem;
+$inline-spacing: clamp($spacing-200, 4vw, $spacing-500);
+$header-block-spacing: clamp($spacing-200, 3vw, $spacing-400);
+$header-btn-spacing: $spacing-100;
 
 @function spacing($size) {
 	@return map-get(
@@ -21,6 +24,9 @@ $spacing-500: 5rem;
 			300: $spacing-300,
 			400: $spacing-400,
 			500: $spacing-500,
+			"inline": $inline-spacing,
+			"header-block": $header-block-spacing,
+			"header-btn": $header-btn-spacing,
 		),
 		$size
 	);
@@ -60,7 +66,12 @@ $font-size-600: 3rem;
 $font-size-700: 4rem;
 $font-size-800: 5rem;
 $font-size-900: 6rem;
-
+// FONT WEIGHTS
+$fw-light: 300;
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semi-bold: 600;
+$fw-bold: 700;
 // COLORS
 $pure-white: #fff;
 $main-bg-color: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);

@@ -1,11 +1,151 @@
-@use "./fonts.scss" as *;
+@use "./fonts" as *;
+@use "./variables" as *;
+@use "./animations" as *;
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
+button,
+input,
+select,
+textarea,
+optgroup,
+option {
+	font-family: inherit;
+	font-size: inherit;
+}
+html {
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+}
 body {
-    height: 100dvh;
+	height: 100dvh;
 	font-family: "Inter", sans-serif;
+}
+
+.root {
+	min-height: 100%;
+	width: 100%;
+	background: $main-bg-color;
+}
+.container {
+	width: min(100%, 140rem);
+	margin: 0 auto;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: calc(spacing("header-block") - spacing("header-btn"))
+		calc(spacing("inline") - spacing("header-btn"));
+}
+
+.login-header {
+	&__logo {
+		font-size: $font-size-500;
+		color: $pure-white;
+		text-decoration: none;
+		font-weight: $fw-semi-bold;
+		letter-spacing: 1px;
+	}
+	&__logo-img,
+	&__logo-text {
+		vertical-align: middle;
+	}
+	&__logo-img {
+		width: 3rem;
+		height: auto;
+	}
+
+	&__lang-select {
+		display: flex;
+		align-items: center;
+		padding: spacing("header-btn");
+		gap: spacing(50);
+		opacity: 0.9;
+		position: relative;
+		background: none;
+		border: none;
+		color: $pure-white;
+		font-size: $font-size-300;
+		cursor: pointer;
+
+		&.active .login-header__lang-choice {
+			animation: showLangOptions 0.3s forwards;
+
+			&:nth-child(1) {
+				animation-delay: 0.1s;
+			}
+			&:nth-child(2) {
+				animation-delay: 0.2s;
+			}
+			&:nth-child(3) {
+				animation-delay: 0.3s;
+			}
+		}
+		&.active .login-header__lang-arrow {
+			transform: rotate(180deg);
+		}
+	}
+
+	&__lang-arrow {
+		transition: transform 0.2s;
+	}
+
+	&__lang-list {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		top: 100%;
+		left: 0;
+		list-style-type: none;
+		text-align: left;
+	}
+	&__lang-choice {
+		padding: spacing(100);
+		transform: translateY(-100%);
+		font-size: $font-size-200;
+		opacity: 0;
+		cursor: pointer;
+	}
+}
+
+@media (768px <= width) {
+	.login-header {
+		&__lang-select {
+			font-size: $font-size-400;
+			transition: opacity 0.3s;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+		&__lang-choice {
+			font-size: $font-size-250;
+			border-radius: radius(50);
+			transition: background-color 0.2s;
+
+			&:hover {
+				background-color: rgba($pure-white, 0.1);
+			}
+		}
+	}
+}
+@media (992px <= width) {
+	.login-header {
+		&__logo {
+			font-size: $font-size-600;
+		}
+		&__logo-img {
+			width: 4rem;
+		}
+		&__lang-select {
+			font-size: $font-size-400;
+			padding: spacing(100);
+		}
+	}
 }
