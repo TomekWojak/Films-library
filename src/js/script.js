@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		return userLang;
 	}
+	const getUserLanguagePreference = () => {
+		const preferredLang = localStorage.getItem("preferredLanguage");
+        if (preferredLang) {
+            language = preferredLang;
+
+        }
+	};
+    getUserLanguagePreference();
 
 	const createLoginHeader = () => {
 		// logo
