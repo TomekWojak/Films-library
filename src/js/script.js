@@ -3,9 +3,8 @@ import { createElement } from "./helpers.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	const root = document.querySelector(".root");
 	const container = document.querySelector(".container");
-	const language = handleUserLanguage();
+	let language = handleUserLanguage();
 	const langNames = { pl: "Polski", en: "English" };
-
 	function handleUserLanguage() {
 		let userLang = navigator.language || navigator.userLanguage;
 
@@ -67,8 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		langChoicePl.textContent = "Polski";
 		langPlatformLang.textContent = langNames[language];
 
-		langSelect.addEventListener("click", () => {
-			handleLangSelect.call(langSelect);
+		langSelect.addEventListener("click", (e) => {
+			handleLangSelect.call(langSelect, e, langPlatformLang);
 		});
 
 		langList.append(langChoiceEn, langChoicePl);
@@ -79,14 +78,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		// end of language selector
 	};
 
-	function handleLangSelect(e) {
+	function handleLangSelect(e, langText) {
 		const selectBtn = this;
 		selectBtn.classList.toggle("active");
-		// if (e.target.matches(".login-header__lang-choice")) {
-		// 	const selectedLang = e.target.dataset?.lang;
-		// 	langText.textContent = selectedLang;
-		// }
+
+		if (e.target.matches(".login-header__lang-choice")) {
+			const selectedLang = e.target.dataset?.lang;
+			langText.textContent = langNames[selectedLang];
+			language = selectedLang;
+			setUserLanguagePreference(language);
+		}
 	}
+	const setUserLanguagePreference = (lang) => {
+		localStorage.setItem("preferredLanguage", lang);
+		console.log(language);
+	};
 
 	container.append(createLoginHeader());
 });
