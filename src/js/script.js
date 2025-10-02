@@ -1,15 +1,26 @@
 import { createElement } from "./helpers.min.js";
 import { updateElement } from "./updateStateFunctions.min.js";
-import { createLoginPage, showLoader, hideLoader } from "./components.min.js";
+import {
+	createLoginPage,
+	showBigLoader,
+	hideBigLoader,
+} from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
 	const root = document.querySelector(".root");
+
 	const container = document.querySelector(".container");
+
 	let language = handleUserLanguage();
+
 	const langNames = { pl: "Polski", en: "English" };
+
 	let userData = {};
+
 	window.translations = {};
+
 	const langCodes = Object.keys(langNames);
+
 	let langAmount = langCodes.length;
 
 	function handleUserLanguage() {
@@ -32,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const loadFirstTranslations = async () => {
 		try {
-			container.append(showLoader());
+			container.append(showBigLoader());
 
 			const response = await fetch(`./src/json/${language}.json`);
 			const data = await response.json();
@@ -40,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		} catch {
 			console.error("Error loading initial translation file");
 		} finally {
-			hideLoader();
+			hideBigLoader();
 		}
 
 		// APPEND SECTION
@@ -87,7 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				"placeholder",
 				translations.main.placeholder.password
 			);
-			updateElement("main__form-button", "text", translations.main.text.button);
+			updateElement(
+				"main__form-button-text",
+				"text",
+				translations.main.text.button
+			);
 			updateElement(
 				"main__form-error-txt",
 				"text",

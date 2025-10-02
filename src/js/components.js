@@ -29,13 +29,16 @@ export const createLoginPage = ({
 	const submitBtn = createElement("button", ["main__form-button"], {
 		type: "submit",
 	});
+	const buttonText = createElement("span", ["main__form-button-text"]);
+
 	const errorTxt = createElement("p", ["main__form-error-txt"]);
 	loginTitleTop.textContent = title;
 	loginTitleBottom.textContent = subtitle;
 	loginText.textContent = description;
-	submitBtn.textContent = button;
+	buttonText.textContent = button;
 
 	loginTitle.append(loginTitleTop, loginTitleBottom);
+	submitBtn.append(buttonText);
 	form.append(usernameInput, passwordInput, submitBtn, errorTxt);
 
 	wrapper.append(loginTitle, loginText, form);
@@ -50,11 +53,11 @@ export const createLoginPage = ({
 				translations.main.text.errorRequired,
 				translations.main.text.errorInvalid,
 				USERNAME,
-				PASSWORD
+				PASSWORD,
+				errorTxt
 			) ?? "";
 
 		errorTxt.classList.add("visible");
-		errorTxt.textContent = results;
 
 		if (!results) {
 			errorTxt.classList.remove("visible");
@@ -71,23 +74,37 @@ const handleLoginValidation = (
 	requireError,
 	invalidError,
 	username,
-	password
+	password,
+	errorTxt
 ) => {
 	e.preventDefault();
 
 	if (usernameInput.value.trim() === "" || passwordInput.value.trim() === "") {
+		errorTxt.textContent = requireError;
 		return requireError;
 	} else if (
 		usernameInput.value.trim() !== username ||
 		passwordInput.value.trim() !== password
 	) {
-		return invalidError;
+		e.target.append(showSmallLoader());
+		errorTxt.classList.remove("visible");
+		e.target.disabled = true;
+
+		setTimeout(() => {
+			errorTxt.classList.add("visible");
+			errorTxt.textContent = invalidError;
+
+			e.target.disabled = false;
+            
+			hideSmallLoader();
+			return invalidError;
+		}, 3000);
 	} else {
 		return null;
 	}
 };
 
-export const showLoader = () => {
+export const showBigLoader = () => {
 	const loadingArea = createElement("div", ["loading-area"]);
 	loadingArea.innerHTML = `            <svg class="loader-big" viewBox="0 0 120 120" width="120" height="120">
                 <defs>
@@ -101,7 +118,27 @@ export const showLoader = () => {
             </svg>`;
 	return loadingArea;
 };
-export const hideLoader = () => {
+export const hideBigLoader = () => {
 	const loadingArea = document.querySelector(".loading-area");
 	loadingArea?.remove();
+};
+
+export const showSmallLoader = () => {
+	const loadingArea = createElement("div", ["loading-area-small"]);
+	loadingArea.innerHTML = `<svg class="loader-small" viewBox="0 0 120 120" width="120" height="120">
+                <defs>
+                    <linearGradient id="loader-accent-small" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="white" stop-opacity="0.8" />
+                        <stop offset="70%" stop-color="white" stop-opacity="0.3" />
+                        <stop offset="100%" stop-color="white" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <circle class="loading-circle-small" r="12" cx="60" cy="60"></circle>
+            </svg>`;
+
+	return loadingArea;
+};
+export const hideSmallLoader = () => {
+	const loadingArea = document.querySelector(".loading-area-small");
+	loadingArea.remove();
 };

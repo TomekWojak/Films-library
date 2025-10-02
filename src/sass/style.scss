@@ -169,6 +169,7 @@ body {
 		}
 	}
 	&__form-button {
+		position: relative;
 		width: 100%;
 		padding: clamp(spacing(150), calc(spacing(150) + 0.5vw), spacing(200))
 			spacing(300);
@@ -184,10 +185,13 @@ body {
 		font-weight: $fw-semi-bold;
 		letter-spacing: 1px;
 		cursor: pointer;
-		transition: transform 0.3s;
 
-		&:active {
-			transform: scale(0.96);
+		&:disabled {
+			background-color: #aba1a1 !important;
+			cursor: not-allowed;
+		}
+		&:disabled .main__form-button-text {
+			visibility: hidden;
 		}
 	}
 	&__form-error-txt {

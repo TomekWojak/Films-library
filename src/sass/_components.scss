@@ -1,9 +1,11 @@
 @use "./variables" as *;
-.loading-area {
+.loading-area,
+.loading-area-small {
 	position: absolute;
 	inset: 0;
 }
-.loader-big {
+.loader-big,
+.loader-small {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -17,5 +19,15 @@
 	stroke-dasharray: 220;
 	transform-origin: center;
 	stroke-dashoffset: 150;
+	animation: spin 1s linear infinite;
+}
+.loading-circle-small {
+	fill: none;
+	stroke: url(#loader-accent-small);
+	stroke-width: 5;
+	stroke-linecap: round;
+	stroke-dasharray: 95;
+	stroke-dashoffset: 50;
+	transform-origin: center;
 	animation: spin 1s linear infinite;
 }
