@@ -3,6 +3,84 @@ import { createElement } from "./helpers.min.js";
 const USERNAME = "handsomeUser404";
 const PASSWORD = "5jksH9d.";
 
+export const createLoginHeader = (
+	{
+		header: {
+			alt: { logo },
+			aria: { logoLink, changeLanguageButton },
+		},
+	},
+	langAmount,
+	langNames,
+	language,
+	handleLangSelect
+) => {
+	// logo
+	const header = createElement("header", ["header"]);
+	const pageLogo = createElement("a", ["header__logo", "login-header__logo"], {
+		href: "/",
+		"aria-label": `${logoLink}`,
+	});
+	const logoImg = createElement(
+		"img",
+		["header__logo-img", "login-header__logo-img"],
+		{
+			src: "./src/icons/logo.svg",
+			alt: `${logo}`,
+			width: "24",
+			height: "24",
+		}
+	);
+	const logoText = createElement("span", [
+		"header__logo-text",
+		"login-header__logo-text",
+	]);
+	logoText.textContent = "Stream";
+	pageLogo.append(logoImg, logoText);
+	header.append(pageLogo);
+	// end of logo
+
+	// language selector
+	const langSelect = createElement("button", ["login-header__lang-select"], {
+		"aria-label": `${changeLanguageButton}`,
+	});
+	const langPlatformLang = createElement("span", [
+		"login-header__lang-platform-lang",
+	]);
+	const langArrow = createElement("img", ["login-header__lang-arrow"], {
+		src: "./src/icons/chevron-down.svg",
+		alt: "",
+		width: "24",
+		height: "24",
+	});
+	const langList = createElement("ul", ["login-header__lang-list"]);
+
+	for (let i = 0; i < langAmount; i++) {
+		const langChoice = createElement("li", ["login-header__lang-choice"], {
+			tabindex: 0,
+		});
+		const data = Object.keys(langNames)[i];
+		const text = Object.values(langNames)[i];
+
+		langChoice.dataset.lang = data;
+		langChoice.textContent = text;
+		langChoice.style.animationDelay = i * 100 + "ms";
+		langList.append(langChoice);
+	}
+
+	langPlatformLang.textContent = langNames[language];
+
+	langSelect.addEventListener("click", (e) => {
+		handleLangSelect.call(langSelect, e, langPlatformLang);
+	});
+
+	langSelect.append(langPlatformLang, langArrow, langList);
+	header.append(langSelect);
+
+	return header;
+	// end of language selector
+};
+
 export const createLoginPage = ({
 	main: {
 		text: { title, subtitle, description, button },
@@ -86,16 +164,16 @@ const handleLoginValidation = (
 		usernameInput.value.trim() !== username ||
 		passwordInput.value.trim() !== password
 	) {
+		e.target.disabled = true;
 		e.target.append(showSmallLoader());
 		errorTxt.classList.remove("visible");
-		e.target.disabled = true;
 
 		setTimeout(() => {
 			errorTxt.classList.add("visible");
 			errorTxt.textContent = invalidError;
 
 			e.target.disabled = false;
-            
+
 			hideSmallLoader();
 			return invalidError;
 		}, 3000);

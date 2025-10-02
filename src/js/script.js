@@ -4,6 +4,7 @@ import {
 	createLoginPage,
 	showBigLoader,
 	hideBigLoader,
+	createLoginHeader,
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -55,7 +56,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 
 		// APPEND SECTION
-		container.prepend(createLoginHeader());
+		container.prepend(
+			createLoginHeader(
+				translations,
+				langAmount,
+				langNames,
+				language,
+				handleLangSelect
+			)
+		);
 		container.append(createLoginPage(translations));
 	};
 
@@ -68,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const data = await response.json();
 			translations = data;
-			console.log(translations);
 			// UPDATE ELEMENTS
 			updateElement(
 				"login-header__logo",
@@ -112,71 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			console.error("Error loading translation file");
 		}
 	};
-
-	const createLoginHeader = () => {
-		// logo
-		const header = createElement("header", ["header"]);
-		const logo = createElement("a", ["header__logo", "login-header__logo"], {
-			href: "/",
-			"aria-label": `${translations.header.aria.logoLink}`,
-		});
-		const logoImg = createElement(
-			"img",
-			["header__logo-img", "login-header__logo-img"],
-			{
-				src: "./src/icons/logo.svg",
-				alt: `${translations.header.alt.logo}`,
-				width: "24",
-				height: "24",
-			}
-		);
-		const logoText = createElement("span", [
-			"header__logo-text",
-			"login-header__logo-text",
-		]);
-		logoText.textContent = "Stream";
-		logo.append(logoImg, logoText);
-		header.append(logo);
-		// end of logo
-
-		// language selector
-		const langSelect = createElement("button", ["login-header__lang-select"], {
-			"aria-label": `${translations.header.aria.changeLanguageButton}`,
-		});
-		const langPlatformLang = createElement("span", [
-			"login-header__lang-platform-lang",
-		]);
-		const langArrow = createElement("img", ["login-header__lang-arrow"], {
-			src: "./src/icons/chevron-down.svg",
-			alt: "",
-			width: "24",
-			height: "24",
-		});
-		const langList = createElement("ul", ["login-header__lang-list"]);
-
-		for (let i = 0; i < langAmount; i++) {
-			const langChoice = createElement("li", ["login-header__lang-choice"]);
-			const data = Object.keys(langNames)[i];
-			const text = Object.values(langNames)[i];
-
-			langChoice.dataset.lang = data;
-			langChoice.textContent = text;
-			langChoice.style.animationDelay = i * 100 + "ms";
-			langList.append(langChoice);
-		}
-
-		langPlatformLang.textContent = langNames[language];
-
-		langSelect.addEventListener("click", (e) => {
-			handleLangSelect.call(langSelect, e, langPlatformLang);
-		});
-
-		langSelect.append(langPlatformLang, langArrow, langList);
-		header.append(langSelect);
-
-		return header;
-		// end of language selector
-	};
 	function handleLangSelect(e, langText) {
 		const selectBtn = this;
 		selectBtn.classList.toggle("active");
@@ -189,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			setUserLanguagePreference("preferredLanguage", language);
 		}
 	}
+
 	const setUserLanguagePreference = (option, value) => {
 		const currentUserData = JSON.parse(localStorage.getItem("userData")) || {};
 		currentUserData[option] = value;

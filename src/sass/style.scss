@@ -2,7 +2,7 @@
 @use "./variables" as *;
 @use "./animations" as *;
 @use "./components" as *;
-
+@use "./mixins" as *;
 * {
 	margin: 0;
 	padding: 0;
@@ -54,6 +54,11 @@ body {
 		text-decoration: none;
 		font-weight: $fw-semi-bold;
 		letter-spacing: 1px;
+		border-radius: radius(100);
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 	&__logo-img,
 	&__logo-text {
@@ -76,7 +81,11 @@ body {
 		font-size: $font-size-300;
 		letter-spacing: 1px;
 		cursor: pointer;
+		border-radius: radius(100);
 
+		&:focus-visible {
+			@include focusState;
+		}
 		&.active .login-header__lang-choice {
 			display: block;
 			animation: showLangOptions 0.3s forwards;
@@ -107,6 +116,10 @@ body {
 		font-size: $font-size-200;
 		opacity: 0;
 		cursor: pointer;
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 }
 
@@ -119,7 +132,6 @@ body {
 	&__title,
 	&__subtitle {
 		display: block;
-		margin-block-end: spacing(150);
 		line-height: 140%;
 		font-size: clamp(
 			$font-size-400,
@@ -128,6 +140,9 @@ body {
 		);
 		letter-spacing: 1px;
 		font-weight: $fw-bold;
+	}
+	&__subtitle {
+		margin-block-end: spacing(150);
 	}
 
 	&__text {
@@ -213,8 +228,7 @@ body {
 	&__form-button:focus-visible,
 	&__form-input:focus,
 	&__form-input:focus-visible {
-		outline: 0.2rem solid $login-accent;
-		outline-offset: 0.3rem;
+		@include focusState;
 	}
 }
 

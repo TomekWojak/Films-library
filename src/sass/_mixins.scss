@@ -1,0 +1,5 @@
+@use "./variables" as *;
+@mixin focusState {
+	outline: 0.2rem solid $login-accent;
+	outline-offset: 0.3rem;
+}
