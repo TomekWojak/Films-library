@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	const container = document.querySelector(".container");
 	let language = handleUserLanguage();
 	const langNames = { pl: "Polski", en: "English" };
+	const langCodes = Object.keys(langNames);
+	let langAmount = langCodes.length;
+
 	function handleUserLanguage() {
 		let userLang = navigator.language || navigator.userLanguage;
 
@@ -16,12 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	const getUserLanguagePreference = () => {
 		const preferredLang = localStorage.getItem("preferredLanguage");
-        if (preferredLang) {
-            language = preferredLang;
-
-        }
+		if (preferredLang) language = preferredLang;
 	};
-    getUserLanguagePreference();
+	getUserLanguagePreference();
 
 	const createLoginHeader = () => {
 		// logo
@@ -63,22 +63,24 @@ document.addEventListener("DOMContentLoaded", function () {
 			height: "24",
 		});
 		const langList = createElement("ul", ["login-header__lang-list"]);
-		const langChoiceEn = createElement("li", ["login-header__lang-choice"], {
-			"data-lang": "en",
-		});
-		const langChoicePl = createElement("li", ["login-header__lang-choice"], {
-			"data-lang": "pl",
-		});
 
-		langChoiceEn.textContent = "English";
-		langChoicePl.textContent = "Polski";
+		for (let i = 0; i < langAmount; i++) {
+			const langChoice = createElement("li", ["login-header__lang-choice"]);
+			const data = Object.keys(langNames)[i];
+			const text = Object.values(langNames)[i];
+
+			langChoice.dataset.lang = data;
+			langChoice.textContent = text;
+			langChoice.style.animationDelay = i * 100 + "ms";
+			langList.append(langChoice);
+		}
+
 		langPlatformLang.textContent = langNames[language];
 
 		langSelect.addEventListener("click", (e) => {
 			handleLangSelect.call(langSelect, e, langPlatformLang);
 		});
 
-		langList.append(langChoiceEn, langChoicePl);
 		langSelect.append(langPlatformLang, langArrow, langList);
 		header.append(langSelect);
 
@@ -91,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		selectBtn.classList.toggle("active");
 
 		if (e.target.matches(".login-header__lang-choice")) {
-			const selectedLang = e.target.dataset?.lang;
+			const selectedLang = e.target.dataset.lang;
 			langText.textContent = langNames[selectedLang];
 			language = selectedLang;
 			setUserLanguagePreference(language);
@@ -99,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	const setUserLanguagePreference = (lang) => {
 		localStorage.setItem("preferredLanguage", lang);
-		console.log(language);
 	};
 
 	container.append(createLoginHeader());

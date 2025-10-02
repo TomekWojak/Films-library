@@ -28,7 +28,8 @@ body {
 .root {
 	min-height: 100%;
 	width: 100%;
-	background: $main-bg-color;
+	background: radial-gradient(circle at 20% 90%, #27496d -20%, transparent 60%),
+		radial-gradient(circle at 80% 32%, #27496d -10%, transparent 60%), #0a141c;
 }
 .container {
 	width: min(100%, 140rem);
@@ -65,21 +66,17 @@ body {
 		align-items: center;
 		padding: spacing("header-btn");
 		gap: spacing(50);
-		opacity: 0.9;
 		position: relative;
 		background: none;
 		border: none;
 		color: $pure-white;
 		font-size: $font-size-300;
+		letter-spacing: 1px;
 		cursor: pointer;
 
 		&.active .login-header__lang-choice {
 			display: block;
 			animation: showLangOptions 0.3s forwards;
-
-			&:nth-child(2) {
-				animation-delay: 0.1s;
-			}
 		}
 		&.active .login-header__lang-arrow {
 			transform: rotate(180deg);
@@ -114,11 +111,6 @@ body {
 	.login-header {
 		&__lang-select {
 			font-size: $font-size-400;
-			transition: opacity 0.3s;
-
-			&:hover {
-				opacity: 1;
-			}
 		}
 		&__lang-choice {
 			font-size: $font-size-250;
@@ -126,7 +118,7 @@ body {
 			transition: background-color 0.2s;
 
 			&:hover {
-				background-color: rgba($pure-white, 0.1);
+				background-color: rgba($pure-white, 0.05);
 			}
 		}
 	}

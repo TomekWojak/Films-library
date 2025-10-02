@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // SPACING
 $spacing-0: 0;
 $spacing-50: 0.5rem;
@@ -12,24 +14,24 @@ $inline-spacing: clamp($spacing-200, 4vw, $spacing-500);
 $header-block-spacing: clamp($spacing-200, 3vw, $spacing-400);
 $header-btn-spacing: $spacing-100;
 
+// Returns the spacing value for a given key (e.g., 0, 50, 100, "inline").
+
 @function spacing($size) {
-	@return map-get(
-		(
-			0: $spacing-0,
-			50: $spacing-50,
-			100: $spacing-100,
-			150: $spacing-150,
-			200: $spacing-200,
-			250: $spacing-250,
-			300: $spacing-300,
-			400: $spacing-400,
-			500: $spacing-500,
-			"inline": $inline-spacing,
-			"header-block": $header-block-spacing,
-			"header-btn": $header-btn-spacing,
-		),
-		$size
+	$values: (
+		0: $spacing-0,
+		50: $spacing-50,
+		100: $spacing-100,
+		150: $spacing-150,
+		200: $spacing-200,
+		250: $spacing-250,
+		300: $spacing-300,
+		400: $spacing-400,
+		500: $spacing-500,
+		"inline": $inline-spacing,
+		"header-block": $header-block-spacing,
+		"header-btn": $header-btn-spacing,
 	);
+	@return map.get($values, $size);
 }
 
 // RADIUS
@@ -41,17 +43,15 @@ $radius-200: 2rem;
 $radius-full: 100%;
 
 @function radius($scale) {
-	@return map-get(
-		(
-			0: $radius-0,
-			50: $radius-50,
-			100: $radius-100,
-			150: $radius-150,
-			200: $radius-200,
-			"full": $radius-full,
-		),
-		$scale
+	$values: (
+		0: $radius-0,
+		50: $radius-50,
+		100: $radius-100,
+		150: $radius-150,
+		200: $radius-200,
+		"full": $radius-full,
 	);
+	@return map.get($values, $scale);
 }
 // FONT SIZES
 $font-size-50: 0.5rem;
@@ -74,7 +74,23 @@ $fw-semi-bold: 600;
 $fw-bold: 700;
 // COLORS
 $pure-white: #fff;
-$main-bg-color: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+
 $login-accent: #4da8da;
 $login-input-color: #02131f;
 $light-gray: #7a7a7a;
+
+// linear-gradient(
+// 	to right bottom,
+// 	#0f2027,
+// 	#12252c,
+// 	#152931,
+// 	#192e37,
+// 	#1c333c,
+// 	#1e3741,
+// 	#213c46,
+// 	#23404b,
+// 	#254551,
+// 	#274957,
+// 	#2a4e5e,
+// 	#2c5364
+// );
