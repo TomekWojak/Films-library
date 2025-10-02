@@ -1,5 +1,6 @@
 import { createElement } from "./helpers.min.js";
-
+import { updateElement } from "./updateStateFunctions.min.js";
+import { createLoginPage } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	const root = document.querySelector(".root");
 	const container = document.querySelector(".container");
@@ -28,34 +29,74 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 	getUserLanguagePreference();
 
-	const loadTranslations = async (lang) => {
+	const loadFirstTranslations = async () => {
 		try {
-			const response = await fetch(`./src/json/${lang}.json`);
+			const response = await fetch(`./src/json/${language}.json`);
+			const data = await response.json();
+			translations = data;
+		} catch {
+			console.error("Error loading initial translation file");
+		}
+
+		// APPEND SECTION
+		console.log(translations);
+		container.prepend(createLoginHeader());
+		container.append(createLoginPage(translations));
+	};
+	loadFirstTranslations();
+	const loadTranslations = async () => {
+		try {
+			const response = await fetch(`./src/json/${language}.json`);
 
 			if (!response.ok) throw new Error("Network response was not ok");
 
 			const data = await response.json();
 			translations = data;
-			console.log(translations);
+
+			// UPDATE ELEMENTS
+			updateElement(
+				"login-header__logo",
+				"aria",
+				translations.header.aria.logoLink
+			);
+			updateElement(
+				"login-header__logo-img",
+				"alt",
+				translations.header.alt.logo
+			);
+			updateElement(
+				"login-header__lang-select",
+				"aria",
+				translations.header.aria.changeLanguageButton
+			);
+			updateElement("main__title", "text", translations.main.text.title);
+			updateElement("main__subtitle", "text", translations.main.text.subtitle);
+			updateElement("main__text", "text", translations.main.text.description);
+			updateElement(
+				"main__form-input--username",
+				"text",
+				translations.main.placeholder.username
+			);
+			updateElement('main__form-button', 'text', translations.main.text.button)
 		} catch {
 			console.error("Error loading translation file");
 		}
 	};
-	loadTranslations(language);
+	loadTranslations();
 
 	const createLoginHeader = () => {
 		// logo
 		const header = createElement("header", ["header"]);
 		const logo = createElement("a", ["header__logo", "login-header__logo"], {
 			href: "/",
-			"aria-label": "Stream - Strona główna",
+			"aria-label": `${translations.header.aria.logoLink}`,
 		});
 		const logoImg = createElement(
 			"img",
 			["header__logo-img", "login-header__logo-img"],
 			{
 				src: "./src/icons/logo.svg",
-				alt: "Logo platformy Stream - jedynej takiej platformy streamingowej",
+				alt: `${translations.header.alt.logo}`,
 				width: "24",
 				height: "24",
 			}
@@ -71,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// language selector
 		const langSelect = createElement("button", ["login-header__lang-select"], {
-			"aria-label": "Wybierz język platformy Stream",
+			"aria-label": `${translations.header.aria.changeLanguageButton}`,
 		});
 		const langPlatformLang = createElement("span", [
 			"login-header__lang-platform-lang",
@@ -107,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		return header;
 		// end of language selector
 	};
-
 	function handleLangSelect(e, langText) {
 		const selectBtn = this;
 		selectBtn.classList.toggle("active");
@@ -127,6 +167,4 @@ document.addEventListener("DOMContentLoaded", function () {
 		userData = { ...userData, ...currentUserData };
 		localStorage.setItem("userData", JSON.stringify(userData));
 	};
-
-	container.append(createLoginHeader());
 });

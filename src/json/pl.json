@@ -7,5 +7,19 @@
 			"logoLink": "Stream - Strona główna",
 			"changeLanguageButton": "Wybierz język platformy Stream"
 		}
+	},
+	"main": {
+		"text": {
+			"title": "Nielimitowane filmy,",
+			"subtitle": "seriale i więcej",
+			"description": "Oglądaj gdzie chcesz. Anuluj kiedy chcesz",
+			"button": "Zaloguj się",
+			"errorRequired": "Uzupełnij wszystkie pola",
+			"errorInvalid": "Nieprawidłowa nazwa użytkownika lub hasło"
+		},
+		"placeholder": {
+			"username": "Nazwa użytkownika",
+			"password": "Hasło"
+		}
 	}
 }

@@ -7,5 +7,19 @@
 			"logoLink": "Stream - Homepage",
 			"changeLanguageButton": "Select language for Stream platform"
 		}
+	},
+	"main": {
+		"text": {
+			"title": "Unlimited movies,",
+			"subtitle": "TV shows, and more",
+			"description": "Watch anywhere. Cancel anytime",
+			"button": "Sign in",
+			"errorRequired": "Please fill in all fields",
+			"errorInvalid": "Invalid username or password"
+		},
+		"placeholder": {
+			"username": "Username",
+			"password": "Password"
+		}
 	}
 }

@@ -66,31 +66,18 @@ $font-size-600: 3rem;
 $font-size-700: 4rem;
 $font-size-800: 5rem;
 $font-size-900: 6rem;
+$font-size-1000: 7rem;
+
 // FONT WEIGHTS
 $fw-light: 300;
 $fw-regular: 400;
 $fw-medium: 500;
 $fw-semi-bold: 600;
 $fw-bold: 700;
+
 // COLORS
 $pure-white: #fff;
-
 $login-accent: #4da8da;
 $login-input-color: #02131f;
-$light-gray: #7a7a7a;
-
-// linear-gradient(
-// 	to right bottom,
-// 	#0f2027,
-// 	#12252c,
-// 	#152931,
-// 	#192e37,
-// 	#1c333c,
-// 	#1e3741,
-// 	#213c46,
-// 	#23404b,
-// 	#254551,
-// 	#274957,
-// 	#2a4e5e,
-// 	#2c5364
-// );
+$light-gray: #aaa5a5;
+$error-color: #e74c3c;

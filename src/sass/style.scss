@@ -23,6 +23,7 @@ html {
 body {
 	height: 100dvh;
 	font-family: "Inter", sans-serif;
+	color: $pure-white;
 }
 
 .root {
@@ -31,7 +32,8 @@ body {
 	background: radial-gradient(circle at 20% 90%, #27496d -20%, transparent 60%),
 		radial-gradient(circle at 80% 32%, #27496d -10%, transparent 60%), #0a141c;
 }
-.container {
+.container,
+.wrapper {
 	width: min(100%, 140rem);
 	margin: 0 auto;
 }
@@ -41,7 +43,7 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	padding: calc(spacing("header-block") - spacing("header-btn"))
-		calc(spacing("inline") - spacing("header-btn"));
+		spacing("inline");
 }
 
 .login-header {
@@ -107,6 +109,105 @@ body {
 	}
 }
 
+.main {
+	.wrapper {
+		padding: 0 spacing("inline");
+		margin: spacing(500) auto;
+		text-align: center;
+	}
+	&__title,
+	&__subtitle {
+		display: block;
+		margin-block-end: spacing(150);
+		line-height: 140%;
+		font-size: clamp(
+			$font-size-400,
+			calc($font-size-500 + 3vw),
+			$font-size-1000
+		);
+		letter-spacing: 1px;
+		font-weight: $fw-bold;
+	}
+
+	&__text {
+		font-size: clamp(
+			$font-size-200,
+			calc($font-size-250 + 1vw),
+			$font-size-600
+		);
+		letter-spacing: 1px;
+		font-weight: $fw-light;
+		color: rgba($pure-white, 0.95);
+	}
+
+	&__form {
+		width: min(100%, 50rem);
+		margin-block-start: spacing(400);
+		margin-inline: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: clamp(spacing(100), calc(spacing(100) + 0.5vw), spacing(200));
+	}
+	&__form-input {
+		width: 100%;
+		padding: clamp(spacing(150), calc(spacing(150) + 0.5vw), spacing(200));
+		font-size: clamp(
+			$font-size-200,
+			calc($font-size-200 + 0.5vw),
+			$font-size-300
+		);
+		border: none;
+		border-radius: radius(100);
+		caret-color: $light-gray;
+		background-color: rgba($login-input-color, 0.9);
+		color: rgba($pure-white, 0.9);
+
+		&::placeholder {
+			color: $light-gray;
+		}
+	}
+	&__form-button {
+		width: 100%;
+		padding: clamp(spacing(150), calc(spacing(150) + 0.5vw), spacing(200))
+			spacing(300);
+		border-radius: radius(100);
+		border: none;
+		background-color: $login-accent;
+		color: $pure-white;
+		font-size: clamp(
+			$font-size-200,
+			calc($font-size-200 + 0.2vw),
+			$font-size-300
+		);
+		font-weight: $fw-semi-bold;
+		letter-spacing: 1px;
+		cursor: pointer;
+		transition: transform 0.3s;
+
+		&:active {
+			transform: scale(0.96);
+		}
+	}
+	&__form-error-txt {
+		margin-block-start: spacing(50);
+		color: $error-color;
+		font-size: clamp(
+			$font-size-200,
+			calc($font-size-200 + 0.2vw),
+			$font-size-300
+		);
+		font-weight: $fw-light;
+	}
+
+	&__form-button:focus-visible,
+	&__form-input:focus,
+	&__form-input:focus-visible {
+		outline: 0.2rem solid $login-accent;
+		outline-offset: 0.3rem;
+	}
+}
+
 @media (768px <= width) {
 	.login-header {
 		&__lang-select {
@@ -119,6 +220,15 @@ body {
 
 			&:hover {
 				background-color: rgba($pure-white, 0.05);
+			}
+		}
+	}
+	.main {
+		&__form-button {
+			transition: transform 0.3s, background 0.3s;
+
+			&:hover {
+				background-color: #298bc0;
 			}
 		}
 	}
