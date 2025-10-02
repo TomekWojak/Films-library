@@ -1,0 +1,11 @@
+{
+	"header": {
+		"alt": {
+			"logo": "Logo platformy Stream - jedynej takiej platformy streamingowej"
+		},
+		"aria": {
+			"logoLink": "Stream - Strona główna",
+			"changeLanguageButton": "Wybierz język platformy Stream"
+		}
+	}
+}

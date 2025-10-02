@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	const container = document.querySelector(".container");
 	let language = handleUserLanguage();
 	const langNames = { pl: "Polski", en: "English" };
+	let userData = {};
+	let translations = {};
 	const langCodes = Object.keys(langNames);
 	let langAmount = langCodes.length;
 
@@ -18,10 +20,28 @@ document.addEventListener("DOMContentLoaded", function () {
 		return userLang;
 	}
 	const getUserLanguagePreference = () => {
-		const preferredLang = localStorage.getItem("preferredLanguage");
+		const preferredLang = JSON.parse(
+			localStorage.getItem("userData")
+		)?.preferredLanguage;
+
 		if (preferredLang) language = preferredLang;
 	};
 	getUserLanguagePreference();
+
+	const loadTranslations = async (lang) => {
+		try {
+			const response = await fetch(`./src/json/${lang}.json`);
+
+			if (!response.ok) throw new Error("Network response was not ok");
+
+			const data = await response.json();
+			translations = data;
+			console.log(translations);
+		} catch {
+			console.error("Error loading translation file");
+		}
+	};
+	loadTranslations(language);
 
 	const createLoginHeader = () => {
 		// logo
@@ -34,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"img",
 			["header__logo-img", "login-header__logo-img"],
 			{
-				src: "./icons/logo.svg",
+				src: "./src/icons/logo.svg",
 				alt: "Logo platformy Stream - jedynej takiej platformy streamingowej",
 				width: "24",
 				height: "24",
@@ -57,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"login-header__lang-platform-lang",
 		]);
 		const langArrow = createElement("img", ["login-header__lang-arrow"], {
-			src: "./icons/chevron-down.svg",
+			src: "./src/icons/chevron-down.svg",
 			alt: "",
 			width: "24",
 			height: "24",
@@ -96,11 +116,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			const selectedLang = e.target.dataset.lang;
 			langText.textContent = langNames[selectedLang];
 			language = selectedLang;
-			setUserLanguagePreference(language);
+
+			setUserLanguagePreference("preferredLanguage", language);
+			loadTranslations(language);
 		}
 	}
-	const setUserLanguagePreference = (lang) => {
-		localStorage.setItem("preferredLanguage", lang);
+	const setUserLanguagePreference = (option, value) => {
+		const currentUserData = JSON.parse(localStorage.getItem("userData")) || {};
+		currentUserData[option] = value;
+		userData = { ...userData, ...currentUserData };
+		localStorage.setItem("userData", JSON.stringify(userData));
 	};
 
 	container.append(createLoginHeader());
