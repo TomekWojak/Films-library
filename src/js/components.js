@@ -41,3 +41,22 @@ export const createLoginPage = ({
 
 	return mainContent;
 };
+
+export const showLoader = () => {
+	const loadingArea = createElement("div", ["loading-area"]);
+	loadingArea.innerHTML = `            <svg class="loader-big" viewBox="0 0 120 120" width="120" height="120">
+                <defs>
+                    <linearGradient id="loader-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#4da8da" stop-opacity="0.8" />
+                        <stop offset="70%" stop-color="#4da8da" stop-opacity="0.4" />
+                        <stop offset="100%" stop-color="#4da8da" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <circle class="loading-circle-big" r="35" cx="60" cy="60"></circle>
+            </svg>`;
+	return loadingArea;
+};
+export const hideLoader = () => {
+	const loadingArea = document.querySelector(".loading-area");
+	loadingArea?.remove();
+};

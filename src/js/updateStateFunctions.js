@@ -12,6 +12,9 @@ export const updateElement = (selector, type, value) => {
 		case "alt":
 			el.alt = value;
 			break;
+		case "placeholder":
+			el.placeholder = value;
+			break;
 		default:
 			console.warn(`updateElement: nieobsługiwany typ "${type}"`);
 	}

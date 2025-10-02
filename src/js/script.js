@@ -1,6 +1,7 @@
 import { createElement } from "./helpers.min.js";
 import { updateElement } from "./updateStateFunctions.min.js";
-import { createLoginPage } from "./components.min.js";
+import { createLoginPage, showLoader, hideLoader } from "./components.min.js";
+
 document.addEventListener("DOMContentLoaded", function () {
 	const root = document.querySelector(".root");
 	const container = document.querySelector(".container");
@@ -31,11 +32,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const loadFirstTranslations = async () => {
 		try {
+			container.append(showLoader());
+
 			const response = await fetch(`./src/json/${language}.json`);
 			const data = await response.json();
 			translations = data;
 		} catch {
 			console.error("Error loading initial translation file");
+		} finally {
+			hideLoader();
 		}
 
 		// APPEND SECTION
@@ -74,10 +79,15 @@ document.addEventListener("DOMContentLoaded", function () {
 			updateElement("main__text", "text", translations.main.text.description);
 			updateElement(
 				"main__form-input--username",
-				"text",
+				"placeholder",
 				translations.main.placeholder.username
 			);
-			updateElement('main__form-button', 'text', translations.main.text.button)
+			updateElement(
+				"main__form-input--password",
+				"placeholder",
+				translations.main.placeholder.password
+			);
+			updateElement("main__form-button", "text", translations.main.text.button);
 		} catch {
 			console.error("Error loading translation file");
 		}

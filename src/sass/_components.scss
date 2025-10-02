@@ -1,0 +1,21 @@
+@use "./variables" as *;
+.loading-area {
+	position: absolute;
+	inset: 0;
+}
+.loader-big {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.loading-circle-big {
+	fill: none;
+	stroke: url(#loader-accent);
+	stroke-width: 10;
+	stroke-linecap: round;
+	stroke-dasharray: 220;
+	transform-origin: center;
+	stroke-dashoffset: 150;
+	animation: spin 1s linear infinite;
+}
