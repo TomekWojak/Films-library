@@ -1,8 +1,11 @@
 import { createElement } from "./helpers.min.js";
 
+const USERNAME = "handsomeUser404";
+const PASSWORD = "5jksH9d.";
+
 export const createLoginPage = ({
 	main: {
-		text: { title, subtitle, description, button, errorInvalid, errorRequired },
+		text: { title, subtitle, description, button },
 		placeholder: { username, password },
 	},
 }) => {
@@ -16,18 +19,17 @@ export const createLoginPage = ({
 	const usernameInput = createElement(
 		"input",
 		["main__form-input", "main__form-input--username"],
-		{ type: "text", placeholder: "Username" }
+		{ type: "text", placeholder: username }
 	);
 	const passwordInput = createElement(
 		"input",
 		["main__form-input", "main__form-input--password"],
-		{ type: "password", placeholder: "Password" }
+		{ type: "password", placeholder: password }
 	);
 	const submitBtn = createElement("button", ["main__form-button"], {
 		type: "submit",
 	});
 	const errorTxt = createElement("p", ["main__form-error-txt"]);
-
 	loginTitleTop.textContent = title;
 	loginTitleBottom.textContent = subtitle;
 	loginText.textContent = description;
@@ -39,7 +41,50 @@ export const createLoginPage = ({
 	wrapper.append(loginTitle, loginText, form);
 	mainContent.append(wrapper);
 
+	submitBtn.addEventListener("click", (e) => {
+		const results =
+			handleLoginValidation(
+				e,
+				usernameInput,
+				passwordInput,
+				translations.main.text.errorRequired,
+				translations.main.text.errorInvalid,
+				USERNAME,
+				PASSWORD
+			) ?? "";
+
+		errorTxt.classList.add("visible");
+		errorTxt.textContent = results;
+
+		if (!results) {
+			errorTxt.classList.remove("visible");
+		}
+	});
+
 	return mainContent;
+};
+
+const handleLoginValidation = (
+	e,
+	usernameInput,
+	passwordInput,
+	requireError,
+	invalidError,
+	username,
+	password
+) => {
+	e.preventDefault();
+
+	if (usernameInput.value.trim() === "" || passwordInput.value.trim() === "") {
+		return requireError;
+	} else if (
+		usernameInput.value.trim() !== username ||
+		passwordInput.value.trim() !== password
+	) {
+		return invalidError;
+	} else {
+		return null;
+	}
 };
 
 export const showLoader = () => {

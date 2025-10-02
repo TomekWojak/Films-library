@@ -191,6 +191,7 @@ body {
 		}
 	}
 	&__form-error-txt {
+		display: none;
 		margin-block-start: spacing(50);
 		color: $error-color;
 		font-size: clamp(
@@ -199,6 +200,10 @@ body {
 			$font-size-300
 		);
 		font-weight: $fw-light;
+
+		&.visible {
+			display: block;
+		}
 	}
 
 	&__form-button:focus-visible,

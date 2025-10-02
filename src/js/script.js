@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	let language = handleUserLanguage();
 	const langNames = { pl: "Polski", en: "English" };
 	let userData = {};
-	let translations = {};
+	window.translations = {};
 	const langCodes = Object.keys(langNames);
 	let langAmount = langCodes.length;
 
@@ -44,10 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 
 		// APPEND SECTION
-		console.log(translations);
 		container.prepend(createLoginHeader());
 		container.append(createLoginPage(translations));
 	};
+
 	loadFirstTranslations();
 	const loadTranslations = async () => {
 		try {
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const data = await response.json();
 			translations = data;
-
+			console.log(translations);
 			// UPDATE ELEMENTS
 			updateElement(
 				"login-header__logo",
@@ -88,11 +88,15 @@ document.addEventListener("DOMContentLoaded", function () {
 				translations.main.placeholder.password
 			);
 			updateElement("main__form-button", "text", translations.main.text.button);
+			updateElement(
+				"main__form-error-txt",
+				"text",
+				translations.main.text.errorRequired
+			);
 		} catch {
 			console.error("Error loading translation file");
 		}
 	};
-	loadTranslations();
 
 	const createLoginHeader = () => {
 		// logo
@@ -161,14 +165,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	function handleLangSelect(e, langText) {
 		const selectBtn = this;
 		selectBtn.classList.toggle("active");
-
 		if (e.target.matches(".login-header__lang-choice")) {
 			const selectedLang = e.target.dataset.lang;
 			langText.textContent = langNames[selectedLang];
 			language = selectedLang;
 
-			setUserLanguagePreference("preferredLanguage", language);
 			loadTranslations(language);
+			setUserLanguagePreference("preferredLanguage", language);
 		}
 	}
 	const setUserLanguagePreference = (option, value) => {
