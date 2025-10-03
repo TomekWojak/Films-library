@@ -242,6 +242,7 @@ export const createProfilesPage = ({
 	},
 }) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
+	const userProfilesList = userData?.userProfiles;
 
 	const container = document.querySelector(".container");
 	const profilesPageMain = createElement("main", ["main-profiles"]);
@@ -253,6 +254,14 @@ export const createProfilesPage = ({
 	const profilesBox = createElement("div", ["main-profiles__box"]);
 
 	profilesTitle.textContent = title;
+
+	if (userProfilesList && Object.keys(userProfilesList).length !== 0) {
+		for (const key in userProfilesList) {
+			profilesBox.append(
+				createProfile(userProfileBtn, userBtnCustomize, userBtnCustomize)
+			);
+		}
+	}
 
 	profilesBox.append(
 		createProfileAddBtn(
@@ -294,9 +303,9 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria) => {
 	const userProfileInfo = createElement("input", ["main-profiles__name"], {
 		type: "text",
 		readonly: true,
-		value: `${
-			existingProfiles[profilesCount]?.username || "Handsome User"
-		} ${profilesCount}`,
+		value:
+			existingProfiles[`user-profile-${profilesCount}`] ||
+			`Handsome User ${profilesCount}`,
 	});
 	const editUserInfoBtn = createElement(
 		"button",
@@ -326,6 +335,13 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria) => {
 
 	// setUserPreference("profilesCount", profilesCount, userData)
 
+	if (!existingProfiles[`user-profile-${profilesCount}`]) {
+		const updatedProfiles = {
+			...existingProfiles,
+			[`user-profile-${profilesCount}`]: `Handsome User ${profilesCount}`,
+		};
+		setUserPreference("userProfiles", updatedProfiles, userData);
+	}
 	editUserInfoBtn.addEventListener("click", (e) => {
 		editUsername(e, userProfileInfoBox, saveBtnAria);
 	});
@@ -402,16 +418,15 @@ const saveUsername = (e) => {
 	const closestProfile = saveBtn.closest(".main-profiles__profile");
 	const closestProfileId = closestProfile.querySelector(".main-profiles__btn")
 		.dataset.id;
-	console.log(closestProfileId);
 	const closestProfileName = closestProfile.querySelector(
 		".main-profiles__name"
 	);
 
-	const testObj = {
+	const updatedProfiles = {
+		...existingProfiles,
 		[closestProfileId]: closestProfileName.value,
 	};
-	
-	setUserPreference()
+	setUserPreference("userProfiles", updatedProfiles, userData);
 
 	resetStateOfEditing();
 };

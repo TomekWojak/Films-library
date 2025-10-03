@@ -413,8 +413,9 @@ body {
 		&__name {
 			font-size: $font-size-300;
 		}
-		&__edit-name {
-			top: 2rem;
+		&__edit-name,
+		&__save-name {
+			top: 3rem;
 		}
 	}
 }
