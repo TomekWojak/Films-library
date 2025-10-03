@@ -254,10 +254,6 @@ export const createProfilesPage = ({
 
 	profilesTitle.textContent = title;
 
-	// if (!userData || !userProfilesArr || userProfilesArr.length === 0) {
-
-	// }
-
 	profilesBox.append(
 		createProfileAddBtn(
 			addProfileBtn,
@@ -330,7 +326,7 @@ const createProfile = (ariaInfo, userBtnInfo) => {
 	// setUserPreference("profilesCount", profilesCount, userData)
 
 	editUserInfoBtn.addEventListener("click", (e) => {
-		editUsername(e);
+		editUsername(e, userProfileInfoBox);
 	});
 
 	return userProfile;
@@ -376,38 +372,55 @@ const createProfileAddBtn = (
 	return addProfileBox;
 };
 
-const editUsername = (e) => {
+const editUsername = (e, parent) => {
 	const editBtn = e.target;
 	const nameToEdit = editBtn.previousElementSibling;
+	const saveBtn = createSaveBtn();
+
+	editBtn.classList.add("hidden");
+	saveBtn.classList.remove("hidden");
+
+	parent.append(saveBtn);
 
 	nameToEdit.focus();
 	nameToEdit.select();
 	nameToEdit.removeAttribute("readonly");
 	nameToEdit.classList.add("focused");
+
+	saveBtn.addEventListener("click", (e) => {
+		saveUsername(e, editBtn);
+	});
 };
 
-const saveUsername = (e) => {
-	const editedNames = [...document.getElementsByClassName("focused")];
-	const atLeastOneActive = editedNames.some((el) =>
-		el.classList.contains("focused")
+const saveUsername = (e, editBtn) => {
+	const userData = JSON.parse?.(localStorage.getItem("userData"));
+	const saveBtn = e.target;
+
+	saveBtn.classList.add("hidden");
+	editBtn.classList.remove("hidden");
+
+	console.log(e.target);
+	// editedNames.forEach((name) => {
+	// 	name.setAttribute("readonly", true);
+	// 	name.classList.remove("focused");
+	// });
+};
+
+const createSaveBtn = () => {
+	const saveUserInfoBtn = createElement(
+		"button",
+		["main-profiles__save-name", "hidden"]
+		// { "aria-label": userBtnInfo }
 	);
-
-	if (editedNames.length === 0) return;
-	if (
-		atLeastOneActive &&
-		e.target.closest(".focused") ||
-		e.target.closest(".main-profiles__edit-name")
-	)
-		return;
-
-	editedNames.forEach((name) => {
-		name.setAttribute("readonly", true);
-		name.classList.remove("focused");
+	const saveUserInfoIcon = createElement("img", ["main-profiles__save-icon"], {
+		width: "24",
+		height: "24",
+		loading: "lazy",
+		alt: "",
+		src: "./src/icons/save.svg",
 	});
 
-	
-};
+	saveUserInfoBtn.append(saveUserInfoIcon);
 
-window.addEventListener("click", (e) => {
-	saveUsername(e);
-});
+	return saveUserInfoBtn;
+};

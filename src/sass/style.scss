@@ -267,7 +267,7 @@ body {
 		border: none;
 		background-color: #dc4a34;
 
-		border-radius: radius('full');
+		border-radius: radius("full");
 		cursor: pointer;
 
 		&:focus-visible {
@@ -313,7 +313,8 @@ body {
 	&__user-info {
 		position: relative;
 	}
-	&__edit-name {
+	&__edit-name,
+	&__save-name {
 		position: absolute;
 		left: 50%;
 		top: 1.5rem;
@@ -322,9 +323,18 @@ body {
 		background: none;
 		border: none;
 		cursor: pointer;
+
+		&.hidden {
+			visibility: hidden;
+			pointer-events: none;
+		}
 	}
 	&__edit-icon {
 		width: 1.5rem;
+		pointer-events: none;
+	}
+	&__save-icon {
+		width: 1.8rem;
 		pointer-events: none;
 	}
 }
@@ -366,8 +376,17 @@ body {
 				opacity: 1;
 			}
 		}
+		&__save-name {
+			&:hover .main-profiles__save-icon {
+				opacity: 1;
+			}
+		}
 		&__edit-icon {
 			width: 1.6rem;
+			opacity: 0.7;
+			transition: opacity 0.3s;
+		}
+		&__save-icon {
 			opacity: 0.7;
 			transition: opacity 0.3s;
 		}
