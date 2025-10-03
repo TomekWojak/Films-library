@@ -10,6 +10,10 @@ $spacing-250: 2.5rem;
 $spacing-300: 3rem;
 $spacing-400: 4rem;
 $spacing-500: 5rem;
+$spacing-600: 6rem;
+$spacing-700: 7rem;
+$spacing-800: 8rem;
+$spacing-900: 9rem;
 $inline-spacing: clamp($spacing-200, 4vw, $spacing-500);
 $header-block-spacing: clamp($spacing-200, 3vw, $spacing-400);
 $header-btn-spacing: $spacing-100;
@@ -27,6 +31,10 @@ $header-btn-spacing: $spacing-100;
 		300: $spacing-300,
 		400: $spacing-400,
 		500: $spacing-500,
+		600: $spacing-600,
+		700: $spacing-700,
+		800: $spacing-800,
+		900: $spacing-900,
 		"inline": $inline-spacing,
 		"header-block": $header-block-spacing,
 		"header-btn": $header-btn-spacing,

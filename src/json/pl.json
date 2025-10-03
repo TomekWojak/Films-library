@@ -21,5 +21,15 @@
 			"username": "Nazwa użytkownika",
 			"password": "Hasło"
 		}
+	},
+	"profiles": {
+		"text": {
+			"title": "Kto ogląda?",
+			"addProfileInfo": "Dodaj profil"
+		},
+		"aria": {
+			"addProfileBtn": "Przycisk umożliwiający dodanie nowego profilu",
+			"userProfileBtn": "Przycisk wyboru profilu użytkownika"
+		}
 	}
 }

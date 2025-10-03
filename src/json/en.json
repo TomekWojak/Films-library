@@ -21,5 +21,15 @@
 			"username": "Username",
 			"password": "Password"
 		}
+	},
+	"profiles": {
+		"text": {
+			"title": "Who's watching?",
+			"addProfileInfo": "Add profile"
+		},
+		"aria": {
+			"addProfileBtn": "Button for adding a new profile",
+			"userProfileBtn": "User profile selection button"
+		}
 	}
 }

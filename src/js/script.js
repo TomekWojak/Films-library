@@ -1,5 +1,8 @@
 import { createElement } from "./helpers.min.js";
-import { updateElement } from "./updateStateFunctions.min.js";
+import {
+	updateElement,
+	setUserPreference,
+} from "./updateStateFunctions.min.js";
 import {
 	createLoginPage,
 	showBigLoader,
@@ -129,14 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			language = selectedLang;
 
 			loadTranslations(language);
-			setUserLanguagePreference("preferredLanguage", language);
+			setUserPreference("preferredLanguage", language, userData);
 		}
 	}
-
-	const setUserLanguagePreference = (option, value) => {
-		const currentUserData = JSON.parse(localStorage.getItem("userData")) || {};
-		currentUserData[option] = value;
-		userData = { ...userData, ...currentUserData };
-		localStorage.setItem("userData", JSON.stringify(userData));
-	};
 });

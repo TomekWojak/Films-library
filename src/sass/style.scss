@@ -232,6 +232,102 @@ body {
 	}
 }
 
+// PROFILES
+.main-profiles {
+	.wrapper {
+		padding: spacing(900) spacing("inline");
+	}
+
+	&__title {
+		text-align: center;
+	}
+	&__box {
+		margin-block-start: spacing(900);
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: clamp(spacing(300), calc(spacing(300) + 8vw), spacing(400));
+	}
+	&__profile,
+	&__add-profile {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: spacing(200);
+	}
+	&__add-profile {
+		order: 1;
+	}
+	&__btn {
+		position: relative;
+		display: block;
+		width: 12rem;
+		height: 12rem;
+		border: none;
+		background-color: #dc4a34;
+
+		border-radius: 50%;
+		cursor: pointer;
+
+		&:focus-visible {
+			@include focusState;
+		}
+		&--add-profile {
+			background-color: rgba($pure-white, 0.1);
+		}
+	}
+	&__img,
+	&__add-img {
+		position: absolute;
+		top: 55%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	&__add-img {
+		top: 50%;
+		width: 5rem;
+		height: 5rem;
+	}
+	&__name {
+		text-align: center;
+		width: auto;
+		min-width: 3ch;
+		max-width: 18ch;
+		display: inline-block;
+		font-size: $font-size-200;
+		border: none;
+		pointer-events: none;
+		background: none;
+		color: $pure-white;
+		outline: none;
+
+		&:focus {
+			@include focusState;
+		}
+		&.focused {
+			pointer-events: all;
+		}
+	}
+	&__user-info {
+		position: relative;
+	}
+	&__edit-name {
+		position: absolute;
+		left: 50%;
+		top: 1.5rem;
+		transform: translateX(-50%);
+		padding: spacing(50) spacing(100);
+		background: none;
+		border: none;
+		cursor: pointer;
+	}
+	&__edit-icon {
+		width: 1.5rem;
+		pointer-events: none;
+	}
+}
+
 @media (768px <= width) {
 	.login-header {
 		&__lang-select {
@@ -256,6 +352,25 @@ body {
 			}
 		}
 	}
+	.main-profiles {
+		&__btn--add-profile {
+			transition: background-color 0.3s;
+
+			&:hover {
+				background-color: rgba($pure-white, 0.2);
+			}
+		}
+		&__edit-name {
+			&:hover .main-profiles__edit-icon {
+				opacity: 1;
+			}
+		}
+		&__edit-icon {
+			width: 1.6rem;
+			opacity: 0.7;
+			transition: opacity 0.3s;
+		}
+	}
 }
 @media (992px <= width) {
 	.login-header {
@@ -268,6 +383,18 @@ body {
 		&__lang-select {
 			font-size: $font-size-400;
 			padding: spacing(100);
+		}
+	}
+	.main-profiles {
+		&__btn {
+			width: 15rem;
+			height: 15rem;
+		}
+		&__name {
+			font-size: $font-size-300;
+		}
+		&__edit-name {
+			top: 2rem;
 		}
 	}
 }
