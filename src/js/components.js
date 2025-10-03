@@ -1,9 +1,11 @@
 import { createElement } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
+const userData = JSON.parse?.(localStorage.getItem("userData"));
 
+let profilesCount = userData?.profilesCount || 0;
 const USERNAME = "handsomeUser404";
 const PASSWORD = "5jksH9d.";
-const usedColors = new Set();
+
 export const createLoginHeader = (
 	{
 		header: {
@@ -233,17 +235,13 @@ export const hideSmallLoader = () => {
 	loadingArea.remove();
 };
 
-export const createProfilesPage = (
-	{
-		profiles: {
-			text: { title, addProfileInfo },
-			aria: { addProfileBtn, userProfileBtn },
-		},
+export const createProfilesPage = ({
+	profiles: {
+		text: { title, addProfileInfo },
+		aria: { addProfileBtn, userProfileBtn, userBtnCustomize },
 	},
-	userProfilesArray
-) => {
+}) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
-	const userProfilesArr = userData?.userProfiles;
 
 	const container = document.querySelector(".container");
 	const profilesPageMain = createElement("main", ["main-profiles"]);
@@ -265,8 +263,8 @@ export const createProfilesPage = (
 			addProfileBtn,
 			addProfileInfo,
 			userProfileBtn,
-			userProfilesArray,
-			profilesBox
+			profilesBox,
+			userBtnCustomize
 		)
 	);
 	wrapper.append(profilesTitle, profilesBox);
@@ -275,35 +273,39 @@ export const createProfilesPage = (
 	container.append(profilesPageMain);
 };
 
-const createProfile = (ariaInfo, userProfilesArray) => {
+const createProfile = (ariaInfo, userBtnInfo) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
-	let index;
+	const existingProfiles = userData?.userProfiles || [];
+
+	let profileData = {};
 	let color;
+
 	const colors = ["#dc4a34", "#062E63", "#FAC044"];
 
-	if (usedColors.size === 3) return;
+	if (profilesCount == 3 || existingProfiles.length === 3) return;
 
-	do {
-		index = Math.trunc(Math.random() * colors.length);
-	} while (usedColors.has(index));
-
-	usedColors.add(index);
-	color = colors[index];
+	profilesCount++;
+	color = colors[profilesCount];
 
 	const userProfile = createElement("div", ["main-profiles__profile"]);
 	const userAvatarBox = createElement("div", ["main-profiles__avatar"]);
-	const userProfileBtn = createElement("button", ["main-profiles__btn"]);
+	const userProfileBtn = createElement("button", ["main-profiles__btn"], {
+		"aria-label": ariaInfo,
+		"data-id": `user-profile-${profilesCount}`,
+	});
 
 	const userProfileInfoBox = createElement("div", ["main-profiles__user-info"]);
 	const userProfileInfo = createElement("input", ["main-profiles__name"], {
 		type: "text",
 		readonly: true,
-		value: "", // do uzupełnienia
+		value: `${
+			existingProfiles[0] || "Handsome User"
+		} ${profilesCount}`,
 	});
 	const editUserInfoBtn = createElement(
 		"button",
 		["main-profiles__edit-name"],
-		{ "aria-label": ariaInfo }
+		{ "aria-label": userBtnInfo }
 	);
 	const editUserInfoIcon = createElement("img", ["main-profiles__edit-icon"], {
 		width: "24",
@@ -326,10 +328,11 @@ const createProfile = (ariaInfo, userProfilesArray) => {
 	userProfileInfoBox.append(userProfileInfo, editUserInfoBtn);
 	userProfile.append(userAvatarBox, userProfileInfoBox);
 
-	userProfilesArray.push(userProfile); // dodawanie do tablicy z profilami
-	console.log(userProfilesArray);
+	// setUserPreference("profilesCount", profilesCount, userData);
 
-	setUserPreference("userProfiles", userProfilesArray, userData);
+	const updatedProfiles = [...existingProfiles, profileData];
+
+	setUserPreference("userProfiles", updatedProfiles, userData);
 
 	return userProfile;
 };
@@ -338,8 +341,8 @@ const createProfileAddBtn = (
 	ariaInfo,
 	info,
 	userBtnAria,
-	userProfilesArray,
-	profilesBox
+	profilesBox,
+	userBtnInfo
 ) => {
 	const addProfileBox = createElement("div", ["main-profiles__add-profile"]);
 	const addProfileAvatar = createElement("div", ["main-profiles__avatar"]);
@@ -362,7 +365,7 @@ const createProfileAddBtn = (
 	addProfileBox.append(addProfileAvatar, addProfileInfo);
 
 	addProfileBtn.addEventListener("click", () => {
-		const profile = createProfile(userBtnAria, userProfilesArray);
+		const profile = createProfile(userBtnAria, userBtnInfo);
 
 		if (profile) {
 			profilesBox.append(profile);

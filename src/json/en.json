@@ -29,7 +29,8 @@
 		},
 		"aria": {
 			"addProfileBtn": "Button for adding a new profile",
-			"userProfileBtn": "User profile selection button"
+			"userProfileBtn": "User profile selection button",
+			"userBtnCustomize": "Button to change profile name"
 		}
 	}
 }

@@ -1,7 +1,6 @@
 import { createProfilesPage } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	const checkAuthorization = () => {
-		const userProfilesArray = [];
 
 		const userData = JSON.parse(localStorage.getItem("userData"));
 		const isLoggedIn = userData?.loggedIn;
@@ -9,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (!userData || !isLoggedIn) {
 			window.location.href = "/";
 		} else {
-			createProfilesPage(translations, userProfilesArray);
+			createProfilesPage(translations);
 		}
 	};
 	checkAuthorization();

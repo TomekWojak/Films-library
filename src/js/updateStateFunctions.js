@@ -21,7 +21,7 @@ export const updateElement = (selector, type, value) => {
 };
 
 export const setUserPreference = (option, value, userData) => {
-	const currentUserData = JSON.parse(localStorage.getItem("userData")) || {};
+	const currentUserData = JSON.parse?.(localStorage.getItem("userData")) || {};
 	currentUserData[option] = value;
 	userData = { ...userData, ...currentUserData };
 	localStorage.setItem("userData", JSON.stringify(userData));

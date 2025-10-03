@@ -29,7 +29,8 @@
 		},
 		"aria": {
 			"addProfileBtn": "Przycisk umożliwiający dodanie nowego profilu",
-			"userProfileBtn": "Przycisk wyboru profilu użytkownika"
+			"userProfileBtn": "Przycisk wyboru profilu użytkownika",
+			"userBtnCustomize": "Przycisk umożliwiający zmianę nazwy profilu"
 		}
 	}
 }
