@@ -277,7 +277,6 @@ const createProfile = (ariaInfo, userBtnInfo) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
 	const existingProfiles = userData?.userProfiles || [];
 
-	let profileData = {};
 	let color;
 
 	const colors = ["#dc4a34", "#062E63", "#FAC044"];
@@ -299,7 +298,7 @@ const createProfile = (ariaInfo, userBtnInfo) => {
 		type: "text",
 		readonly: true,
 		value: `${
-			existingProfiles[0] || "Handsome User"
+			existingProfiles[profilesCount]?.username || "Handsome User"
 		} ${profilesCount}`,
 	});
 	const editUserInfoBtn = createElement(
@@ -328,11 +327,11 @@ const createProfile = (ariaInfo, userBtnInfo) => {
 	userProfileInfoBox.append(userProfileInfo, editUserInfoBtn);
 	userProfile.append(userAvatarBox, userProfileInfoBox);
 
-	// setUserPreference("profilesCount", profilesCount, userData);
+	// setUserPreference("profilesCount", profilesCount, userData)
 
-	const updatedProfiles = [...existingProfiles, profileData];
-
-	setUserPreference("userProfiles", updatedProfiles, userData);
+	editUserInfoBtn.addEventListener("click", (e) => {
+		editUsername(e);
+	});
 
 	return userProfile;
 };
@@ -376,3 +375,39 @@ const createProfileAddBtn = (
 
 	return addProfileBox;
 };
+
+const editUsername = (e) => {
+	const editBtn = e.target;
+	const nameToEdit = editBtn.previousElementSibling;
+
+	nameToEdit.focus();
+	nameToEdit.select();
+	nameToEdit.removeAttribute("readonly");
+	nameToEdit.classList.add("focused");
+};
+
+const saveUsername = (e) => {
+	const editedNames = [...document.getElementsByClassName("focused")];
+	const atLeastOneActive = editedNames.some((el) =>
+		el.classList.contains("focused")
+	);
+
+	if (editedNames.length === 0) return;
+	if (
+		atLeastOneActive &&
+		e.target.closest(".focused") ||
+		e.target.closest(".main-profiles__edit-name")
+	)
+		return;
+
+	editedNames.forEach((name) => {
+		name.setAttribute("readonly", true);
+		name.classList.remove("focused");
+	});
+
+	
+};
+
+window.addEventListener("click", (e) => {
+	saveUsername(e);
+});

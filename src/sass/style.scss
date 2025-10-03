@@ -267,7 +267,7 @@ body {
 		border: none;
 		background-color: #dc4a34;
 
-		border-radius: 50%;
+		border-radius: radius('full');
 		cursor: pointer;
 
 		&:focus-visible {
@@ -301,6 +301,7 @@ body {
 		background: none;
 		color: $pure-white;
 		outline: none;
+		border-radius: radius(100);
 
 		&:focus {
 			@include focusState;
