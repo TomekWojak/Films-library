@@ -260,6 +260,7 @@ export const createProfilesPage = ({
 			addProfileInfo,
 			userProfileBtn,
 			profilesBox,
+			userBtnCustomize,
 			userBtnCustomize
 		)
 	);
@@ -269,7 +270,7 @@ export const createProfilesPage = ({
 	container.append(profilesPageMain);
 };
 
-const createProfile = (ariaInfo, userBtnInfo) => {
+const createProfile = (ariaInfo, userBtnInfo, saveBtnAria) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
 	const existingProfiles = userData?.userProfiles || [];
 
@@ -326,7 +327,7 @@ const createProfile = (ariaInfo, userBtnInfo) => {
 	// setUserPreference("profilesCount", profilesCount, userData)
 
 	editUserInfoBtn.addEventListener("click", (e) => {
-		editUsername(e, userProfileInfoBox);
+		editUsername(e, userProfileInfoBox, saveBtnAria);
 	});
 
 	return userProfile;
@@ -337,7 +338,8 @@ const createProfileAddBtn = (
 	info,
 	userBtnAria,
 	profilesBox,
-	userBtnInfo
+	userBtnInfo,
+	saveBtnAria
 ) => {
 	const addProfileBox = createElement("div", ["main-profiles__add-profile"]);
 	const addProfileAvatar = createElement("div", ["main-profiles__avatar"]);
@@ -360,7 +362,7 @@ const createProfileAddBtn = (
 	addProfileBox.append(addProfileAvatar, addProfileInfo);
 
 	addProfileBtn.addEventListener("click", () => {
-		const profile = createProfile(userBtnAria, userBtnInfo);
+		const profile = createProfile(userBtnAria, userBtnInfo, saveBtnAria);
 
 		if (profile) {
 			profilesBox.append(profile);
@@ -372,10 +374,10 @@ const createProfileAddBtn = (
 	return addProfileBox;
 };
 
-const editUsername = (e, parent) => {
+const editUsername = (e, parent, saveBtnAria) => {
 	const editBtn = e.target;
 	const nameToEdit = editBtn.previousElementSibling;
-	const saveBtn = createSaveBtn();
+	const saveBtn = createSaveBtn(saveBtnAria);
 
 	editBtn.classList.add("hidden");
 	saveBtn.classList.remove("hidden");
@@ -388,29 +390,37 @@ const editUsername = (e, parent) => {
 	nameToEdit.classList.add("focused");
 
 	saveBtn.addEventListener("click", (e) => {
-		saveUsername(e, editBtn);
+		saveUsername(e);
 	});
 };
 
-const saveUsername = (e, editBtn) => {
+const saveUsername = (e) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
+	const existingProfiles = userData?.userProfiles || [];
+
 	const saveBtn = e.target;
+	const closestProfile = saveBtn.closest(".main-profiles__profile");
+	const closestProfileId = closestProfile.querySelector(".main-profiles__btn")
+		.dataset.id;
+	console.log(closestProfileId);
+	const closestProfileName = closestProfile.querySelector(
+		".main-profiles__name"
+	);
 
-	saveBtn.classList.add("hidden");
-	editBtn.classList.remove("hidden");
+	const testObj = {
+		[closestProfileId]: closestProfileName.value,
+	};
+	
+	setUserPreference()
 
-	console.log(e.target);
-	// editedNames.forEach((name) => {
-	// 	name.setAttribute("readonly", true);
-	// 	name.classList.remove("focused");
-	// });
+	resetStateOfEditing();
 };
 
-const createSaveBtn = () => {
+const createSaveBtn = (saveBtnAria) => {
 	const saveUserInfoBtn = createElement(
 		"button",
-		["main-profiles__save-name", "hidden"]
-		// { "aria-label": userBtnInfo }
+		["main-profiles__save-name", "hidden"],
+		{ "aria-label": saveBtnAria }
 	);
 	const saveUserInfoIcon = createElement("img", ["main-profiles__save-icon"], {
 		width: "24",
@@ -423,4 +433,17 @@ const createSaveBtn = () => {
 	saveUserInfoBtn.append(saveUserInfoIcon);
 
 	return saveUserInfoBtn;
+};
+
+const resetStateOfEditing = () => {
+	const focusedNames = document.querySelectorAll(".focused");
+	const allSaveBtns = document.querySelectorAll(".main-profiles__save-name");
+	const allEditBtns = document.querySelectorAll(".main-profiles__edit-name");
+
+	focusedNames.forEach((el) => {
+		el.setAttribute("readonly", true);
+		el.classList.remove("focused");
+	});
+	allSaveBtns.forEach((btn) => btn.classList.add("hidden"));
+	allEditBtns.forEach((btn) => btn.classList.remove("hidden"));
 };
