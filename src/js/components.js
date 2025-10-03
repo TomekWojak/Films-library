@@ -3,7 +3,7 @@ import { setUserPreference } from "./updateStateFunctions.min.js";
 
 const USERNAME = "handsomeUser404";
 const PASSWORD = "5jksH9d.";
-
+const usedColors = new Set();
 export const createLoginHeader = (
 	{
 		header: {
@@ -233,13 +233,15 @@ export const hideSmallLoader = () => {
 	loadingArea.remove();
 };
 
-export const createProfilesPage = ({
-	profiles: {
-		text: { title, addProfileInfo },
-		aria: { addProfileBtn, userProfileBtn },
+export const createProfilesPage = (
+	{
+		profiles: {
+			text: { title, addProfileInfo },
+			aria: { addProfileBtn, userProfileBtn },
+		},
 	},
-	userProfiles,
-}) => {
+	userProfilesArray
+) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
 	const userProfilesArr = userData?.userProfiles;
 
@@ -258,27 +260,34 @@ export const createProfilesPage = ({
 
 	// }
 
-	profilesBox.append(createProfileAddBtn(addProfileBtn, addProfileInfo));
+	profilesBox.append(
+		createProfileAddBtn(
+			addProfileBtn,
+			addProfileInfo,
+			userProfileBtn,
+			userProfilesArray,
+			profilesBox
+		)
+	);
 	wrapper.append(profilesTitle, profilesBox);
 	profilesPageMain.append(wrapper);
 
 	container.append(profilesPageMain);
 };
 
-const createProfile = (ariaInfo, userProfiles) => {
+const createProfile = (ariaInfo, userProfilesArray) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
-
 	let index;
 	let color;
 	const colors = ["#dc4a34", "#062E63", "#FAC044"];
-	const usedColors = new Set();
+
+	if (usedColors.size === 3) return;
 
 	do {
 		index = Math.trunc(Math.random() * colors.length);
-	} while (usedColors.has(randomNumber));
+	} while (usedColors.has(index));
 
 	usedColors.add(index);
-
 	color = colors[index];
 
 	const userProfile = createElement("div", ["main-profiles__profile"]);
@@ -301,6 +310,7 @@ const createProfile = (ariaInfo, userProfiles) => {
 		height: "24",
 		loading: "lazy",
 		alt: "",
+		src: "./src/icons/edit.svg",
 	});
 
 	userProfileBtn.innerHTML = `<svg class="main-profiles__img" width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -316,13 +326,21 @@ const createProfile = (ariaInfo, userProfiles) => {
 	userProfileInfoBox.append(userProfileInfo, editUserInfoBtn);
 	userProfile.append(userAvatarBox, userProfileInfoBox);
 
-	userProfiles.push(userProfile); // dodawanie do tablicy z profilami
-	setUserPreference("userProfiles", userProfiles, userData);
+	userProfilesArray.push(userProfile); // dodawanie do tablicy z profilami
+	console.log(userProfilesArray);
+
+	setUserPreference("userProfiles", userProfilesArray, userData);
 
 	return userProfile;
 };
 
-const createProfileAddBtn = (ariaInfo, info) => {
+const createProfileAddBtn = (
+	ariaInfo,
+	info,
+	userBtnAria,
+	userProfilesArray,
+	profilesBox
+) => {
 	const addProfileBox = createElement("div", ["main-profiles__add-profile"]);
 	const addProfileAvatar = createElement("div", ["main-profiles__avatar"]);
 	const addProfileBtn = createElement(
@@ -342,6 +360,16 @@ const createProfileAddBtn = (ariaInfo, info) => {
 	addProfileBtn.append(addProfilePlusIcon);
 	addProfileAvatar.append(addProfileBtn);
 	addProfileBox.append(addProfileAvatar, addProfileInfo);
+
+	addProfileBtn.addEventListener("click", () => {
+		const profile = createProfile(userBtnAria, userProfilesArray);
+
+		if (profile) {
+			profilesBox.append(profile);
+		} else {
+			alert("Osiągnięto maksymalną liczbę profilów!");
+		}
+	});
 
 	return addProfileBox;
 };
