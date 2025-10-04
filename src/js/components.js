@@ -297,7 +297,7 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
 
 	const colors = ["#dc4a34", "#062E63", "#FAC044"];
 
-	if (profilesCount == 3 || existingProfiles.length === 3) return;
+	if (profilesCount == 3) return;
 
 	profilesCount++;
 	color = colors[profilesCount];
@@ -368,6 +368,9 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
 
 	editUserInfoBtn.addEventListener("click", (e) => {
 		editUsername(e, userProfileInfoBox, saveBtnAria, emptyFieldError);
+	});
+	removeUserBtn.addEventListener("click", (e) => {
+		removeUser(e);
 	});
 
 	userProfileInfo.addEventListener("keydown", (e) => {
@@ -536,4 +539,21 @@ const showErrorPopup = (text, color) => {
 		popup.remove();
 		popupVisible = false;
 	}, 2500);
+};
+
+const removeUser = (e) => {
+	const userData = JSON.parse?.(localStorage.getItem("userData"));
+	const userProfiles = userData?.userProfiles;
+
+	const deleteBtn = e.target;
+	const closestProfile = deleteBtn.closest(".main-profiles__profile");
+	const closestProfileBtn = closestProfile.querySelector(".main-profiles__btn");
+
+	delete userProfiles[closestProfileBtn.dataset.id];
+
+	setUserPreference("userProfiles", userProfiles, userData);
+
+	profilesCount--;
+
+	closestProfile.remove();
 };
