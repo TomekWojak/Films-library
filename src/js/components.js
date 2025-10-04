@@ -397,6 +397,8 @@ const createProfileAddBtn = (
 };
 
 const editUsername = (e, parent, saveBtnAria) => {
+	resetStateOfEditing(e);
+
 	const editBtn = e.target;
 	const nameToEdit = editBtn.previousElementSibling;
 	const saveBtn = createSaveBtn(saveBtnAria);
@@ -437,7 +439,7 @@ const saveUsername = (e) => {
 	};
 	setUserPreference("userProfiles", updatedProfiles, userData);
 
-	resetStateOfEditing();
+	resetStateOfEditing(e);
 };
 
 const createSaveBtn = (saveBtnAria) => {
@@ -459,7 +461,9 @@ const createSaveBtn = (saveBtnAria) => {
 	return saveUserInfoBtn;
 };
 
-const resetStateOfEditing = () => {
+const resetStateOfEditing = (e) => {
+	const editBtn = e.target;
+
 	const focusedNames = document.querySelectorAll(".focused");
 	const allSaveBtns = document.querySelectorAll(".main-profiles__save-name");
 	const allEditBtns = document.querySelectorAll(".main-profiles__edit-name");
@@ -471,4 +475,6 @@ const resetStateOfEditing = () => {
 	});
 	allSaveBtns.forEach((btn) => btn.classList.add("hidden"));
 	allEditBtns.forEach((btn) => btn.classList.remove("hidden"));
+
+	editBtn.classList.add("hidden");
 };

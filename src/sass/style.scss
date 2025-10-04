@@ -255,6 +255,7 @@ body {
 		flex-direction: column;
 		align-items: center;
 		gap: spacing(200);
+		flex-basis: 20rem;
 	}
 	&__add-profile {
 		order: 1;
