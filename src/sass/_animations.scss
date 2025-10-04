@@ -16,3 +16,35 @@
 		transform: rotate(360deg);
 	}
 }
+@keyframes showPopupMobile {
+	from {
+		top: -10rem;
+	}
+	to {
+		top: 10dvh;
+	}
+}
+@keyframes hidePopupMobile {
+	from {
+		top: 10dvh;
+	}
+	to {
+		top: -10rem;
+	}
+}
+@keyframes showPopupDesktop {
+	from {
+		bottom: -10rem;
+	}
+	to {
+		bottom: 2rem;
+	}
+}
+@keyframes hidePopupDesktop {
+	from {
+		bottom: 2rem;
+	}
+	to {
+		bottom: -10rem;
+	}
+}

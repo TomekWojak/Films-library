@@ -389,7 +389,7 @@ const createProfileAddBtn = (
 		if (profile) {
 			profilesBox.append(profile);
 		} else {
-			alert("Osiągnięto maksymalną liczbę profilów!");
+			showErrorPopup("Osiągnięto maksymalną ilość profilów!", "#dc4a34");
 		}
 	});
 
@@ -431,7 +431,7 @@ const saveUsername = (e) => {
 	);
 
 	if (closestProfileName.value.trim() === "")
-		return alert("Nie moze być puste!");
+		return showErrorPopup('Pole nie może być puste', '#FAC044')
 
 	const updatedProfiles = {
 		...existingProfiles,
@@ -462,8 +462,6 @@ const createSaveBtn = (saveBtnAria) => {
 };
 
 const resetStateOfEditing = (e) => {
-	const editBtn = e.target;
-
 	const focusedNames = document.querySelectorAll(".focused");
 	const allSaveBtns = document.querySelectorAll(".main-profiles__save-name");
 	const allEditBtns = document.querySelectorAll(".main-profiles__edit-name");
@@ -475,6 +473,30 @@ const resetStateOfEditing = (e) => {
 	});
 	allSaveBtns.forEach((btn) => btn.classList.add("hidden"));
 	allEditBtns.forEach((btn) => btn.classList.remove("hidden"));
+};
 
-	editBtn.classList.add("hidden");
+let popupVisible = false;
+const showErrorPopup = (text, color) => {
+	if (popupVisible) return;
+	popupVisible = true;
+
+	const root = document.documentElement;
+	const container = document.querySelector(".container");
+
+	const popup = createElement("div", ["error-popup"]);
+	const popupError = createElement("p", ["error-popup__text"]);
+
+	popupError.textContent = text;
+	root.style.setProperty("--errorTxtColor", color);
+
+	popup.append(popupError);
+	container.append(popup);
+
+	setTimeout(() => {
+		popup.classList.add("hidden");
+	}, 2000);
+	setTimeout(() => {
+		popup.remove();
+		popupVisible = false;
+	}, 2500);
 };

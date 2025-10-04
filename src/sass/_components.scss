@@ -31,3 +31,40 @@
 	transform-origin: center;
 	animation: spin 1s linear infinite;
 }
+.error-popup {
+	width: min(80%, 35rem);
+	position: fixed;
+	top: -10rem;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: spacing(200);
+	background-color: #0a141c;
+	border-radius: radius(100);
+	z-index: 1000;
+	animation: showPopupMobile 0.5s forwards;
+
+	&.hidden {
+		animation: hidePopupMobile 0.35s forwards;
+	}
+	&__text {
+		text-align: center;
+		line-height: 150%;
+		font-size: $font-size-250;
+		color: var(--errorTxtColor);
+	}
+}
+
+@media (768px <= width) {
+	.error-popup {
+		top: auto;
+		left: auto;
+		transform: none;
+		bottom: -10rem;
+		right: 2rem;
+		animation: showPopupDesktop 0.5s forwards;
+
+		&.hidden {
+			animation: hidePopupDesktop 0.35s forwards;
+		}
+	}
+}

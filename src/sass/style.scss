@@ -21,6 +21,9 @@ html {
 	font-size: 62.5%;
 	scroll-behavior: smooth;
 }
+:root {
+	--errorTxtColor: #dc4a34;
+}
 body {
 	height: 100dvh;
 	font-family: "Inter", sans-serif;
@@ -246,7 +249,7 @@ body {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: clamp(spacing(300), calc(spacing(300) + 8vw), spacing(400));
+		gap: clamp(spacing(300), calc(spacing(300) + 10vw), spacing(500));
 	}
 	&__profile,
 	&__add-profile {
@@ -302,13 +305,15 @@ body {
 		background: none;
 		color: $pure-white;
 		outline: none;
-		border-radius: radius(100);
+		border-radius: radius(50);
 
 		&:focus {
 			@include focusState;
 		}
 		&.focused {
 			pointer-events: all;
+			outline: 0.2rem solid $login-accent;
+			outline-offset: 0.3rem;
 		}
 	}
 	&__user-info {

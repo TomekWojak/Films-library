@@ -11,8 +11,6 @@ import {
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-	const root = document.querySelector(".root");
-
 	const container = document.querySelector(".container");
 
 	let language = handleUserLanguage();
