@@ -334,6 +334,10 @@ body {
 			visibility: hidden;
 			pointer-events: none;
 		}
+		&:disabled {
+			opacity: 0.4;
+			cursor: auto;
+		}
 	}
 	&__edit-icon {
 		width: 1.5rem;

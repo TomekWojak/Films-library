@@ -32,5 +32,11 @@
 			"userProfileBtn": "Przycisk wyboru profilu użytkownika",
 			"userBtnCustomize": "Przycisk umożliwiający zmianę nazwy profilu"
 		}
+	},
+	"errorPopup": {
+		"text": {
+			"maxProfiles": "Osiągnięto maksymalną ilość profilów!",
+			"emptyField": "Pole nie może być puste"
+		}
 	}
 }

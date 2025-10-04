@@ -32,5 +32,11 @@
 			"userProfileBtn": "User profile selection button",
 			"userBtnCustomize": "Button to change profile name"
 		}
+	},
+	"errorPopup": {
+		"text": {
+			"maxProfiles": "Maximum number of profiles reached!",
+			"emptyField": "The field cannot be empty"
+		}
 	}
 }

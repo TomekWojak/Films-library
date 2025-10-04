@@ -240,6 +240,9 @@ export const createProfilesPage = ({
 		text: { title, addProfileInfo },
 		aria: { addProfileBtn, userProfileBtn, userBtnCustomize },
 	},
+	errorPopup: {
+		text: { maxProfiles, emptyField },
+	},
 }) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
 	const userProfilesList = userData?.userProfiles;
@@ -258,7 +261,12 @@ export const createProfilesPage = ({
 	if (userProfilesList && Object.keys(userProfilesList).length !== 0) {
 		for (const key in userProfilesList) {
 			profilesBox.append(
-				createProfile(userProfileBtn, userBtnCustomize, userBtnCustomize)
+				createProfile(
+					userProfileBtn,
+					userBtnCustomize,
+					userBtnCustomize,
+					emptyField
+				)
 			);
 		}
 	}
@@ -270,7 +278,9 @@ export const createProfilesPage = ({
 			userProfileBtn,
 			profilesBox,
 			userBtnCustomize,
-			userBtnCustomize
+			userBtnCustomize,
+			maxProfiles,
+			emptyField
 		)
 	);
 	wrapper.append(profilesTitle, profilesBox);
@@ -279,7 +289,7 @@ export const createProfilesPage = ({
 	container.append(profilesPageMain);
 };
 
-const createProfile = (ariaInfo, userBtnInfo, saveBtnAria) => {
+const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
 	const existingProfiles = userData?.userProfiles || [];
 
@@ -312,6 +322,11 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria) => {
 		["main-profiles__edit-name"],
 		{ "aria-label": userBtnInfo }
 	);
+	// const removeUserBtn = createElement(
+	// 	"button",
+	// 	["main-profiles__remove-user"],
+	// 	{ "aria-label": "Przycisk umożliwiający usunięcie użytkownika" }
+	// );
 	const editUserInfoIcon = createElement("img", ["main-profiles__edit-icon"], {
 		width: "24",
 		height: "24",
@@ -344,11 +359,12 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria) => {
 	}
 
 	editUserInfoBtn.addEventListener("click", (e) => {
-		editUsername(e, userProfileInfoBox, saveBtnAria);
+		editUsername(e, userProfileInfoBox, saveBtnAria, emptyFieldError);
 	});
+
 	userProfileInfo.addEventListener("keydown", (e) => {
 		if (e.key === "Enter") {
-			saveUsername(e);
+			saveUsername(e, emptyFieldError);
 		}
 	});
 
@@ -361,7 +377,9 @@ const createProfileAddBtn = (
 	userBtnAria,
 	profilesBox,
 	userBtnInfo,
-	saveBtnAria
+	saveBtnAria,
+	maxProfilesError,
+	emptyFieldError
 ) => {
 	const addProfileBox = createElement("div", ["main-profiles__add-profile"]);
 	const addProfileAvatar = createElement("div", ["main-profiles__avatar"]);
@@ -384,19 +402,24 @@ const createProfileAddBtn = (
 	addProfileBox.append(addProfileAvatar, addProfileInfo);
 
 	addProfileBtn.addEventListener("click", () => {
-		const profile = createProfile(userBtnAria, userBtnInfo, saveBtnAria);
+		const profile = createProfile(
+			userBtnAria,
+			userBtnInfo,
+			saveBtnAria,
+			emptyFieldError
+		);
 
 		if (profile) {
 			profilesBox.append(profile);
 		} else {
-			showErrorPopup("Osiągnięto maksymalną ilość profilów!", "#dc4a34");
+			showErrorPopup(maxProfilesError, "#dc4a34");
 		}
 	});
 
 	return addProfileBox;
 };
 
-const editUsername = (e, parent, saveBtnAria) => {
+const editUsername = (e, parent, saveBtnAria, emptyFieldError) => {
 	resetStateOfEditing(e);
 
 	const editBtn = e.target;
@@ -414,11 +437,11 @@ const editUsername = (e, parent, saveBtnAria) => {
 	nameToEdit.classList.add("focused");
 
 	saveBtn.addEventListener("click", (e) => {
-		saveUsername(e);
+		saveUsername(e, emptyFieldError);
 	});
 };
 
-const saveUsername = (e) => {
+const saveUsername = (e, emptyFieldError) => {
 	const userData = JSON.parse?.(localStorage.getItem("userData"));
 	const existingProfiles = userData?.userProfiles || [];
 
@@ -430,8 +453,14 @@ const saveUsername = (e) => {
 		".main-profiles__name"
 	);
 
-	if (closestProfileName.value.trim() === "")
-		return showErrorPopup('Pole nie może być puste', '#FAC044')
+	const allEditBtns = document.querySelectorAll(".main-profiles__edit-name");
+
+	allEditBtns.forEach((btn) => btn.removeAttribute('disabled'));
+
+	if (closestProfileName.value.trim() === "") {
+		allEditBtns.forEach((btn) => btn.setAttribute("disabled", true));
+		return showErrorPopup(emptyFieldError, "#FAC044");
+	}
 
 	const updatedProfiles = {
 		...existingProfiles,
