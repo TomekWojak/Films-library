@@ -342,8 +342,14 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria) => {
 		};
 		setUserPreference("userProfiles", updatedProfiles, userData);
 	}
+
 	editUserInfoBtn.addEventListener("click", (e) => {
 		editUsername(e, userProfileInfoBox, saveBtnAria);
+	});
+	userProfileInfo.addEventListener("keydown", (e) => {
+		if (e.key === "Enter") {
+			saveUsername(e);
+		}
 	});
 
 	return userProfile;
@@ -422,6 +428,9 @@ const saveUsername = (e) => {
 		".main-profiles__name"
 	);
 
+	if (closestProfileName.value.trim() === "")
+		return alert("Nie moze być puste!");
+
 	const updatedProfiles = {
 		...existingProfiles,
 		[closestProfileId]: closestProfileName.value,
@@ -458,6 +467,7 @@ const resetStateOfEditing = () => {
 	focusedNames.forEach((el) => {
 		el.setAttribute("readonly", true);
 		el.classList.remove("focused");
+		el.blur();
 	});
 	allSaveBtns.forEach((btn) => btn.classList.add("hidden"));
 	allEditBtns.forEach((btn) => btn.classList.remove("hidden"));
