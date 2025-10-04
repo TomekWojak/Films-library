@@ -299,7 +299,7 @@ body {
 		min-width: 3ch;
 		max-width: 18ch;
 		display: inline-block;
-		font-size: $font-size-200;
+		font-size: $font-size-250;
 		border: none;
 		pointer-events: none;
 		background: none;
@@ -320,11 +320,12 @@ body {
 		position: relative;
 	}
 	&__edit-name,
-	&__save-name {
+	&__save-name,
+	&__remove-user {
 		position: absolute;
 		left: 50%;
-		top: 1.5rem;
-		transform: translateX(-50%);
+		top: 2rem;
+		transform: translateX(-100%);
 		padding: spacing(50) spacing(100);
 		background: none;
 		border: none;
@@ -339,7 +340,11 @@ body {
 			cursor: auto;
 		}
 	}
-	&__edit-icon {
+	&__remove-user {
+		transform: translateX(0);
+	}
+	&__edit-icon,
+	&__remove-icon {
 		width: 1.5rem;
 		pointer-events: none;
 	}
@@ -381,6 +386,14 @@ body {
 				background-color: rgba($pure-white, 0.2);
 			}
 		}
+		&__name {
+			font-size: $font-size-400;
+		}
+		&__edit-name,
+		&__remove-user,
+		&__save-name {
+			top: 3rem;
+		}
 		&__edit-name {
 			&:hover .main-profiles__edit-icon {
 				opacity: 1;
@@ -391,7 +404,13 @@ body {
 				opacity: 1;
 			}
 		}
-		&__edit-icon {
+		&__remove-user {
+			&:hover .main-profiles__remove-icon {
+				opacity: 1;
+			}
+		}
+		&__edit-icon,
+		&__remove-icon {
 			width: 1.6rem;
 			opacity: 0.7;
 			transition: opacity 0.3s;
@@ -422,10 +441,6 @@ body {
 		}
 		&__name {
 			font-size: $font-size-300;
-		}
-		&__edit-name,
-		&__save-name {
-			top: 3rem;
 		}
 	}
 }

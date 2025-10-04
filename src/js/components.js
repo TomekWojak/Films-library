@@ -322,11 +322,18 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
 		["main-profiles__edit-name"],
 		{ "aria-label": userBtnInfo }
 	);
-	// const removeUserBtn = createElement(
-	// 	"button",
-	// 	["main-profiles__remove-user"],
-	// 	{ "aria-label": "Przycisk umożliwiający usunięcie użytkownika" }
-	// );
+	const removeUserBtn = createElement(
+		"button",
+		["main-profiles__remove-user"],
+		{ "aria-label": "Przycisk umożliwiający usunięcie użytkownika" }
+	);
+	const removeUserIcon = createElement("img", ["main-profiles__remove-icon"], {
+		width: "24",
+		height: "24",
+		loading: "lazy",
+		alt: "",
+		src: "./src/icons/remove-profile-icon.svg",
+	});
 	const editUserInfoIcon = createElement("img", ["main-profiles__edit-icon"], {
 		width: "24",
 		height: "24",
@@ -345,7 +352,8 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
 
 	userAvatarBox.append(userProfileBtn);
 	editUserInfoBtn.append(editUserInfoIcon);
-	userProfileInfoBox.append(userProfileInfo, editUserInfoBtn);
+	removeUserBtn.append(removeUserIcon);
+	userProfileInfoBox.append(userProfileInfo, editUserInfoBtn, removeUserBtn);
 	userProfile.append(userAvatarBox, userProfileInfoBox);
 
 	// setUserPreference("profilesCount", profilesCount, userData)
@@ -455,7 +463,7 @@ const saveUsername = (e, emptyFieldError) => {
 
 	const allEditBtns = document.querySelectorAll(".main-profiles__edit-name");
 
-	allEditBtns.forEach((btn) => btn.removeAttribute('disabled'));
+	allEditBtns.forEach((btn) => btn.removeAttribute("disabled"));
 
 	if (closestProfileName.value.trim() === "") {
 		allEditBtns.forEach((btn) => btn.setAttribute("disabled", true));
