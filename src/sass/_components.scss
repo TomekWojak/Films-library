@@ -44,7 +44,7 @@
 	animation: showPopupMobile 0.5s forwards;
 
 	&.hidden {
-		animation: hidePopupMobile 0.35s forwards;
+		animation: hidePopupMobile 0.5s forwards;
 	}
 	&__text {
 		text-align: center;
@@ -52,6 +52,17 @@
 		font-size: $font-size-250;
 		color: var(--errorTxtColor);
 	}
+}
+.name-border {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%) scale(0);
+	display: block;
+	width: 80%;
+	height: 1px;
+	background-color: rgba($pure-white, 0.1);
+	transition: transform 0.3s;
 }
 
 @media (768px <= width) {

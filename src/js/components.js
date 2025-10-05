@@ -1,22 +1,23 @@
 import { createElement } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
 const HIDE_LOADER_TIME = 3000;
+const HIDE_POPUP_TIME = 2500;
 const getData = () => {
 	try {
 		const data = localStorage.getItem("userData");
 
-		if (!data) return {};
+		if (!data) return null;
 
 		const parsedData = JSON.parse(data);
 
 		if (typeof parsedData !== "object" || parsedData === null) {
+			showErrorPopup("An unexpected error occurred", "#dc4a34");
 			throw new Error("Nieprawidłowa struktura danych");
 			// przypadek kiedy użytkownik usunie dane z local storage, lub jeśli z jakiegoś powodu zamiast obiektu pojawi się tam cokolwiek innego
 		}
 		return parsedData;
 	} catch {
-		console.log("Błąd pobierania danych z local storage");
-		localStorage.removeItem("userData"); // powinno się czyścić uszkodzone dane!!
+		localStorage.removeItem("userData"); // powinno się czyścić uszkodzone dane!
 		return {};
 	}
 };
@@ -257,7 +258,7 @@ export const hideSmallLoader = () => {
 export const createProfilesPage = ({
 	profiles: {
 		text: { title, addProfileInfo },
-		aria: { addProfileBtn, userProfileBtn, userBtnCustomize },
+		aria: { addProfileBtn, userProfileBtn, userBtnCustomize, removeUserInfo },
 	},
 	errorPopup: {
 		text: { maxProfiles, emptyField },
@@ -289,8 +290,9 @@ export const createProfilesPage = ({
 						userBtnCustomize,
 						userBtnCustomize,
 						emptyField,
-						key, // dodaj klucz profilu
-						userProfilesList[key] // dodaj nazwę profilu
+						removeUserInfo,
+						key,
+						userProfilesList[key]
 					)
 				);
 			}
@@ -304,7 +306,8 @@ export const createProfilesPage = ({
 				userBtnCustomize,
 				userBtnCustomize,
 				maxProfiles,
-				emptyField
+				emptyField,
+				removeUserInfo
 			)
 		);
 		wrapper.append(profilesTitle, profilesBox);
@@ -320,11 +323,20 @@ const createProfile = (
 	userBtnInfo,
 	saveBtnAria,
 	emptyFieldError,
-	existingProfileId = null, // nowy parametr
-	existingProfileName = null // nowy parametr
+	removeAria,
+	existingProfileId = null,
+	existingProfileName = null
 ) => {
 	const userData = getData();
 	const existingProfiles = userData?.userProfiles || {};
+
+	if (userData === null) {
+		showErrorPopup("An unexpected error occurred", "#dc4a34");
+		setTimeout(() => {
+			window.location.reload();
+		}, HIDE_POPUP_TIME);
+		return;
+	}
 
 	let color;
 	let profileId;
@@ -332,17 +344,14 @@ const createProfile = (
 
 	const colors = ["#dc4a34", "#062E63", "#FAC044"];
 
-	// Jeśli to istniejący profil (ładowany z localStorage)
 	if (existingProfileId) {
 		profileId = existingProfileId;
 		profileName = existingProfileName;
 		const profileNumber = parseInt(profileId.split("-").pop());
 		color = colors[profileNumber - 1];
 	} else {
-		// Jeśli to nowy profil
 		if (Object.keys(existingProfiles).length >= 3) return;
 
-		// Znajdź najmniejszy dostępny numer ID
 		let nextNumber = 1;
 		while (existingProfiles[`user-profile-${nextNumber}`]) {
 			nextNumber++;
@@ -366,6 +375,7 @@ const createProfile = (
 		readonly: true,
 		value: profileName,
 	});
+	const nameBorder = createElement("span", ["name-border"]);
 	const editUserInfoBtn = createElement(
 		"button",
 		["main-profiles__edit-name"],
@@ -374,7 +384,7 @@ const createProfile = (
 	const removeUserBtn = createElement(
 		"button",
 		["main-profiles__remove-user"],
-		{ "aria-label": "Przycisk umożliwiający usunięcie użytkownika" }
+		{ "aria-label": removeAria }
 	);
 	const removeUserIcon = createElement("img", ["main-profiles__remove-icon"], {
 		width: "24",
@@ -402,10 +412,15 @@ const createProfile = (
 	userAvatarBox.append(userProfileBtn);
 	editUserInfoBtn.append(editUserInfoIcon);
 	removeUserBtn.append(removeUserIcon);
-	userProfileInfoBox.append(userProfileInfo, editUserInfoBtn, removeUserBtn);
+	userProfileInfoBox.append(
+		userProfileInfo,
+		nameBorder,
+		editUserInfoBtn,
+		removeUserBtn
+	);
 	userProfile.append(userAvatarBox, userProfileInfoBox);
 
-	// Zapisz profil tylko jeśli to nowy profil
+
 	if (!existingProfileId) {
 		const updatedProfiles = {
 			...existingProfiles,
@@ -439,7 +454,8 @@ const createProfileAddBtn = (
 	userBtnInfo,
 	saveBtnAria,
 	maxProfilesError,
-	emptyFieldError
+	emptyFieldError,
+	removeAria
 ) => {
 	const addProfileBox = createElement("div", ["main-profiles__add-profile"]);
 	const addProfileAvatar = createElement("div", ["main-profiles__avatar"]);
@@ -474,7 +490,8 @@ const createProfileAddBtn = (
 			userBtnAria,
 			userBtnInfo,
 			saveBtnAria,
-			emptyFieldError
+			emptyFieldError,
+			removeAria
 		);
 
 		if (profile) {
@@ -489,7 +506,10 @@ const editUsername = (e, parent, saveBtnAria, emptyFieldError) => {
 	resetStateOfEditing(e);
 
 	const editBtn = e.target;
-	const nameToEdit = editBtn.previousElementSibling;
+	const nameToEdit = editBtn
+		.closest(".main-profiles__profile")
+		.querySelector(".main-profiles__name");
+
 	const saveBtn = createSaveBtn(saveBtnAria);
 
 	editBtn.classList.add("hidden");
@@ -593,7 +613,7 @@ const showErrorPopup = (text, color) => {
 	setTimeout(() => {
 		popup.remove();
 		popupVisible = false;
-	}, 2500);
+	}, HIDE_POPUP_TIME);
 };
 
 const removeUser = (e) => {
@@ -614,5 +634,5 @@ const removeUser = (e) => {
 
 	setTimeout(() => {
 		closestProfile.remove();
-	}, 300);
+	}, 400);
 };

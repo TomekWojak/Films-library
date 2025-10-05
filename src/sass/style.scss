@@ -249,7 +249,7 @@ body {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: clamp(spacing(300), calc(spacing(300) + 10vw), spacing(500));
+		gap: clamp(spacing(600), calc(spacing(500) - 10vw), spacing(500));
 	}
 	&__profile,
 	&__add-profile {
@@ -278,14 +278,13 @@ body {
 		width: 12rem;
 		height: 12rem;
 		border: none;
-		background-color: #dc4a34;
-
 		border-radius: radius("full");
 		cursor: pointer;
 
 		&:focus-visible {
 			@include focusState;
 		}
+
 		&--add-profile {
 			background-color: rgba($pure-white, 0.1);
 		}
@@ -315,16 +314,14 @@ body {
 		color: $pure-white;
 		outline: none;
 		border: none;
-		border-bottom: 1px solid transparent;
 		transition: border-color 0.3s;
 
-		&:focus {
-			border-color: rgba($pure-white, 0.1);
-		}
 		&.focused {
 			pointer-events: all;
-			border-bottom: 1px solid rgba($pure-white, 0.1);
 		}
+	}
+	&__name.focused + .name-border {
+		transform: translateX(-50%) scale(1);
 	}
 	&__user-info {
 		position: relative;
@@ -334,12 +331,13 @@ body {
 	&__remove-user {
 		position: absolute;
 		left: 50%;
-		top: 2rem;
+		top: 2.5rem;
 		transform: translateX(-100%);
 		padding: spacing(50) spacing(100);
 		background: none;
 		border: none;
 		cursor: pointer;
+		border-radius: radius(100);
 
 		&.hidden {
 			visibility: hidden;
@@ -348,6 +346,9 @@ body {
 		&:disabled {
 			opacity: 0.4;
 			cursor: auto;
+		}
+		&:focus-visible {
+			@include focusState;
 		}
 	}
 	&__remove-user {
@@ -396,38 +397,35 @@ body {
 				background-color: rgba($pure-white, 0.2);
 			}
 		}
+		&__btn:not(.main-profiles__btn--add-profile) {
+			border: 2px solid transparent;
+			transition: border-color 0.1s;
+
+			&:hover {
+				border-color: rgba($pure-white, 0.7);
+			}
+		}
 		&__name {
-			font-size: $font-size-400;
+			font-size: $font-size-300;
 		}
 		&__edit-name,
 		&__remove-user,
 		&__save-name {
-			top: 3rem;
+			top: 4rem;
 		}
-		&__edit-name {
-			&:hover .main-profiles__edit-icon {
-				opacity: 1;
-			}
-		}
+		&__edit-name,
+		&__remove-user,
 		&__save-name {
-			&:hover .main-profiles__save-icon {
-				opacity: 1;
+			transition: background-color 0.3s;
+
+			&:hover {
+				background-color: rgba($pure-white, 0.05);
 			}
 		}
-		&__remove-user {
-			&:hover .main-profiles__remove-icon {
-				opacity: 1;
-			}
-		}
+
 		&__edit-icon,
 		&__remove-icon {
 			width: 1.6rem;
-			opacity: 0.7;
-			transition: opacity 0.3s;
-		}
-		&__save-icon {
-			opacity: 0.7;
-			transition: opacity 0.3s;
 		}
 	}
 }

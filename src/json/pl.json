@@ -30,7 +30,8 @@
 		"aria": {
 			"addProfileBtn": "Przycisk umożliwiający dodanie nowego profilu",
 			"userProfileBtn": "Przycisk wyboru profilu użytkownika",
-			"userBtnCustomize": "Przycisk umożliwiający zmianę nazwy profilu"
+			"userBtnCustomize": "Przycisk umożliwiający zmianę nazwy profilu",
+			"removeUserInfo": "Przycisk umożliwiający usunięcie użytkownika"
 		}
 	},
 	"errorPopup": {
