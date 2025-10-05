@@ -8,6 +8,7 @@ import {
 	showBigLoader,
 	hideBigLoader,
 	createLoginHeader,
+	getData,
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -35,9 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		return userLang;
 	}
 	const getUserLanguagePreference = () => {
-		const preferredLang = JSON.parse(
-			localStorage.getItem("userData")
-		)?.preferredLanguage;
+		const preferredLang = getData()?.preferredLanguage;
 
 		if (preferredLang) language = preferredLang;
 	};

@@ -249,7 +249,7 @@ body {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: clamp(spacing(600), calc(spacing(500) - 10vw), spacing(500));
+		gap: clamp(spacing(600), calc(spacing(500) - 5vw), spacing(100));
 	}
 	&__profile,
 	&__add-profile {
@@ -449,6 +449,9 @@ body {
 		}
 		&__name {
 			font-size: $font-size-300;
+		}
+		&__box {
+			gap: spacing(300);
 		}
 	}
 }

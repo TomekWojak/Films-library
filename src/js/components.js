@@ -2,7 +2,7 @@ import { createElement } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
 const HIDE_LOADER_TIME = 3000;
 const HIDE_POPUP_TIME = 2500;
-const getData = () => {
+export const getData = () => {
 	try {
 		const data = localStorage.getItem("userData");
 
@@ -346,7 +346,7 @@ const createProfile = (
 
 	if (existingProfileId) {
 		profileId = existingProfileId;
-		profileName = existingProfileName;
+		profileName = existingProfileName.name;
 		const profileNumber = parseInt(profileId.split("-").pop());
 		color = colors[profileNumber - 1];
 	} else {
@@ -420,11 +420,12 @@ const createProfile = (
 	);
 	userProfile.append(userAvatarBox, userProfileInfoBox);
 
-
 	if (!existingProfileId) {
 		const updatedProfiles = {
 			...existingProfiles,
-			[profileId]: profileName,
+			[profileId]: {
+				name: profileName,
+			},
 		};
 		setUserPreference("userProfiles", updatedProfiles, userData);
 	}
@@ -550,8 +551,12 @@ const saveUsername = (e, emptyFieldError) => {
 
 	const updatedProfiles = {
 		...existingProfiles,
-		[closestProfileId]: closestProfileName.value,
+		[closestProfileId]: {
+			...existingProfiles[closestProfileId],
+			name: closestProfileName.value,
+		},
 	};
+
 	setUserPreference("userProfiles", updatedProfiles, userData);
 
 	resetStateOfEditing(e);
