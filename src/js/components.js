@@ -1,8 +1,26 @@
 import { createElement } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
-const userData = JSON.parse?.(localStorage.getItem("userData"));
 
-let profilesCount = userData?.profilesCount || 0;
+const getData = () => {
+	try {
+		const data = localStorage.getItem("userData");
+
+		if (!data) return {};
+
+		const parsedData = JSON.parse(data);
+
+		if (typeof parsedData !== "object" || parsedData === null) {
+			throw new Error("Nieprawidłowa struktura danych");
+			// przypadek kiedy użytkownik usunie dane z local storage, lub jeśli z jakiegoś powodu zamiast obiektu pojawi się tam cokolwiek innego
+		}
+		return parsedData;
+	} catch {
+		console.log("Błąd pobierania danych z local storage");
+		localStorage.removeItem("userData"); // powinno się czyścić uszkodzone dane!!
+		return {};
+	}
+};
+
 const USERNAME = "handsomeUser404";
 const PASSWORD = "5jksH9d.";
 
@@ -126,7 +144,7 @@ export const createLoginPage = ({
 	mainContent.append(wrapper);
 
 	submitBtn.addEventListener("click", (e) => {
-		const userData = JSON.parse?.(localStorage.getItem("userData"));
+		const userData = getData();
 
 		const results = handleLoginValidation(
 			e,
@@ -244,7 +262,7 @@ export const createProfilesPage = ({
 		text: { maxProfiles, emptyField },
 	},
 }) => {
-	const userData = JSON.parse?.(localStorage.getItem("userData"));
+	const userData = getData();
 	const userProfilesList = userData?.userProfiles;
 
 	const container = document.querySelector(".container");
@@ -265,12 +283,13 @@ export const createProfilesPage = ({
 					userProfileBtn,
 					userBtnCustomize,
 					userBtnCustomize,
-					emptyField
+					emptyField,
+					key, // dodaj klucz profilu
+					userProfilesList[key] // dodaj nazwę profilu
 				)
 			);
 		}
 	}
-
 	profilesBox.append(
 		createProfileAddBtn(
 			addProfileBtn,
@@ -289,33 +308,56 @@ export const createProfilesPage = ({
 	container.append(profilesPageMain);
 };
 
-const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
-	const userData = JSON.parse?.(localStorage.getItem("userData"));
-	const existingProfiles = userData?.userProfiles || [];
+const createProfile = (
+	ariaInfo,
+	userBtnInfo,
+	saveBtnAria,
+	emptyFieldError,
+	existingProfileId = null, // nowy parametr
+	existingProfileName = null // nowy parametr
+) => {
+	const userData = getData();
+	const existingProfiles = userData?.userProfiles || {};
 
 	let color;
+	let profileId;
+	let profileName;
 
 	const colors = ["#dc4a34", "#062E63", "#FAC044"];
 
-	if (profilesCount == 3) return;
+	// Jeśli to istniejący profil (ładowany z localStorage)
+	if (existingProfileId) {
+		profileId = existingProfileId;
+		profileName = existingProfileName;
+		const profileNumber = parseInt(profileId.split("-").pop());
+		color = colors[profileNumber - 1];
+	} else {
+		// Jeśli to nowy profil
+		if (Object.keys(existingProfiles).length >= 3) return;
 
-	profilesCount++;
-	color = colors[profilesCount];
+		// Znajdź najmniejszy dostępny numer ID
+		let nextNumber = 1;
+		while (existingProfiles[`user-profile-${nextNumber}`]) {
+			nextNumber++;
+		}
+
+		profileId = `user-profile-${nextNumber}`;
+		profileName = `Handsome User ${nextNumber}`;
+		color = colors[nextNumber - 1];
+	}
 
 	const userProfile = createElement("div", ["main-profiles__profile"]);
 	const userAvatarBox = createElement("div", ["main-profiles__avatar"]);
 	const userProfileBtn = createElement("button", ["main-profiles__btn"], {
 		"aria-label": ariaInfo,
-		"data-id": `user-profile-${profilesCount}`,
+		"data-id": profileId,
 	});
 
 	const userProfileInfoBox = createElement("div", ["main-profiles__user-info"]);
 	const userProfileInfo = createElement("input", ["main-profiles__name"], {
 		type: "text",
 		readonly: true,
-		value:
-			existingProfiles[`user-profile-${profilesCount}`] ||
-			`Handsome User ${profilesCount}`,
+		value: profileName,
 	});
 	const editUserInfoBtn = createElement(
 		"button",
@@ -343,11 +385,11 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
 	});
 
 	userProfileBtn.innerHTML = `<svg class="main-profiles__img" width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-	<circle cx="70" cy="70" r="8" fill="white" />
-	<circle cx="130" cy="70" r="8" fill="white" />
-	<path d="M60 110 Q100 150 140 110" stroke="white" stroke-width="6"
-	fill="transparent" stroke-linecap="round" />
-	</svg>`;
+    <circle cx="70" cy="70" r="8" fill="white" />
+    <circle cx="130" cy="70" r="8" fill="white" />
+    <path d="M60 110 Q100 150 140 110" stroke="white" stroke-width="6"
+    fill="transparent" stroke-linecap="round" />
+    </svg>`;
 	userProfileBtn.style.backgroundColor = color;
 
 	userAvatarBox.append(userProfileBtn);
@@ -356,12 +398,11 @@ const createProfile = (ariaInfo, userBtnInfo, saveBtnAria, emptyFieldError) => {
 	userProfileInfoBox.append(userProfileInfo, editUserInfoBtn, removeUserBtn);
 	userProfile.append(userAvatarBox, userProfileInfoBox);
 
-	// setUserPreference("profilesCount", profilesCount, userData)
-
-	if (!existingProfiles[`user-profile-${profilesCount}`]) {
+	// Zapisz profil tylko jeśli to nowy profil
+	if (!existingProfileId) {
 		const updatedProfiles = {
 			...existingProfiles,
-			[`user-profile-${profilesCount}`]: `Handsome User ${profilesCount}`,
+			[profileId]: profileName,
 		};
 		setUserPreference("userProfiles", updatedProfiles, userData);
 	}
@@ -413,6 +454,14 @@ const createProfileAddBtn = (
 	addProfileBox.append(addProfileAvatar, addProfileInfo);
 
 	addProfileBtn.addEventListener("click", () => {
+		const userData = getData();
+		const existingProfiles = userData?.userProfiles || {};
+
+		if (Object.keys(existingProfiles).length >= 3) {
+			showErrorPopup(maxProfilesError, "#dc4a34");
+			return;
+		}
+
 		const profile = createProfile(
 			userBtnAria,
 			userBtnInfo,
@@ -421,9 +470,7 @@ const createProfileAddBtn = (
 		);
 
 		if (profile) {
-			profilesBox.append(profile);
-		} else {
-			showErrorPopup(maxProfilesError, "#dc4a34");
+			profilesBox.insertBefore(profile, addProfileBox);
 		}
 	});
 
@@ -453,7 +500,7 @@ const editUsername = (e, parent, saveBtnAria, emptyFieldError) => {
 };
 
 const saveUsername = (e, emptyFieldError) => {
-	const userData = JSON.parse?.(localStorage.getItem("userData"));
+	const userData = getData();
 	const existingProfiles = userData?.userProfiles || [];
 
 	const saveBtn = e.target;
@@ -542,18 +589,18 @@ const showErrorPopup = (text, color) => {
 };
 
 const removeUser = (e) => {
-	const userData = JSON.parse?.(localStorage.getItem("userData"));
+	const userData = getData();
 	const userProfiles = userData?.userProfiles;
+	const allEditBtns = document.querySelectorAll(".main-profiles__edit-name");
 
 	const deleteBtn = e.target;
 	const closestProfile = deleteBtn.closest(".main-profiles__profile");
 	const closestProfileBtn = closestProfile.querySelector(".main-profiles__btn");
+	allEditBtns.forEach((btn) => btn.removeAttribute("disabled"));
 
 	delete userProfiles[closestProfileBtn.dataset.id];
 
 	setUserPreference("userProfiles", userProfiles, userData);
-
-	profilesCount--;
 
 	closestProfile.remove();
 };

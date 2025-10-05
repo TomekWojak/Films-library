@@ -298,22 +298,23 @@ body {
 		width: auto;
 		min-width: 3ch;
 		max-width: 18ch;
+		padding: 0.4rem 0;
 		display: inline-block;
 		font-size: $font-size-250;
-		border: none;
 		pointer-events: none;
 		background: none;
 		color: $pure-white;
 		outline: none;
-		border-radius: radius(50);
+		border: none;
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.3s;
 
 		&:focus {
-			@include focusState;
+			border-color: rgba($pure-white, 0.1);
 		}
 		&.focused {
 			pointer-events: all;
-			outline: 0.2rem solid $login-accent;
-			outline-offset: 0.3rem;
+			border-bottom: 1px solid rgba($pure-white, 0.1);
 		}
 	}
 	&__user-info {
