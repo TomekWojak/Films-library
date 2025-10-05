@@ -1,6 +1,6 @@
 import { createElement } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
-
+const HIDE_LOADER_TIME = 3000;
 const getData = () => {
 	try {
 		const data = localStorage.getItem("userData");
@@ -21,6 +21,7 @@ const getData = () => {
 	}
 };
 
+// DEMO ONLY - Never hardcode credentials in production!
 const USERNAME = "handsomeUser404";
 const PASSWORD = "5jksH9d.";
 
@@ -169,7 +170,7 @@ export const createLoginPage = ({
 				setUserPreference("translations", translations, userData);
 				setUserPreference("loggedIn", true, userData);
 				window.location.href = "profiles.html"; // przejście na stronę z profilami
-			}, 3000);
+			}, HIDE_LOADER_TIME);
 		}
 	});
 
@@ -207,7 +208,7 @@ const handleLoginValidation = (
 			e.target.disabled = false;
 
 			hideSmallLoader();
-		}, 3000);
+		}, HIDE_LOADER_TIME);
 		return invalidError;
 	} else {
 		return null;
@@ -266,46 +267,52 @@ export const createProfilesPage = ({
 	const userProfilesList = userData?.userProfiles;
 
 	const container = document.querySelector(".container");
-	const profilesPageMain = createElement("main", ["main-profiles"]);
-	const wrapper = createElement("div", ["wrapper"]);
-	const profilesTitle = createElement("h1", [
-		"main__title",
-		"main-profiles__title",
-	]);
-	const profilesBox = createElement("div", ["main-profiles__box"]);
 
-	profilesTitle.textContent = title;
+	container.append(showBigLoader());
 
-	if (userProfilesList && Object.keys(userProfilesList).length !== 0) {
-		for (const key in userProfilesList) {
-			profilesBox.append(
-				createProfile(
-					userProfileBtn,
-					userBtnCustomize,
-					userBtnCustomize,
-					emptyField,
-					key, // dodaj klucz profilu
-					userProfilesList[key] // dodaj nazwę profilu
-				)
-			);
+	setTimeout(() => {
+		const profilesPageMain = createElement("main", ["main-profiles"]);
+		const wrapper = createElement("div", ["wrapper"]);
+		const profilesTitle = createElement("h1", [
+			"main__title",
+			"main-profiles__title",
+		]);
+		const profilesBox = createElement("div", ["main-profiles__box"]);
+
+		profilesTitle.textContent = title;
+
+		if (userProfilesList && Object.keys(userProfilesList).length !== 0) {
+			for (const key in userProfilesList) {
+				profilesBox.append(
+					createProfile(
+						userProfileBtn,
+						userBtnCustomize,
+						userBtnCustomize,
+						emptyField,
+						key, // dodaj klucz profilu
+						userProfilesList[key] // dodaj nazwę profilu
+					)
+				);
+			}
 		}
-	}
-	profilesBox.append(
-		createProfileAddBtn(
-			addProfileBtn,
-			addProfileInfo,
-			userProfileBtn,
-			profilesBox,
-			userBtnCustomize,
-			userBtnCustomize,
-			maxProfiles,
-			emptyField
-		)
-	);
-	wrapper.append(profilesTitle, profilesBox);
-	profilesPageMain.append(wrapper);
+		profilesBox.append(
+			createProfileAddBtn(
+				addProfileBtn,
+				addProfileInfo,
+				userProfileBtn,
+				profilesBox,
+				userBtnCustomize,
+				userBtnCustomize,
+				maxProfiles,
+				emptyField
+			)
+		);
+		wrapper.append(profilesTitle, profilesBox);
+		profilesPageMain.append(wrapper);
 
-	container.append(profilesPageMain);
+		container.append(profilesPageMain);
+		hideBigLoader();
+	}, 500);
 };
 
 const createProfile = (
@@ -420,6 +427,7 @@ const createProfile = (
 		}
 	});
 
+	userProfile.classList.add("visible");
 	return userProfile;
 };
 
@@ -602,5 +610,9 @@ const removeUser = (e) => {
 
 	setUserPreference("userProfiles", userProfiles, userData);
 
-	closestProfile.remove();
+	closestProfile.classList.add("hidden");
+
+	setTimeout(() => {
+		closestProfile.remove();
+	}, 300);
 };

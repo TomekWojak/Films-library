@@ -259,9 +259,18 @@ body {
 		align-items: center;
 		gap: spacing(200);
 		flex-basis: 20rem;
+		transform: scale(0.9);
+
+		&.visible {
+			animation: addProfile 0.5s forwards ease-in-out;
+		}
+		&.hidden {
+			animation: removeProfile 0.3s forwards ease-in-out;
+		}
 	}
 	&__add-profile {
 		order: 1;
+		transform: scale(1);
 	}
 	&__btn {
 		position: relative;
