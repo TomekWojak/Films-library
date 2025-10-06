@@ -11,7 +11,7 @@ body.browse {
 .browse-header {
 	display: flex;
 	align-items: center;
-	padding: spacing("header-block") spacing("inline");
+	padding: spacing(250) spacing("inline");
 	background-color: var(--main-bg);
 
 	&__logo {
@@ -68,6 +68,7 @@ body.browse {
 			pointer-events: none;
 		}
 	}
+
 	&__link-text {
 		display: none;
 	}
@@ -86,6 +87,11 @@ body.browse {
 		align-items: center;
 		border-radius: radius("full");
 		background-color: rgba($light-gray, 0.2);
+
+		&:focus-visible {
+			@include focusState;
+			border-radius: radius(100);
+		}
 	}
 }
 
@@ -113,7 +119,7 @@ body.browse {
 		}
 	}
 	&__img-box {
-		height: 60dvh;
+		min-height: 75dvh;
 		width: 100%;
 		flex-shrink: 0;
 	}
@@ -131,7 +137,7 @@ body.browse {
 	}
 	&__carousell-overview {
 		margin: spacing(100) 0 spacing(150);
-		font-size: clamp($font-size-150, $font-size-100 + 1vw, $font-size-500);
+		font-size: clamp($font-size-150, $font-size-100 + 1vw, $font-size-400);
 		line-height: 150%;
 	}
 	&__action-btns {
@@ -145,13 +151,17 @@ body.browse {
 		align-items: center;
 		padding: spacing(100) spacing(150);
 		border: none;
-		border-radius: radius(100);
+		border-radius: radius(50);
 		text-decoration: none;
 		gap: spacing(50);
 		font-weight: $fw-semi-bold;
 		font-size: clamp($font-size-150, $font-size-50 + 1.2vw, $font-size-200);
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		cursor: pointer;
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 	&__see-more-btn {
 		color: $pure-white;
@@ -184,6 +194,10 @@ body.browse {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 		border-radius: 0.1rem;
 		cursor: pointer;
+		
+		&:focus-visible {
+			@include focusState;
+		}
 
 		&.active {
 			width: calc(3 * var(--carousell-btn-size));
@@ -257,8 +271,11 @@ body.browse {
 		&__link {
 			align-items: center;
 			gap: spacing(150);
+			outline: none;
+			border: none;
 
-			&:hover &-text::before {
+			&:hover &-text::before,
+			&:focus-visible &-text::before {
 				transform: scale(1);
 				transform-origin: left;
 			}
@@ -289,13 +306,24 @@ body.browse {
 		&__trailer-btn,
 		&__see-more-btn {
 			padding: spacing(100) spacing(200);
-			transition: background-color 0.3s;
+			transition: background-color 0.3s, color 0.3s;
 		}
-		// &__trailer-btn:hover {
-		// 	background-color: ;
-		// }
+		&__trailer-btn:hover {
+			background-color: $login-accent;
+			color: $pure-white;
+		}
+		&__trailer-btn:hover .browse-main__trailer-play-icon {
+			fill: $pure-white;
+			stroke: $pure-white;
+		}
 		&__trailer-play-icon {
-			transition: fill 0.3s;
+			transition: fill 0.3s, stroke 0.3s;
+		}
+		&__see-more-btn:hover {
+			background-color: rgba($pure-white, 0.25);
+		}
+		&__trailer-play-icon {
+			width: 1.5rem;
 		}
 	}
 }
@@ -312,11 +340,8 @@ body.browse {
 		}
 	}
 	.browse-main {
-		&__image-carousell {
-			border-radius: radius(200);
-		}
 		&__img-box {
-			height: 65rem;
+			max-height: 80dvh;
 		}
 		&__text-box {
 			bottom: 10rem;
