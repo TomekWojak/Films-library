@@ -656,3 +656,28 @@ const removeUser = (e) => {
 		closestProfile.remove();
 	}, 400);
 };
+
+export const createBrowsePage = ({
+	header: {
+		alt: { logo },
+		aria: { logoLink },
+	},
+}) => {
+	const wrapper = createElement("div", ["wrapper"]);
+	const header = createElement("header", ["browse-header"]);
+	const logoMainLink = createElement("a", ["browse-header__logo"], {
+		"aria-label": logoLink,
+		href: "",
+	});
+	const logoMainImg = createElement("img", ["browse-header__logo-img"], {
+		alt: logo,
+		src: "./src/icons/logo.svg",
+	});
+	const mainTitle = createElement("span", ["browse-header__logo-text"]);
+};
+
+const createBrowserNav = () => {
+	const nav = createElement("nav", ["browse-header__nav"]);
+	const navLinks = createElement("ul", ["browse-header__links"]);
+	
+};
