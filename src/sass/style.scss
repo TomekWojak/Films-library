@@ -4,7 +4,6 @@
 @use "./components" as *;
 @use "./mixins" as *;
 
-
 * {
 	margin: 0;
 	padding: 0;
@@ -24,7 +23,7 @@ html {
 	scroll-behavior: smooth;
 }
 :root {
-	--carousell-btn-size: .9rem;
+	--carousell-btn-size: 0.9rem;
 	--errorTxtColor: #dc4a34;
 	--main-bg: radial-gradient(circle at 20% 90%, #27496d -20%, transparent 60%),
 		radial-gradient(circle at 80% 32%, #27496d -10%, transparent 60%), #0a141c;
@@ -39,7 +38,7 @@ body {
 	width: 100%;
 	background: var(--main-bg);
 }
-.container,
+
 .wrapper {
 	width: min(100%, 140rem);
 	margin: 0 auto;

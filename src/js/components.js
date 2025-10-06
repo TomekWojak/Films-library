@@ -688,9 +688,7 @@ export const createBrowsePage = ({
 		createUserBtn(userButton)
 	);
 
-	wrapper.append(header);
-
-	return wrapper;
+	return header;
 };
 
 const createBrowserNav = (filmLink, seriesLink, myListLink, searchLink) => {

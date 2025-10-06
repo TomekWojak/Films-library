@@ -12,6 +12,7 @@ body.browse {
 	display: flex;
 	align-items: center;
 	padding: spacing("header-block") spacing("inline");
+	background-color: var(--main-bg);
 
 	&__logo {
 		min-width: fit-content;
@@ -89,12 +90,8 @@ body.browse {
 }
 
 .browse-main {
-	&__hero-section {
-		padding: spacing(50) spacing("inline");
-	}
 	&__image-carousell {
 		position: relative;
-		border-radius: radius(200);
 		overflow: hidden;
 	}
 	&__images {
@@ -108,21 +105,65 @@ body.browse {
 			inset: 0;
 			background: linear-gradient(
 				to top,
+				rgba(0, 0, 0, 0.75),
 				rgba(0, 0, 0, 0.5),
-				rgba(0, 0, 0, 0.4),
 				rgba(0, 0, 0, 0.1),
 				transparent
 			);
 		}
 	}
 	&__img-box {
+		height: 60dvh;
 		width: 100%;
 		flex-shrink: 0;
 	}
+	&__text-box {
+		position: absolute;
+		left: spacing("inline");
+		bottom: 6rem;
+	}
+	&__carousell-title {
+		font-size: clamp(
+			$font-size-200,
+			calc($font-size-100 + 5vw),
+			$font-size-1000
+		);
+	}
+	&__carousell-overview {
+		margin: spacing(100) 0 spacing(150);
+		font-size: clamp($font-size-150, $font-size-100 + 1vw, $font-size-500);
+		line-height: 150%;
+	}
+	&__action-btns {
+		display: flex;
+		gap: spacing(100);
+	}
+	&__trailer-btn,
+	&__see-more-btn {
+		min-width: fit-content;
+		display: inline-flex;
+		align-items: center;
+		padding: spacing(100) spacing(150);
+		border: none;
+		border-radius: radius(100);
+		text-decoration: none;
+		gap: spacing(50);
+		font-weight: $fw-semi-bold;
+		font-size: clamp($font-size-150, $font-size-50 + 1.2vw, $font-size-200);
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+	}
+	&__see-more-btn {
+		color: $pure-white;
+		background-color: rgba($pure-white, 0.1);
+		backdrop-filter: blur(0.2rem);
+	}
+	&__trailer-play-icon {
+		width: 1.2rem;
+	}
 	&__img {
 		display: block;
-		height: auto;
-		max-height: 65rem;
+		height: 100%;
 		width: 100%;
 		object-fit: cover;
 	}
@@ -245,6 +286,17 @@ body.browse {
 				border-color: $login-accent;
 			}
 		}
+		&__trailer-btn,
+		&__see-more-btn {
+			padding: spacing(100) spacing(200);
+			transition: background-color 0.3s;
+		}
+		// &__trailer-btn:hover {
+		// 	background-color: ;
+		// }
+		&__trailer-play-icon {
+			transition: fill 0.3s;
+		}
 	}
 }
 @media (992px<=width) {
@@ -257,6 +309,17 @@ body.browse {
 		}
 		&__logo-text {
 			font-size: $font-size-600;
+		}
+	}
+	.browse-main {
+		&__image-carousell {
+			border-radius: radius(200);
+		}
+		&__img-box {
+			height: 65rem;
+		}
+		&__text-box {
+			bottom: 10rem;
 		}
 	}
 }
