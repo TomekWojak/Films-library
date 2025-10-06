@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			window.location.href = "/";
 		} else {
 			const container = document.querySelector(".container");
+
+			container.prepend(createBrowsePage(translations))
 		}
 	};
 	checkAuthorization();

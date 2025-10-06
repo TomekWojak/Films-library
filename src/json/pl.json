@@ -39,5 +39,16 @@
 			"maxProfiles": "Osiągnięto maksymalną ilość profilów!",
 			"emptyField": "Pole nie może być puste"
 		}
+	},
+	"browsePage": {
+		"names": {
+			"filmLink": "Filmy",
+			"seriesLink": "Seriale",
+			"myListLink": "Moja lista",
+			"searchLink": "Szukaj"
+		},
+		"aria": {
+			"userButton": "Przycisk pokazujący panel użytkownika"
+		}
 	}
 }

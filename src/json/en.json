@@ -39,5 +39,16 @@
 			"maxProfiles": "Maximum number of profiles reached!",
 			"emptyField": "The field cannot be empty"
 		}
+	},
+	"browsePage": {
+		"names": {
+			"filmLink": "Films",
+			"seriesLink": "Series",
+			"myListLink": "My list",
+			"searchLink": "Search"
+		},
+		"aria": {
+			"userButton": "Button showing the user panel"
+		}
 	}
 }

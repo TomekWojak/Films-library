@@ -30,9 +30,9 @@ body.browse {
 	&__logo-text {
 		vertical-align: middle;
 	}
-    &__logo-text {
-        font-size: $font-size-350;
-    }
+	&__logo-text {
+		font-size: $font-size-400;
+	}
 	&__logo-img {
 		width: 2.1rem;
 		height: auto;
@@ -63,7 +63,8 @@ body.browse {
 
 		&-icon {
 			display: block;
-			width: 1.7rem;
+			width: clamp(1.85rem, calc(1.5rem + 1vw), 2.1rem);
+			pointer-events: none;
 		}
 	}
 	&__link-text {
@@ -87,14 +88,77 @@ body.browse {
 	}
 }
 
+.browse-main {
+	&__hero-section {
+		padding: spacing(50) spacing("inline");
+	}
+	&__image-carousell {
+		position: relative;
+		border-radius: radius(200);
+		overflow: hidden;
+	}
+	&__images {
+		position: relative;
+		display: flex;
+		transition: transform 0.3s ease-in-out;
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(
+				to top,
+				rgba(0, 0, 0, 0.5),
+				rgba(0, 0, 0, 0.4),
+				rgba(0, 0, 0, 0.1),
+				transparent
+			);
+		}
+	}
+	&__img-box {
+		width: 100%;
+		flex-shrink: 0;
+	}
+	&__img {
+		display: block;
+		height: auto;
+		max-height: 65rem;
+		width: 100%;
+		object-fit: cover;
+	}
+	&__carousell-controls {
+		display: flex;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 1rem;
+		gap: clamp(spacing(100), calc(spacing(50) + 1vw), spacing(200));
+	}
+	&__btn {
+		width: var(--carousell-btn-size);
+		height: var((--carousell-btn-size));
+		border: none;
+		backdrop-filter: blur(6px);
+		background-color: rgba($pure-white, 0.35);
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+		border-radius: 0.1rem;
+		cursor: pointer;
+
+		&.active {
+			width: calc(3 * var(--carousell-btn-size));
+		}
+	}
+	&__progress-bar {
+		display: block;
+		width: 0;
+		height: 100%;
+		background-color: $login-accent;
+		border-radius: inherit;
+	}
+}
+
 @media (576px <= width) {
 	.browse-header {
-		&__user,
-		&__link {
-			&-icon {
-				width: 1.8rem;
-			}
-		}
 		&__nav {
 			margin-inline-start: spacing(1100);
 		}
@@ -105,6 +169,9 @@ body.browse {
 	}
 }
 @media (768px <= width) {
+	:root {
+		--carousell-btn-size: 1.2rem;
+	}
 	.browse-header {
 		&__logo-text {
 			font-size: $font-size-500;
@@ -165,15 +232,23 @@ body.browse {
 			}
 		}
 	}
+	.browse-main {
+		&__carousell-controls {
+			bottom: 2rem;
+		}
+		&__btn {
+			border-radius: 0.2rem;
+			transition: background-color 0.3s, border-color 0.3s;
+
+			&:hover {
+				background-color: $login-accent;
+				border-color: $login-accent;
+			}
+		}
+	}
 }
 @media (992px<=width) {
 	.browse-header {
-		&__user,
-		&__link {
-			&-icon {
-				width: 1.9rem;
-			}
-		}
 		&__link-text {
 			font-size: $font-size-350;
 		}

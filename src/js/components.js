@@ -662,6 +662,10 @@ export const createBrowsePage = ({
 		alt: { logo },
 		aria: { logoLink },
 	},
+	browsePage: {
+		names: { filmLink, seriesLink, myListLink, searchLink },
+		aria: { userButton },
+	},
 }) => {
 	const wrapper = createElement("div", ["wrapper"]);
 	const header = createElement("header", ["browse-header"]);
@@ -674,10 +678,78 @@ export const createBrowsePage = ({
 		src: "./src/icons/logo.svg",
 	});
 	const mainTitle = createElement("span", ["browse-header__logo-text"]);
+
+	mainTitle.textContent = "Stream";
+
+	logoMainLink.append(logoMainImg, mainTitle);
+	header.append(
+		logoMainLink,
+		createBrowserNav(filmLink, seriesLink, myListLink, searchLink),
+		createUserBtn(userButton)
+	);
+
+	wrapper.append(header);
+
+	return wrapper;
 };
 
-const createBrowserNav = () => {
+const createBrowserNav = (filmLink, seriesLink, myListLink, searchLink) => {
 	const nav = createElement("nav", ["browse-header__nav"]);
 	const navLinks = createElement("ul", ["browse-header__links"]);
-	
+
+	const linkNames = [
+		{
+			name: filmLink,
+			src: "./src/icons/film-icon.svg",
+		},
+		{ name: seriesLink, src: "./src/icons/series-icon.svg" },
+		{
+			name: myListLink,
+			src: "./src/icons/list-icon.svg",
+		},
+		{ name: searchLink, src: "./src/icons/search-icon.svg" },
+	];
+
+	linkNames.forEach((link) => {
+		const listItem = createElement("li", ["browse-header__item"]);
+		const linkEl = createElement("a", ["browse-header__link"], { href: "" });
+		const icon = createElement("img", ["browse-header__link-icon"], {
+			width: "24",
+			height: "24",
+			loading: "lazy",
+			src: link.src,
+			alt: "",
+		});
+		const text = createElement("span", ["browse-header__link-text"]);
+
+		text.textContent = link.name;
+
+		linkEl.append(icon, text);
+		listItem.append(linkEl);
+
+		navLinks.append(listItem);
+	});
+
+	nav.append(navLinks);
+
+	return nav;
+};
+
+const createUserBtn = (userBtnAria) => {
+	const userBox = createElement("div", ["browse-header__user-box"]);
+	const userBtn = createElement("button", ["browse-header__user"], {
+		"aria-label": userBtnAria,
+	});
+	const userIcon = createElement("img", ["browse-header__user-icon"], {
+		width: "24",
+		height: "24",
+		loading: "lazy",
+		src: "./src/icons/user-icon.svg",
+		alt: "",
+	});
+
+	userBtn.append(userIcon);
+	userBox.append(userBtn);
+
+	return userBox;
 };

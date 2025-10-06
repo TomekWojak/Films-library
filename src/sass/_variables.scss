@@ -16,8 +16,8 @@ $spacing-800: 8rem;
 $spacing-900: 9rem;
 $spacing-1000: 10rem;
 $spacing-1100: 11rem;
-$inline-spacing: clamp($spacing-200, 4vw, $spacing-500);
-$header-block-spacing: clamp($spacing-200, 3vw, $spacing-400);
+$inline-spacing: clamp($spacing-100, 3vw, $spacing-500);
+$header-block-spacing: clamp($spacing-300, 4vw, $spacing-400);
 $header-btn-spacing: $spacing-100;
 
 // Returns the spacing value for a given key (e.g., 0, 50, 100, "inline").
