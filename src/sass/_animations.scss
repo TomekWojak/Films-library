@@ -71,3 +71,13 @@
 		transform: scale(0);
 	}
 }
+@keyframes userShiningAnimation {
+	from {
+		top: 1rem;
+		left: -100%;
+	}
+	to {
+		top: -3em;
+		left: 100%;
+	}
+}

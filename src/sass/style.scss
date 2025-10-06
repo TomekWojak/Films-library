@@ -3,6 +3,8 @@
 @use "./animations" as *;
 @use "./components" as *;
 @use "./mixins" as *;
+
+
 * {
 	margin: 0;
 	padding: 0;
@@ -23,18 +25,18 @@ html {
 }
 :root {
 	--errorTxtColor: #dc4a34;
+	--main-bg: radial-gradient(circle at 20% 90%, #27496d -20%, transparent 60%),
+		radial-gradient(circle at 80% 32%, #27496d -10%, transparent 60%), #0a141c;
 }
 body {
 	height: 100dvh;
 	font-family: "Inter", sans-serif;
 	color: $pure-white;
 }
-
 .root {
 	min-height: 100%;
 	width: 100%;
-	background: radial-gradient(circle at 20% 90%, #27496d -20%, transparent 60%),
-		radial-gradient(circle at 80% 32%, #27496d -10%, transparent 60%), #0a141c;
+	background: var(--main-bg);
 }
 .container,
 .wrapper {
@@ -295,6 +297,7 @@ body {
 		top: 55%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+		pointer-events: none;
 	}
 	&__add-img {
 		top: 50%;

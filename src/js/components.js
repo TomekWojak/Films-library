@@ -13,11 +13,10 @@ export const getData = () => {
 		if (typeof parsedData !== "object" || parsedData === null) {
 			showErrorPopup("An unexpected error occurred", "#dc4a34");
 			throw new Error("Nieprawidłowa struktura danych");
-			// przypadek kiedy użytkownik usunie dane z local storage, lub jeśli z jakiegoś powodu zamiast obiektu pojawi się tam cokolwiek innego
 		}
 		return parsedData;
 	} catch {
-		localStorage.removeItem("userData"); // powinno się czyścić uszkodzone dane!
+		localStorage.removeItem("userData");
 		return {};
 	}
 };
@@ -147,6 +146,11 @@ export const createLoginPage = ({
 
 	submitBtn.addEventListener("click", (e) => {
 		const userData = getData();
+		const choosenLang = userData?.preferredLanguage;
+
+		if (!choosenLang) {
+			setUserPreference("preferredLanguage", "pl", userData);
+		}
 
 		const results = handleLoginValidation(
 			e,
@@ -442,10 +446,21 @@ const createProfile = (
 			saveUsername(e, emptyFieldError);
 		}
 	});
+	userProfileBtn.addEventListener("click", (e) => setCurrentProfile(e));
 
 	userProfile.classList.add("visible");
 	return userProfile;
 };
+// wybór profilu
+const setCurrentProfile = (e) => {
+	const userData = getData();
+	const profileData = e.target.dataset.id;
+
+	setUserPreference("currentProfile", profileData, userData);
+
+	window.location.href = "browse.html";
+};
+// koniec wyboru profilu
 
 const createProfileAddBtn = (
 	ariaInfo,

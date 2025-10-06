@@ -1,0 +1,187 @@
+@use "./fonts" as *;
+@use "./variables" as *;
+@use "./animations" as *;
+@use "./components" as *;
+@use "./mixins" as *;
+
+body.browse {
+	--main-bg: #0d0d0f;
+}
+
+.browse-header {
+	display: flex;
+	align-items: center;
+	padding: spacing("header-block") spacing("inline");
+
+	&__logo {
+		min-width: fit-content;
+		font-size: $font-size-300;
+		color: $pure-white;
+		text-decoration: none;
+		font-weight: $fw-semi-bold;
+		letter-spacing: 1px;
+		border-radius: radius(100);
+
+		&:focus-visible {
+			@include focusState;
+		}
+	}
+	&__logo-img,
+	&__logo-text {
+		vertical-align: middle;
+	}
+    &__logo-text {
+        font-size: $font-size-350;
+    }
+	&__logo-img {
+		width: 2.1rem;
+		height: auto;
+	}
+	&__nav {
+		margin-inline-start: spacing(200);
+	}
+	&__links {
+		display: flex;
+		align-items: center;
+		gap: clamp(spacing(50), calc(spacing(50) + 2vw), spacing(300));
+	}
+	&__user-box {
+		margin-inline-start: auto;
+	}
+	&__links {
+		list-style-type: none;
+	}
+	&__link,
+	&__user {
+		padding: 0.5rem;
+		display: flex;
+		text-decoration: none;
+		color: $pure-white;
+		background: none;
+		border: none;
+		cursor: pointer;
+
+		&-icon {
+			display: block;
+			width: 1.7rem;
+		}
+	}
+	&__link-text {
+		display: none;
+	}
+	&__user-box {
+		position: relative;
+	}
+	&__user-panel {
+		position: absolute;
+		display: none;
+	}
+	&__user {
+		width: 3rem;
+		height: 3rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: radius("full");
+		background-color: rgba($light-gray, 0.2);
+	}
+}
+
+@media (576px <= width) {
+	.browse-header {
+		&__user,
+		&__link {
+			&-icon {
+				width: 1.8rem;
+			}
+		}
+		&__nav {
+			margin-inline-start: spacing(1100);
+		}
+		&__user {
+			width: 3.7rem;
+			height: 3.7rem;
+		}
+	}
+}
+@media (768px <= width) {
+	.browse-header {
+		&__logo-text {
+			font-size: $font-size-500;
+		}
+		&__logo-img {
+			width: 2.5rem;
+			height: auto;
+		}
+		&__nav {
+			margin-inline-start: spacing(600);
+		}
+		&__user {
+			position: relative;
+			width: 3.7rem;
+			height: 3.7rem;
+			overflow: hidden;
+			border: 1px solid transparent;
+			transition: border-color 0.3s;
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: 1rem;
+				left: -100%;
+				width: 100%;
+				height: 150%;
+				rotate: -45deg;
+				background: linear-gradient(
+					90deg,
+					transparent,
+					hsla(0, 0%, 100%, 0.2),
+					transparent
+				);
+			}
+			&:hover::before {
+				animation: userShiningAnimation 0.4s forwards;
+			}
+			&:hover {
+				border-color: rgba($pure-white, 0.1);
+			}
+		}
+		&__link {
+			align-items: center;
+			gap: spacing(150);
+
+			&:hover &-text::before {
+				transform: scale(1);
+				transform-origin: left;
+			}
+		}
+		&__link-text {
+			position: relative;
+			display: block;
+			font-size: $font-size-250;
+
+			&::before {
+				@include accentUnderline;
+			}
+		}
+	}
+}
+@media (992px<=width) {
+	.browse-header {
+		&__user,
+		&__link {
+			&-icon {
+				width: 1.9rem;
+			}
+		}
+		&__link-text {
+			font-size: $font-size-350;
+		}
+		&__logo-img {
+			width: 2.8rem;
+		}
+		&__logo-text {
+			font-size: $font-size-600;
+		}
+	}
+}

@@ -1,5 +1,6 @@
 import { getData } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
+	
 	const checkAuthorization = () => {
 		const userData = getData();
 		const isLoggedIn = userData?.loggedIn;
