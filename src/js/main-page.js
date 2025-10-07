@@ -1,6 +1,7 @@
 import { getData, createBrowsePage } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	// https://api.themoviedb.org/3/discover/movie?language=pl
+	const CAROUSELL_LENGTH = 5;
 	const options = {
 		method: "GET",
 		headers: {
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const checkAuthorization = () => {
 		const userData = getData();
 		const translations = userData?.translations;
+		const currentLanguage = userData?.preferredLanguage;
 		const isLoggedIn = userData?.loggedIn;
 
 		if (!userData || !isLoggedIn) {
@@ -28,8 +30,31 @@ document.addEventListener("DOMContentLoaded", function () {
 		} else {
 			const container = document.querySelector(".container");
 
-			container.prepend(createBrowsePage(translations))
+			container.prepend(createBrowsePage(translations));
 		}
 	};
 	checkAuthorization();
+
+	const getImagesToCarousell = async (lang, pageNum) => {
+		const URL = `https://api.themoviedb.org/3/movie/popular?language=${lang}&page=${pageNum}`;
+
+		try {
+			const response = await fetch(URL);
+			const data = await response.json();
+
+			return data;
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const loadImagesToCarousell = async (lang, pageNum) => {
+		const requests = [];
+
+		for (let i = 1; i <= pages; i++) {
+			requests.push(getImagesToCarousell(lang, pageNum));
+		}
+
+		const responses = Promise.all(requests);
+		console.log(responses);
+	};
 });
