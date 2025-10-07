@@ -2,6 +2,8 @@ import { getData, createBrowsePage } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	// https://api.themoviedb.org/3/discover/movie?language=pl
 	const CAROUSELL_LENGTH = 5;
+	const FILM_AMOUNT_PER_PAGE = 20;
+	const API_KEY = "3560f38257445da5dfda61c14ac8bc83";
 	const options = {
 		method: "GET",
 		headers: {
@@ -25,18 +27,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		const currentLanguage = userData?.preferredLanguage;
 		const isLoggedIn = userData?.loggedIn;
 
+		const container = document.querySelector(".container");
+
 		if (!userData || !isLoggedIn) {
 			window.location.href = "/";
 		} else {
-			const container = document.querySelector(".container");
-
 			container.prepend(createBrowsePage(translations));
+
+			chooseImagesToCarousell(loadImagesToCarousell, currentLanguage);
 		}
 	};
-	checkAuthorization();
 
 	const getImagesToCarousell = async (lang, pageNum) => {
-		const URL = `https://api.themoviedb.org/3/movie/popular?language=${lang}&page=${pageNum}`;
+		const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=${lang}&page=${pageNum}`;
 
 		try {
 			const response = await fetch(URL);
@@ -50,11 +53,23 @@ document.addEventListener("DOMContentLoaded", function () {
 	const loadImagesToCarousell = async (lang, pageNum) => {
 		const requests = [];
 
-		for (let i = 1; i <= pages; i++) {
-			requests.push(getImagesToCarousell(lang, pageNum));
+		for (let i = 1; i <= pageNum; i++) {
+			requests.push(getImagesToCarousell(lang, i));
 		}
 
-		const responses = Promise.all(requests);
-		console.log(responses);
+		const responses = await Promise.all(requests);
+		return responses;
 	};
+
+	const chooseImagesToCarousell = (data, currentLanguage) => {
+		const pagesData = data(currentLanguage, 5).then((pages) => {
+			const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
+			const choosenMovies = pages.map((page) => {
+				return page.results[randomNumber];
+			});
+			console.log(choosenMovies);
+		});
+	};
+
+	checkAuthorization();
 });
