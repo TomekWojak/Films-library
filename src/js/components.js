@@ -766,7 +766,7 @@ export const createMainHeroSection = (movies, translations, parent) => {
 		const imageBox = createElement("div", ["browse-main__img-box"]);
 		const image = createElement("img", ["browse-main__img"], {
 			alt: "",
-			src:getImageUrl(imgSrc, 'original'),
+			src: getImageUrl(imgSrc, "original"),
 		});
 		const textBox = createElement("div", ["browse-main__text-box"]);
 		const filmTitle = createElement("h2", ["browse-main__carousell-title"]);
@@ -785,6 +785,7 @@ export const createMainHeroSection = (movies, translations, parent) => {
 
 		parent.append(browseMain);
 	});
+
 	imagesCarousell.append(createCarousellControls(movies, translations));
 };
 const createActionButtons = (

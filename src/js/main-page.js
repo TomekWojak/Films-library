@@ -3,6 +3,8 @@ import {
 	createBrowsePage,
 	createMainHeroSection,
 	showErrorPopup,
+	showBigLoader,
+	hideBigLoader,
 } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	// https://api.themoviedb.org/3/discover/movie?language=pl
@@ -28,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			window.location.href = "/";
 		} else {
 			container.prepend(createBrowsePage(translations));
-
+			container.append(showBigLoader());
 			chooseImagesToCarousell(loadImagesToCarousell, currentLanguage).then(
 				(movies) => {
 					createMainHeroSection(movies, translations, container);
@@ -69,9 +71,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			const pagesData = await data(currentLanguage, CAROUSELL_LENGTH);
 			const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
 			const choosenMovies = pagesData.map((page) => page.results[randomNumber]);
+
 			return choosenMovies;
 		} catch {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
+		} finally {
+			hideBigLoader();
 		}
 	};
 
