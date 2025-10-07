@@ -49,6 +49,10 @@
 		},
 		"aria": {
 			"userButton": "Button showing the user panel"
+		},
+		"actionBtns": {
+			"trailerBtnText": "See trailer",
+			"moreInfoBtnText": "More info"
 		}
 	}
 }

@@ -751,3 +751,59 @@ const createUserBtn = (userBtnAria) => {
 
 	return userBox;
 };
+
+const createMainHeroSection = (movies, translations) => {
+	movies.forEach(({ id, title, overview = "", poster_path }) => {
+		const browseMain = createElement("main", ["browse-main"]);
+		const browseMainSection = createElement("section", [
+			"browse-main__hero-section",
+		]);
+		const imagesCarousell = createElement("div", [
+			"browse-main__image-carousell",
+		]);
+		const imagesInsideSlider = createElement("div", ["browse-main__images"]);
+		const imageBox = createElement("div", ["browse-main__img-box"]);
+		const image = createElement("img", ["browse-main__img"], {
+			alt: "",
+			src: poster_path,
+		});
+		const textBox = createElement("div", ["browse-main__text-box"]);
+		const filmTitle = createElement("h2", ["browse-main__carousell-title"]);
+		const filmInfo = createElement("p", ["browse-main__carousell-overview"]);
+	});
+};
+const createActionButtons = (
+	id,
+	{
+		browserPage: {
+			actionBtns: { trailerBtnText, moreInfoBtnText },
+		},
+	}
+) => {
+	const actionBtns = createElement("div", ["browse-main__action-btns"]);
+	const showTrailerBtn = createElement("button", ["browse-main__trailer-btn"], {
+		"data-trailer": id,
+	});
+	const showTrailerText = createElement("span", ["browse-main__see-trailer"]);
+	const seeMoreBtn = createElement("button", ["browse-main__see-more-btn"], {
+		"data-movie": id,
+	});
+
+	showTrailerText.textContent = trailerBtnText;
+	seeMoreBtn.textContent = moreInfoBtnText;
+
+	showTrailerBtn.innerHTML = `<svg class="browse-main__trailer-play-icon"
+	xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+	viewBox="0 0 24 24" fill="#000" stroke="#000" stroke-width="2"
+	stroke-linecap="round" stroke-linejoin="round"
+	class="feather feather-play">
+	<polygon points="5 3 19 12 5 21 5 3"></polygon>
+	</svg>`;
+
+	showTrailerBtn.append(showTrailerText);
+
+	actionBtns.append(showTrailerBtn, seeMoreBtn);
+
+	return actionBtns;
+};
+

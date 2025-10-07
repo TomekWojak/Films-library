@@ -49,6 +49,10 @@
 		},
 		"aria": {
 			"userButton": "Przycisk pokazujący panel użytkownika"
+		},
+		"actionBtns": {
+			"trailerBtnText": "Zobacz zwiastun",
+			"moreInfoBtnText": "Więcej informacji"
 		}
 	}
 }

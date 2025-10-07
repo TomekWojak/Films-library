@@ -178,6 +178,7 @@ body.browse {
 	}
 	&__trailer-play-icon {
 		width: 1.2rem;
+		pointer-events: none;
 	}
 	&__img {
 		display: block;

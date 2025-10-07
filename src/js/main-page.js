@@ -34,7 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		} else {
 			container.prepend(createBrowsePage(translations));
 
-			chooseImagesToCarousell(loadImagesToCarousell, currentLanguage);
+			// chooseImagesToCarousell(loadImagesToCarousell, currentLanguage).then(
+			// 	(movies) => {
+			// 		console.log(movies);
+			// 	}
+			// );
 		}
 	};
 
@@ -61,14 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		return responses;
 	};
 
-	const chooseImagesToCarousell = (data, currentLanguage) => {
-		const pagesData = data(currentLanguage, 5).then((pages) => {
-			const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
-			const choosenMovies = pages.map((page) => {
-				return page.results[randomNumber];
-			});
-			console.log(choosenMovies);
-		});
+	const chooseImagesToCarousell = async (data, currentLanguage) => {
+		const pagesData = await data(currentLanguage, 5);
+		const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
+		const choosenMovies = pagesData.map((page) => page.results[randomNumber]);
+
+		return choosenMovies;
 	};
 
 	checkAuthorization();
