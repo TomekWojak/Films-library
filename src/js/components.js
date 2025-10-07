@@ -1,4 +1,4 @@
-import { createElement } from "./helpers.min.js";
+import { createElement, getImageUrl } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
 const HIDE_LOADER_TIME = 3000;
 const HIDE_POPUP_TIME = 2500;
@@ -611,7 +611,7 @@ const resetStateOfEditing = (e) => {
 };
 
 let popupVisible = false;
-const showErrorPopup = (text, color) => {
+export const showErrorPopup = (text, color) => {
 	if (popupVisible) return;
 	popupVisible = true;
 
@@ -752,35 +752,50 @@ const createUserBtn = (userBtnAria) => {
 	return userBox;
 };
 
-const createMainHeroSection = (movies, translations) => {
-	movies.forEach(({ id, title, overview = "", poster_path }) => {
-		const browseMain = createElement("main", ["browse-main"]);
-		const browseMainSection = createElement("section", [
-			"browse-main__hero-section",
-		]);
-		const imagesCarousell = createElement("div", [
-			"browse-main__image-carousell",
-		]);
-		const imagesInsideSlider = createElement("div", ["browse-main__images"]);
+export const createMainHeroSection = (movies, translations, parent) => {
+	const browseMain = createElement("main", ["browse-main"]);
+	const browseMainSection = createElement("section", [
+		"browse-main__hero-section",
+	]);
+	const imagesCarousell = createElement("div", [
+		"browse-main__image-carousell",
+	]);
+	const imagesInsideSlider = createElement("div", ["browse-main__images"]);
+	movies.forEach(({ id, title, overview = "", backdrop_path }) => {
+		const imgSrc = backdrop_path;
 		const imageBox = createElement("div", ["browse-main__img-box"]);
 		const image = createElement("img", ["browse-main__img"], {
 			alt: "",
-			src: poster_path,
+			src:getImageUrl(imgSrc, 'original'),
 		});
 		const textBox = createElement("div", ["browse-main__text-box"]);
 		const filmTitle = createElement("h2", ["browse-main__carousell-title"]);
 		const filmInfo = createElement("p", ["browse-main__carousell-overview"]);
+
+		filmTitle.textContent = title;
+		filmInfo.textContent = overview;
+
+		textBox.append(filmTitle, filmInfo, createActionButtons(id, translations));
+		imageBox.append(image, textBox);
+		imagesInsideSlider.append(imageBox);
+		imagesCarousell.append(imagesInsideSlider);
+
+		browseMainSection.append(imagesCarousell);
+		browseMain.append(browseMainSection);
+
+		parent.append(browseMain);
 	});
+	imagesCarousell.append(createCarousellControls(movies, translations));
 };
 const createActionButtons = (
 	id,
 	{
-		browserPage: {
+		browsePage: {
 			actionBtns: { trailerBtnText, moreInfoBtnText },
 		},
 	}
 ) => {
-	const actionBtns = createElement("div", ["browse-main__action-btns"]);
+	const actionBtnsPanel = createElement("div", ["browse-main__action-btns"]);
 	const showTrailerBtn = createElement("button", ["browse-main__trailer-btn"], {
 		"data-trailer": id,
 	});
@@ -802,8 +817,35 @@ const createActionButtons = (
 
 	showTrailerBtn.append(showTrailerText);
 
-	actionBtns.append(showTrailerBtn, seeMoreBtn);
+	actionBtnsPanel.append(showTrailerBtn, seeMoreBtn);
 
-	return actionBtns;
+	return actionBtnsPanel;
 };
 
+const createCarousellControls = (
+	movies,
+	{
+		browsePage: {
+			carousellBtns: { aria },
+		},
+	}
+) => {
+	const carousellControls = createElement("div", [
+		"browse-main__carousell-controls",
+	]);
+
+	movies.forEach((movie, index) => {
+		const carousellBtn = createElement("button", ["browse-main__btn"], {
+			"data-img": index,
+			"aria-label": `${aria} ${index}`,
+		});
+		const carousellBtnProgressBar = createElement("span", [
+			"browse-main__progress-bar",
+		]);
+
+		carousellBtn.append(carousellBtnProgressBar);
+
+		carousellControls.append(carousellBtn);
+	});
+	return carousellControls;
+};

@@ -1,9 +1,13 @@
-import { getData, createBrowsePage } from "./components.min.js";
+import {
+	getData,
+	createBrowsePage,
+	createMainHeroSection,
+	showErrorPopup,
+} from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	// https://api.themoviedb.org/3/discover/movie?language=pl
 	const CAROUSELL_LENGTH = 5;
 	const FILM_AMOUNT_PER_PAGE = 20;
-	const API_KEY = "3560f38257445da5dfda61c14ac8bc83";
 	const options = {
 		method: "GET",
 		headers: {
@@ -12,15 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTYwZjM4MjU3NDQ1ZGE1ZGZkYTYxYzE0YWM4YmM4MyIsIm5iZiI6MTc1OTc2NTAzOC45NCwic3ViIjoiNjhlM2UyMmUyNjY5NzY4MzhlYzI3NzI5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.nuGfEjclJLepmzzHi2omNhp29THgrJf9Nv6D4_gTdxA",
 		},
 	};
-	// const getFilmsData = async () => {
-	// 	const response = await fetch(
-	// 		'',
-	// 		options
-	// 	);
-	// 	const data = await response.json();
-	// 	console.log(data);
-	// };
-	// getFilmsData();
 	const checkAuthorization = () => {
 		const userData = getData();
 		const translations = userData?.translations;
@@ -34,24 +29,24 @@ document.addEventListener("DOMContentLoaded", function () {
 		} else {
 			container.prepend(createBrowsePage(translations));
 
-			// chooseImagesToCarousell(loadImagesToCarousell, currentLanguage).then(
-			// 	(movies) => {
-			// 		console.log(movies);
-			// 	}
-			// );
+			chooseImagesToCarousell(loadImagesToCarousell, currentLanguage).then(
+				(movies) => {
+					createMainHeroSection(movies, translations, container);
+				}
+			);
 		}
 	};
 
 	const getImagesToCarousell = async (lang, pageNum) => {
-		const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=${lang}&page=${pageNum}`;
+		const URL = `https://api.themoviedb.org/3/movie/popular?language=${lang}&page=${pageNum}`;
 
 		try {
-			const response = await fetch(URL);
+			const response = await fetch(URL, options);
 			const data = await response.json();
 
 			return data;
-		} catch (err) {
-			console.log(err);
+		} catch {
+			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
 		}
 	};
 	const loadImagesToCarousell = async (lang, pageNum) => {
@@ -61,16 +56,23 @@ document.addEventListener("DOMContentLoaded", function () {
 			requests.push(getImagesToCarousell(lang, i));
 		}
 
-		const responses = await Promise.all(requests);
-		return responses;
+		try {
+			const responses = await Promise.all(requests);
+			return responses;
+		} catch {
+			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
+		}
 	};
 
 	const chooseImagesToCarousell = async (data, currentLanguage) => {
-		const pagesData = await data(currentLanguage, 5);
-		const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
-		const choosenMovies = pagesData.map((page) => page.results[randomNumber]);
-
-		return choosenMovies;
+		try {
+			const pagesData = await data(currentLanguage, CAROUSELL_LENGTH);
+			const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
+			const choosenMovies = pagesData.map((page) => page.results[randomNumber]);
+			return choosenMovies;
+		} catch {
+			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
+		}
 	};
 
 	checkAuthorization();

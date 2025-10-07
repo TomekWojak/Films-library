@@ -53,6 +53,10 @@
 		"actionBtns": {
 			"trailerBtnText": "See trailer",
 			"moreInfoBtnText": "More info"
-		}
+		},
+		"carousellBtns": {
+			"aria": "Show image number"
+		},
+		"loadingDataError": "Data download error"
 	}
 }

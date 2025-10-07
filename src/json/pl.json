@@ -53,6 +53,10 @@
 		"actionBtns": {
 			"trailerBtnText": "Zobacz zwiastun",
 			"moreInfoBtnText": "Więcej informacji"
-		}
+		},
+		"carousellBtns":{
+			"aria": "Pokaż zdjęcie nr"
+		},
+		"loadingDataError":"Bład pobierania danych"
 	}
 }

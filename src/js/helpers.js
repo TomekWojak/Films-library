@@ -7,3 +7,5 @@ export const createElement = (tag, classNames = [], attributes = {}) => {
 
 	return element;
 };
+export const getImageUrl = (path, size = "w500") => `https://image.tmdb.org/t/p/${size}${path}`
+
