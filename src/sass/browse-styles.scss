@@ -111,9 +111,9 @@ body.browse {
 			inset: 0;
 			background: linear-gradient(
 				to top,
-				rgba(0, 0, 0, 0.75),
-				rgba(0, 0, 0, 0.5),
-				rgba(0, 0, 0, 0.1),
+				rgba(#0d0d0f, 1),
+				rgba(#0d0d0f, 0.5),
+				rgba(#0d0d0f, 0.1),
 				transparent
 			);
 		}
@@ -122,11 +122,19 @@ body.browse {
 		min-height: 75dvh;
 		width: 100%;
 		flex-shrink: 0;
+
+		&.currentVisible .browse-main__text-box {
+			bottom: 8rem;
+			opacity: 1;
+		}
 	}
 	&__text-box {
 		position: absolute;
 		left: spacing("inline");
-		bottom: 6rem;
+		bottom: -100%;
+		opacity: 0;
+		transition: bottom 1s 0.2s cubic-bezier(0.17, 0.67, 0.43, 0.98),
+			opacity 1s 0.5s cubic-bezier(0.17, 0.67, 0.43, 0.98);
 	}
 	&__carousell-title {
 		font-size: clamp(
@@ -194,7 +202,7 @@ body.browse {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 		border-radius: 0.1rem;
 		cursor: pointer;
-		
+
 		&:focus-visible {
 			@include focusState;
 		}
@@ -309,7 +317,7 @@ body.browse {
 			transition: background-color 0.3s, color 0.3s;
 		}
 		&__trailer-btn:hover {
-			background-color: $login-accent;
+			background-color: var(--main-bg);
 			color: $pure-white;
 		}
 		&__trailer-btn:hover .browse-main__trailer-play-icon {
@@ -320,7 +328,7 @@ body.browse {
 			transition: fill 0.3s, stroke 0.3s;
 		}
 		&__see-more-btn:hover {
-			background-color: rgba($pure-white, 0.25);
+			background-color: rgba($pure-white, 0.2);
 		}
 		&__trailer-play-icon {
 			width: 1.5rem;
@@ -342,9 +350,6 @@ body.browse {
 	.browse-main {
 		&__img-box {
 			max-height: 80dvh;
-		}
-		&__text-box {
-			bottom: 10rem;
 		}
 	}
 }
