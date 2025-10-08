@@ -23,7 +23,7 @@ export const getData = () => {
 
 // DEMO ONLY - Never hardcode credentials in production!
 const USERNAME = "handsomeUser404";
-const PASSWORD = "5jksH9d.";
+const PASSWORD = "123456789";
 
 export const createLoginHeader = (
 	{

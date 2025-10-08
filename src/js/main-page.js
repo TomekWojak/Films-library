@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						handleFilmsCarousell(container, movies);
 					}, carousellSpeed);
 
-					changeCurrentImg(movies, container, carousellInterval);
+					changeCurrentImg(movies, container);
 					setTouchEventListener(container, movies);
 				}
 			);
@@ -160,10 +160,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		progressBarIntervals.set(btnIndex, progressBarInterval);
 	};
-	const changeCurrentImg = (movies, container, carousellInterval) => {
+	// let controlsInitialized = false;
+
+	const changeCurrentImg = (movies, container) => {
 		const carousellControls = container.querySelector(
 			".browse-main__carousell-controls"
 		);
+
+		// if (controlsInitialized) return;
+		// controlsInitialized = true;
 
 		carousellControls.addEventListener("click", (e) => {
 			if (e.target.matches(".browse-main__btn")) {
