@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 	};
 	const progressBarIntervals = new Map();
-	let carousellSpeed = 15000;
-	let carousellStrokeRange = 5;
+	let carousellSpeed = 10000;
+	let carousellStrokeRange = 2;
 	let intervalSpeed = (carousellSpeed * carousellStrokeRange) / 100;
 	let carousellWidth = 100;
 	let index = 0;
@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					}, carousellSpeed);
 
 					changeCurrentImg(movies, container, carousellInterval);
+					setTouchEventListener(container, movies);
 				}
 			);
 		}
@@ -109,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		imageSlider.style.transform = `translateX(${-index * carousellWidth}%)`;
 		handleCarousellControlsState(index, carousellControls);
-
 		allImages[index].classList.add("currentVisible");
 
 		index++;
@@ -200,5 +200,39 @@ document.addEventListener("DOMContentLoaded", function () {
 		trailerBtn.setAttribute("tabindex", tabindex);
 		seeMoreBtn.setAttribute("tabindex", tabindex);
 	};
+
+	let startX;
+	let endX;
+	const handleTouchStartEvent = (e) => {
+		startX = e.touches[0].clientX;
+	};
+	const handleTouchEndEvent = (e, container, movies) => {
+		endX = e.changedTouches[0].clientX;
+		handleSwipe(container, movies);
+	};
+	const handleSwipe = (container, movies) => {
+		const range = 50;
+		if (startX - endX > range) {
+			handleFilmsCarousell(container, movies);
+		} else if (endX - startX > 50) {
+			index = (index - 2 + movies.length) % movies.length;
+			handleFilmsCarousell(container, movies);
+		}
+		clearInterval(carousellInterval);
+		carousellInterval = setInterval(() => {
+			handleFilmsCarousell(container, movies);
+		}, carousellSpeed);
+	};
+	const setTouchEventListener = (container, movies) => {
+		const imageSlider = container.querySelector(".browse-main__images");
+
+		imageSlider.addEventListener("touchstart", (e) => {
+			handleTouchStartEvent(e);
+		});
+		imageSlider.addEventListener("touchend", (e) => {
+			handleTouchEndEvent(e, container, movies);
+		});
+	};
+
 	checkAuthorization();
 });

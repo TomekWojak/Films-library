@@ -237,6 +237,7 @@ body.browse {
 		height: 100%;
 		background-color: $login-accent;
 		border-radius: inherit;
+		transition: width 0.2s;
 	}
 }
 

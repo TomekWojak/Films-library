@@ -417,6 +417,7 @@ body.browse {
   height: 100%;
   background-color: #4da8da;
   border-radius: inherit;
+  transition: width 0.2s;
 }
 
 @media (576px <= width) {

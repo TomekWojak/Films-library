@@ -765,7 +765,7 @@ export const createMainHeroSection = (movies, translations, parent) => {
 		const imgSrc = backdrop_path;
 		const imageBox = createElement("div", ["browse-main__img-box"]);
 		const image = createElement("img", ["browse-main__img"], {
-			alt: `${translations.browsePage.carousellImages.aria.carousellImageAlt} ${title}`,
+			alt: `${translations?.browsePage?.carousellImages?.aria.carousellImageAlt} ${title}`,
 			src: imgSrc
 				? getImageUrl(imgSrc, "original")
 				: "./dist/img/img-placeholder.svg",
