@@ -1,2 +1,1 @@
-This project will be very simplified version of huge streaming platforms like Netflix or Disney.
-Work in progress...
+[See Demo page](https://tomekwojak.github.io/Films-library/)
