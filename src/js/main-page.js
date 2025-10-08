@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTYwZjM4MjU3NDQ1ZGE1ZGZkYTYxYzE0YWM4YmM4MyIsIm5iZiI6MTc1OTc2NTAzOC45NCwic3ViIjoiNjhlM2UyMmUyNjY5NzY4MzhlYzI3NzI5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.nuGfEjclJLepmzzHi2omNhp29THgrJf9Nv6D4_gTdxA",
 		},
 	};
+	let carousellInterval;
 	const checkAuthorization = () => {
 		const userData = getData();
 		const translations = userData?.translations;
@@ -36,9 +37,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				(movies) => {
 					createMainHeroSection(movies, translations, container);
 					handleFilmsCarousell(container, movies);
-					setInterval(() => {
+
+					carousellInterval = setInterval(() => {
 						handleFilmsCarousell(container, movies);
 					}, carousellSpeed);
+
+					changeCurrentImg(movies, container, carousellInterval);
 				}
 			);
 		}
@@ -86,7 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	// CAROUSELL
-	let carousellSpeed = 5000;
+	let carousellSpeed = 10000;
+	let carousellStrokeRange = 5;
+	let intervalSpeed = (carousellSpeed * carousellStrokeRange) / 100;
 	let carousellWidth = 100;
 	let index = 0;
 	const handleFilmsCarousell = (container, movies) => {
@@ -116,6 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			`.browse-main__btn[data-img="${index}"]`
 		);
 		const progressBar = currentBtn.querySelector(".browse-main__progress-bar");
+		const allProgressBars = carousellControlsBox.querySelectorAll(
+			".browse-main__progress-bar"
+		);
+
+		allProgressBars.forEach((bar) => (bar.style.width = "0"));
 
 		changeProgressBar(progressBar);
 
@@ -126,13 +137,34 @@ document.addEventListener("DOMContentLoaded", function () {
 	const changeProgressBar = (progressBar) => {
 		let width = 0;
 		const interval = setInterval(() => {
-			width += 5;
+			width += carousellStrokeRange;
 			progressBar.style.width = `${width}%`;
 			if (width >= 100) {
 				progressBar.style.width = "0";
 				clearInterval(interval);
 			}
-		}, 250);
+		}, intervalSpeed);
+	};
+	const changeCurrentImg = (movies, container, carousellInterval) => {
+		const carousellControls = container.querySelector(
+			".browse-main__carousell-controls"
+		);
+
+		carousellControls.addEventListener("click", (e) => {
+			if (e.target.matches(".browse-main__btn")) {
+				clearInterval(carousellInterval);
+
+				carousellInterval = setInterval(() => {
+					handleFilmsCarousell(container, movies);
+				}, carousellSpeed);
+
+				const currentBtn = e.target;
+				const imgData = parseInt(currentBtn.dataset.img);
+
+				index = imgData;
+				handleFilmsCarousell(container, movies);
+			}
+		});
 	};
 	checkAuthorization();
 });

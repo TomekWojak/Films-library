@@ -115,7 +115,12 @@ body.browse {
 			bottom: 8rem;
 			opacity: 1;
 		}
-
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+		}
 		&::before {
 			content: "";
 			position: absolute;
@@ -148,7 +153,7 @@ body.browse {
 		);
 	}
 	&__carousell-overview {
-		max-width: 80rem;
+		max-width: 120rem;
 		margin: spacing(100) 0 spacing(150);
 		font-size: clamp($font-size-150, $font-size-100 + 1vw, $font-size-400);
 		line-height: 150%;
@@ -320,6 +325,9 @@ body.browse {
 				background-color: $login-accent;
 				border-color: $login-accent;
 				transform: scale(1.05);
+			}
+			&.active:hover {
+				background-color: rgba($pure-white, 0.35);
 			}
 		}
 		&__trailer-btn,
