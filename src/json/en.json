@@ -57,6 +57,11 @@
 		"carousellBtns": {
 			"aria": "Show image number"
 		},
+		"carousellImages": {
+			"aria": {
+				"carousellImageAlt": "Movie poster for"
+			}
+		},
 		"loadingDataError": "Data download error"
 	}
 }

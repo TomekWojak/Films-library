@@ -765,8 +765,10 @@ export const createMainHeroSection = (movies, translations, parent) => {
 		const imgSrc = backdrop_path;
 		const imageBox = createElement("div", ["browse-main__img-box"]);
 		const image = createElement("img", ["browse-main__img"], {
-			alt: "",
-			src: getImageUrl(imgSrc, "original" || "780w"),
+			alt: `${translations.browsePage.carousellImages.aria.carousellImageAlt} ${title}`,
+			src: imgSrc
+				? getImageUrl(imgSrc, "original")
+				: "./dist/img/img-placeholder.svg",
 		});
 		const textBox = createElement("div", ["browse-main__text-box"]);
 		const filmTitle = createElement("h2", ["browse-main__carousell-title"]);

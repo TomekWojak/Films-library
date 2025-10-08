@@ -337,7 +337,7 @@ body.browse {
 }
 .browse-main__carousell-overview {
   max-width: 120rem;
-  max-height: 9.5rem;
+  max-height: 15rem;
   overflow-y: auto;
   margin: 1rem 0 1.5rem;
   font-size: clamp(1.2rem, 1rem + 1vw, 2rem);

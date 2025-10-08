@@ -105,8 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			".browse-main__carousell-controls"
 		);
 		// Obsługa ostatniego i pierwszego filmu
-		allImages[allImages.length - 1].classList.remove("currentVisible");
-		allImages[index - 1]?.classList.remove("currentVisible");
+		allImages.forEach((img) => img.classList.remove("currentVisible"));
 
 		imageSlider.style.transform = `translateX(${-index * carousellWidth}%)`;
 		handleCarousellControlsState(index, carousellControls);

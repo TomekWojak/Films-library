@@ -57,6 +57,11 @@
 		"carousellBtns":{
 			"aria": "Pokaż zdjęcie nr"
 		},
+		"carousellImages":{
+			"aria": {
+				"carousellImageAlt": "Plakat z filmu"
+			}
+		},
 		"loadingDataError":"Bład pobierania danych"
 	}
 }
