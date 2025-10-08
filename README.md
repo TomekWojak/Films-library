@@ -8,7 +8,7 @@
 
 **Description:**
 <br>
-This project simulates a streaming platform interface with user management, multilingual support, and personalized browsing experiences.
+This project simulates a streaming platform interface with:
 <br>
 <br>
 ## 🔐 Authentication & User Simulation
