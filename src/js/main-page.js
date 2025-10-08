@@ -18,7 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTYwZjM4MjU3NDQ1ZGE1ZGZkYTYxYzE0YWM4YmM4MyIsIm5iZiI6MTc1OTc2NTAzOC45NCwic3ViIjoiNjhlM2UyMmUyNjY5NzY4MzhlYzI3NzI5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.nuGfEjclJLepmzzHi2omNhp29THgrJf9Nv6D4_gTdxA",
 		},
 	};
+	const progressBarIntervals = new Map();
+	let carousellSpeed = 15000;
+	let carousellStrokeRange = 5;
+	let intervalSpeed = (carousellSpeed * carousellStrokeRange) / 100;
+	let carousellWidth = 100;
+	let index = 0;
 	let carousellInterval;
+
 	const checkAuthorization = () => {
 		const userData = getData();
 		const translations = userData?.translations;
@@ -90,11 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	// CAROUSELL
-	let carousellSpeed = 10000;
-	let carousellStrokeRange = 5;
-	let intervalSpeed = (carousellSpeed * carousellStrokeRange) / 100;
-	let carousellWidth = 100;
-	let index = 0;
+
 	const handleFilmsCarousell = (container, movies) => {
 		const imageSlider = container.querySelector(".browse-main__images");
 		const allImages = imageSlider.querySelectorAll(".browse-main__img-box");
@@ -113,6 +116,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		index++;
 
 		if (index > movies.length - 1) index = 0;
+
+		handleBtnsVisibility(container);
 	};
 
 	const handleCarousellControlsState = (index, carousellControlsBox) => {
@@ -126,24 +131,35 @@ document.addEventListener("DOMContentLoaded", function () {
 			".browse-main__progress-bar"
 		);
 
+		progressBarIntervals.forEach((interval) => clearInterval(interval));
+		progressBarIntervals.clear();
+
 		allProgressBars.forEach((bar) => (bar.style.width = "0"));
 
-		changeProgressBar(progressBar);
+		changeProgressBar(progressBar, index);
 
 		allControlBtns.forEach((btn) => btn.classList.remove("active"));
 		currentBtn.classList.add("active");
 	};
 
-	const changeProgressBar = (progressBar) => {
+	const changeProgressBar = (progressBar, btnIndex) => {
+		if (progressBarIntervals.has(btnIndex)) {
+			clearInterval(progressBarIntervals.get(btnIndex));
+		}
+
 		let width = 0;
-		const interval = setInterval(() => {
+		const progressBarInterval = setInterval(() => {
 			width += carousellStrokeRange;
 			progressBar.style.width = `${width}%`;
 			if (width >= 100) {
 				progressBar.style.width = "0";
-				clearInterval(interval);
+				clearInterval(progressBarInterval);
+
+				progressBarIntervals.delete(btnIndex);
 			}
 		}, intervalSpeed);
+
+		progressBarIntervals.set(btnIndex, progressBarInterval);
 	};
 	const changeCurrentImg = (movies, container, carousellInterval) => {
 		const carousellControls = container.querySelector(
@@ -152,19 +168,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		carousellControls.addEventListener("click", (e) => {
 			if (e.target.matches(".browse-main__btn")) {
-				clearInterval(carousellInterval);
+				if (e.target.classList.contains("active")) return;
 
-				carousellInterval = setInterval(() => {
-					handleFilmsCarousell(container, movies);
-				}, carousellSpeed);
+				clearInterval(carousellInterval);
 
 				const currentBtn = e.target;
 				const imgData = parseInt(currentBtn.dataset.img);
 
 				index = imgData;
 				handleFilmsCarousell(container, movies);
+
+				carousellInterval = setInterval(() => {
+					handleFilmsCarousell(container, movies);
+				}, carousellSpeed);
 			}
 		});
+	};
+
+	const handleBtnsVisibility = (container) => {
+		const allFilms = container.querySelectorAll(".browse-main__img-box");
+
+		allFilms.forEach((film) => {
+			const isActive = film.classList.contains("currentVisible");
+			const tabindex = isActive ? 0 : -1;
+			giveBtnsAttribute(film, tabindex);
+		});
+	};
+	const giveBtnsAttribute = (film, tabindex) => {
+		const trailerBtn = film.querySelector(".browse-main__trailer-btn");
+		const seeMoreBtn = film.querySelector(".browse-main__see-more-btn");
+
+		trailerBtn.setAttribute("tabindex", tabindex);
+		seeMoreBtn.setAttribute("tabindex", tabindex);
 	};
 	checkAuthorization();
 });
