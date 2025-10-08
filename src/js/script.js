@@ -26,6 +26,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	let langAmount = langCodes.length;
 
+	const checkIfLoggedIn = () => {
+		const userData = getData();
+		if (!userData || userData == {}) return
+
+		const userIsLoggedIn = userData?.loggedIn
+		if(userIsLoggedIn) window.location.href = 'profiles.html'
+	};
+
+	checkIfLoggedIn();
+
 	function handleUserLanguage() {
 		let userLang = navigator.language || navigator.userLanguage;
 

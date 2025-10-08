@@ -104,6 +104,17 @@ body.browse {
 		position: relative;
 		display: flex;
 		transition: transform 0.3s ease-in-out;
+	}
+	&__img-box {
+		position: relative;
+		min-height: 75dvh;
+		width: 100%;
+		flex-shrink: 0;
+
+		&.currentVisible .browse-main__text-box {
+			bottom: 8rem;
+			opacity: 1;
+		}
 
 		&::before {
 			content: "";
@@ -112,20 +123,12 @@ body.browse {
 			background: linear-gradient(
 				to top,
 				rgba(#0d0d0f, 1),
-				rgba(#0d0d0f, 0.5),
+				rgba(#0d0d0f, 0.8),
 				rgba(#0d0d0f, 0.1),
 				transparent
 			);
-		}
-	}
-	&__img-box {
-		min-height: 75dvh;
-		width: 100%;
-		flex-shrink: 0;
-
-		&.currentVisible .browse-main__text-box {
-			bottom: 8rem;
-			opacity: 1;
+			z-index: 1;
+			pointer-events: none;
 		}
 	}
 	&__text-box {
@@ -135,6 +138,7 @@ body.browse {
 		opacity: 0;
 		transition: bottom 1s 0.2s cubic-bezier(0.17, 0.67, 0.43, 0.98),
 			opacity 1s 0.5s cubic-bezier(0.17, 0.67, 0.43, 0.98);
+		z-index: 101;
 	}
 	&__carousell-title {
 		font-size: clamp(
@@ -144,6 +148,7 @@ body.browse {
 		);
 	}
 	&__carousell-overview {
+		max-width: 80rem;
 		margin: spacing(100) 0 spacing(150);
 		font-size: clamp($font-size-150, $font-size-100 + 1vw, $font-size-400);
 		line-height: 150%;
@@ -193,6 +198,7 @@ body.browse {
 		transform: translateX(-50%);
 		bottom: 1rem;
 		gap: clamp(spacing(100), calc(spacing(50) + 1vw), spacing(200));
+		z-index: 101;
 	}
 	&__btn {
 		width: var(--carousell-btn-size);
@@ -203,6 +209,8 @@ body.browse {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 		border-radius: 0.1rem;
 		cursor: pointer;
+		transition: width 0.3s;
+		overflow: hidden;
 
 		&:focus-visible {
 			@include focusState;
@@ -305,11 +313,13 @@ body.browse {
 		}
 		&__btn {
 			border-radius: 0.2rem;
-			transition: background-color 0.3s, border-color 0.3s;
+			transition: background-color 0.3s, border-color 0.3s, transform 0.3s,
+				width 0.3s;
 
 			&:hover {
 				background-color: $login-accent;
 				border-color: $login-accent;
+				transform: scale(1.05);
 			}
 		}
 		&__trailer-btn,

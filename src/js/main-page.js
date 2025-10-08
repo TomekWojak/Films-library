@@ -31,15 +31,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		} else {
 			container.prepend(createBrowsePage(translations));
 			container.append(showBigLoader());
-			chooseImagesToCarousell(loadImagesToCarousell, currentLanguage).then(
+
+			chooseFilmsToCarousell(loadFilmsToCarousell, currentLanguage).then(
 				(movies) => {
 					createMainHeroSection(movies, translations, container);
+					handleFilmsCarousell(container, movies);
+					setInterval(() => {
+						handleFilmsCarousell(container, movies);
+					}, carousellSpeed);
 				}
 			);
 		}
 	};
 
-	const getImagesToCarousell = async (lang, pageNum) => {
+	const getPopularFilms = async (lang, pageNum) => {
 		const URL = `https://api.themoviedb.org/3/movie/popular?language=${lang}&page=${pageNum}`;
 
 		try {
@@ -51,11 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
 		}
 	};
-	const loadImagesToCarousell = async (lang, pageNum) => {
+	const loadFilmsToCarousell = async (lang, pageNum) => {
 		const requests = [];
 
 		for (let i = 1; i <= pageNum; i++) {
-			requests.push(getImagesToCarousell(lang, i));
+			requests.push(getPopularFilms(lang, i));
 		}
 
 		try {
@@ -66,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	};
 
-	const chooseImagesToCarousell = async (data, currentLanguage) => {
+	const chooseFilmsToCarousell = async (data, currentLanguage) => {
 		try {
 			const pagesData = await data(currentLanguage, CAROUSELL_LENGTH);
 			const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
@@ -80,5 +85,54 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	};
 
+	// CAROUSELL
+	let carousellSpeed = 5000;
+	let carousellWidth = 100;
+	let index = 0;
+	const handleFilmsCarousell = (container, movies) => {
+		const imageSlider = container.querySelector(".browse-main__images");
+		const allImages = imageSlider.querySelectorAll(".browse-main__img-box");
+		const carousellControls = container.querySelector(
+			".browse-main__carousell-controls"
+		);
+		// Obsługa ostatniego i pierwszego filmu
+		allImages[allImages.length - 1].classList.remove("currentVisible");
+		allImages[index - 1]?.classList.remove("currentVisible");
+
+		imageSlider.style.transform = `translateX(${-index * carousellWidth}%)`;
+		handleCarousellControlsState(index, carousellControls);
+
+		allImages[index].classList.add("currentVisible");
+
+		index++;
+
+		if (index > movies.length - 1) index = 0;
+	};
+
+	const handleCarousellControlsState = (index, carousellControlsBox) => {
+		const allControlBtns =
+			carousellControlsBox.querySelectorAll(".browse-main__btn");
+		const currentBtn = carousellControlsBox.querySelector(
+			`.browse-main__btn[data-img="${index}"]`
+		);
+		const progressBar = currentBtn.querySelector(".browse-main__progress-bar");
+
+		changeProgressBar(progressBar);
+
+		allControlBtns.forEach((btn) => btn.classList.remove("active"));
+		currentBtn.classList.add("active");
+	};
+
+	const changeProgressBar = (progressBar) => {
+		let width = 0;
+		const interval = setInterval(() => {
+			width += 5;
+			progressBar.style.width = `${width}%`;
+			if (width >= 100) {
+				progressBar.style.width = "0";
+				clearInterval(interval);
+			}
+		}, 250);
+	};
 	checkAuthorization();
 });

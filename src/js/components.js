@@ -801,8 +801,9 @@ const createActionButtons = (
 		"data-trailer": id,
 	});
 	const showTrailerText = createElement("span", ["browse-main__see-trailer"]);
-	const seeMoreBtn = createElement("button", ["browse-main__see-more-btn"], {
+	const seeMoreBtn = createElement("a", ["browse-main__see-more-btn"], {
 		"data-movie": id,
+		href: "",
 	});
 
 	showTrailerText.textContent = trailerBtnText;
