@@ -59,3 +59,9 @@ This project simulates a streaming platform interface with user management, mult
 - **🟢 Logged-in users** → redirected to browse page.
 
 - **🔴 Not logged-in users** → redirected to login form.
+  <br>
+  <br>
+## Small gallery section
+![loginPage](https://i.imgur.com/JZtTU4h.png)
+![profilesPage](https://i.imgur.com/6oWTj2B.png)
+![mainPage](https://i.imgur.com/fZNnuXu.png)
