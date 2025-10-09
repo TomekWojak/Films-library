@@ -26,6 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	let index = 0;
 	let carousellInterval;
 
+	const POPULAR_FILMS_URL = `https://api.themoviedb.org/3/movie/popular?language=`;
+	const UPCOMING_FILMS_URL = `https://api.themoviedb.org/3/movie/upcoming?language=`
+	const FILMS_PAGES_AMOUNT = `&page=`;
+
 	const checkAuthorization = () => {
 		const userData = getData();
 		const translations = userData?.translations;
@@ -39,25 +43,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		} else {
 			// container.prepend(createBrowsePage(translations));
 			// container.append(showBigLoader());
-
 			// chooseFilmsToCarousell(loadFilmsToCarousell, currentLanguage).then(
 			// 	(movies) => {
 			// 		createMainHeroSection(movies, translations, container);
 			// 		handleFilmsCarousell(container, movies);
-
 			// 		carousellInterval = setInterval(() => {
 			// 			handleFilmsCarousell(container, movies);
 			// 		}, carousellSpeed);
-
 			// 		changeCurrentImg(movies, container);
 			// 		setTouchEventListener(container, movies);
 			// 	}
 			// );
 		}
 	};
-
-	const getPopularFilms = async (lang, pageNum) => {
-		const URL = `https://api.themoviedb.org/3/movie/popular?language=${lang}&page=${pageNum}`;
+	const getFilms = async (lang, pageNum, url) => {
+		const URL = url + lang + FILMS_PAGES_AMOUNT + pageNum;
 
 		try {
 			const response = await fetch(URL, options);
@@ -68,11 +68,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
 		}
 	};
+
 	const loadFilmsToCarousell = async (lang, pageNum) => {
 		const requests = [];
 
 		for (let i = 1; i <= pageNum; i++) {
-			requests.push(getPopularFilms(lang, i));
+			requests.push(getFilms(lang, i, POPULAR_FILMS_URL));
 		}
 
 		try {

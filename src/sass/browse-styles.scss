@@ -276,6 +276,10 @@ body.browse {
 		flex-shrink: 0;
 		border-radius: radius(150);
 		overflow: hidden;
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 	&__slider-img-title {
 		display: none;
@@ -494,7 +498,7 @@ body.browse {
 			font-size: clamp(
 				$font-size-200,
 				calc($font-size-100 + 1vw),
-				$font-size-500
+				$font-size-400
 			);
 			z-index: 100;
 		}
@@ -520,6 +524,13 @@ body.browse {
 	.browse-section {
 		&__slider-img-link {
 			width: 25%;
+		}
+	}
+}
+@media (1200px <= width) {
+	.browse-section {
+		&__slider-img-link {
+			width: 19%;
 		}
 	}
 }
