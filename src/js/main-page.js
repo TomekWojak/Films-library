@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	let carousellInterval;
 
 	const POPULAR_FILMS_URL = `https://api.themoviedb.org/3/movie/popular?language=`;
-	const UPCOMING_FILMS_URL = `https://api.themoviedb.org/3/movie/upcoming?language=`
+	const UPCOMING_FILMS_URL = `https://api.themoviedb.org/3/movie/upcoming?language=`;
 	const FILMS_PAGES_AMOUNT = `&page=`;
 
 	const checkAuthorization = () => {
