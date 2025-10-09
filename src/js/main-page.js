@@ -37,22 +37,22 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (!userData || !isLoggedIn) {
 			window.location.href = "/";
 		} else {
-			container.prepend(createBrowsePage(translations));
-			container.append(showBigLoader());
+			// container.prepend(createBrowsePage(translations));
+			// container.append(showBigLoader());
 
-			chooseFilmsToCarousell(loadFilmsToCarousell, currentLanguage).then(
-				(movies) => {
-					createMainHeroSection(movies, translations, container);
-					handleFilmsCarousell(container, movies);
+			// chooseFilmsToCarousell(loadFilmsToCarousell, currentLanguage).then(
+			// 	(movies) => {
+			// 		createMainHeroSection(movies, translations, container);
+			// 		handleFilmsCarousell(container, movies);
 
-					carousellInterval = setInterval(() => {
-						handleFilmsCarousell(container, movies);
-					}, carousellSpeed);
+			// 		carousellInterval = setInterval(() => {
+			// 			handleFilmsCarousell(container, movies);
+			// 		}, carousellSpeed);
 
-					changeCurrentImg(movies, container);
-					setTouchEventListener(container, movies);
-				}
-			);
+			// 		changeCurrentImg(movies, container);
+			// 		setTouchEventListener(container, movies);
+			// 	}
+			// );
 		}
 	};
 
@@ -105,7 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		const carousellControls = container.querySelector(
 			".browse-main__carousell-controls"
 		);
-		// Obsługa ostatniego i pierwszego filmu
 		allImages.forEach((img) => img.classList.remove("currentVisible"));
 
 		imageSlider.style.transform = `translateX(${-index * carousellWidth}%)`;
@@ -160,15 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		progressBarIntervals.set(btnIndex, progressBarInterval);
 	};
-	// let controlsInitialized = false;
 
 	const changeCurrentImg = (movies, container) => {
 		const carousellControls = container.querySelector(
 			".browse-main__carousell-controls"
 		);
-
-		// if (controlsInitialized) return;
-		// controlsInitialized = true;
 
 		carousellControls.addEventListener("click", (e) => {
 			if (e.target.matches(".browse-main__btn")) {
@@ -195,45 +190,69 @@ document.addEventListener("DOMContentLoaded", function () {
 		allFilms.forEach((film) => {
 			const isActive = film.classList.contains("currentVisible");
 			const tabindex = isActive ? 0 : -1;
-			giveBtnsAttribute(film, tabindex);
+			const visibility = tabindex === 0 ? "visible" : "hidden";
+			giveBtnsAttribute(film, tabindex, visibility);
 		});
 	};
-	const giveBtnsAttribute = (film, tabindex) => {
+	const giveBtnsAttribute = (film, tabindex, visibility) => {
 		const trailerBtn = film.querySelector(".browse-main__trailer-btn");
 		const seeMoreBtn = film.querySelector(".browse-main__see-more-btn");
 
 		trailerBtn.setAttribute("tabindex", tabindex);
 		seeMoreBtn.setAttribute("tabindex", tabindex);
+		trailerBtn.style.visibility = visibility;
+		seeMoreBtn.style.visibility = visibility;
 	};
 
 	let startX;
 	let endX;
+	let startY;
+	let endY;
+
 	const handleTouchStartEvent = (e) => {
 		startX = e.touches[0].clientX;
+		startY = e.touches[0].clientY;
 	};
+
 	const handleTouchEndEvent = (e, container, movies) => {
 		endX = e.changedTouches[0].clientX;
+		endY = e.changedTouches[0].clientY;
 		handleSwipe(container, movies);
 	};
+
 	const handleSwipe = (container, movies) => {
-		const range = 50;
-		if (startX - endX > range) {
-			handleFilmsCarousell(container, movies);
-		} else if (endX - startX > 50) {
+		const HORIZONTAL_RANGE = 50;
+		const VERTICAL_RANGE = 30;
+
+		const horizontalDistance = Math.abs(startX - endX);
+		const verticalDistance = Math.abs(startY - endY);
+
+		if (
+			horizontalDistance < HORIZONTAL_RANGE ||
+			verticalDistance > VERTICAL_RANGE
+		) {
+			return;
+		}
+		if (endX - startX > HORIZONTAL_RANGE) {
 			index = (index - 2 + movies.length) % movies.length;
 			handleFilmsCarousell(container, movies);
+		} else if (startX - endX > HORIZONTAL_RANGE) {
+			handleFilmsCarousell(container, movies);
 		}
+
 		clearInterval(carousellInterval);
 		carousellInterval = setInterval(() => {
 			handleFilmsCarousell(container, movies);
 		}, carousellSpeed);
 	};
+
 	const setTouchEventListener = (container, movies) => {
 		const imageSlider = container.querySelector(".browse-main__images");
 
 		imageSlider.addEventListener("touchstart", (e) => {
 			handleTouchStartEvent(e);
 		});
+
 		imageSlider.addEventListener("touchend", (e) => {
 			handleTouchEndEvent(e, container, movies);
 		});
