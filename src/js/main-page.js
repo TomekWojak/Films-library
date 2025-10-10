@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			createMainHeroSection(movies, translations, container);
 			handleFilmsCarousell(container, movies);
+
 			carousellInterval = setInterval(
 				() => handleFilmsCarousell(container, movies),
 				carousellSpeed
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					translations.browseSection.sectionNames.upcoming
 				)
 			);
+			prepareCarouselItems(container);
 		} catch {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
 		} finally {
@@ -311,5 +313,66 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	};
 
+	let smallCarousellIndex = 0;
+	const prepareCarouselItems = (container) => {
+		const slider = container.querySelector(".browse-section__slider-images");
+		const showNextSlideBtn = container.querySelector(
+			".browse-section__slider-next-btn"
+		);
+		const showPrevSlideBtn = container.querySelector(
+			".browse-section__slider-prev-btn"
+		);
+		const allPosters = container.querySelectorAll(
+			".browse-section__slider-box"
+		);
+
+		showNextSlideBtn.addEventListener("click", () => {
+			showNextSlide(slider, showPrevSlideBtn);
+		});
+		showPrevSlideBtn.addEventListener("click", (e) => {
+			showPrevSlide(e, slider);
+		});
+	};
+	const getMaxIndex = () => {
+		const width = window.innerWidth;
+		if (width < 1200) return 16;
+		if (width < 992) return 6;
+		if (width < 576) return 9;
+
+		return 10;
+	};
+	const showNextSlide = (slider, prevBtn) => {
+		const maxIndex = getMaxIndex();
+
+		let smallCarousellThreshold = window.innerWidth < 992 ? 100 : 25;
+
+		if (smallCarousellIndex >= maxIndex) return;
+
+		smallCarousellIndex++;
+
+		if (smallCarousellIndex > 0) {
+			prevBtn.removeAttribute("disabled");
+		} else {
+			prevBtn.setAttribute("disabled", true);
+		}
+
+		slider.style.transform = `translateX(${
+			-smallCarousellIndex * smallCarousellThreshold
+		}%)`;
+	};
+	const showPrevSlide = (e, slider) => {
+		let smallCarousellThreshold = window.innerWidth < 992 ? 100 : 25;
+
+		if (smallCarousellIndex <= 0) {
+			return;
+		} else if (smallCarousellIndex === 1) {
+			e.target.setAttribute("disabled", true);
+		}
+		smallCarousellIndex--;
+
+		slider.style.transform = `translateX(${
+			-smallCarousellIndex * smallCarousellThreshold
+		}%)`;
+	};
 	checkAuthorization();
 });

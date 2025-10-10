@@ -771,7 +771,9 @@ export const createMainHeroSection = (movies, translations, parent) => {
 		});
 		const textBox = createElement("div", ["browse-main__text-box"]);
 		const filmTitle = createElement("h2", ["browse-main__carousell-title"]);
-		const filmInfo = createElement("p", ["browse-main__carousell-overview"]);
+		const filmInfo = createElement("p", ["browse-main__carousell-overview"], {
+			tabindex: -1,
+		});
 
 		filmTitle.textContent = title;
 		filmInfo.textContent = overview;

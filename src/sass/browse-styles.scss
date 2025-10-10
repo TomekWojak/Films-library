@@ -268,6 +268,8 @@ body.browse {
 	&__slider-images {
 		white-space: nowrap;
 		overflow-x: visible;
+		transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1);
+
 	}
 	&__slider-box {
 		display: inline-block;
@@ -275,7 +277,9 @@ body.browse {
 		width: 50%;
 		overflow: hidden;
 		border-radius: radius(150);
-		transform: scale(0.95);
+		transform: scale(0.9);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 0, 0, 0.7) inset;
+		transition: transform 0.2s;
 
 		&::after {
 			content: "";
@@ -288,9 +292,10 @@ body.browse {
 				transparent
 			);
 			opacity: 1;
-			transition: opacity 0.3s 0.2s;
+			transition: opacity 0.3s;
 			pointer-events: none;
 		}
+
 		&:has(.browse-section__slider-img-link:focus-visible) {
 			@include focusState;
 		}
@@ -523,10 +528,15 @@ body.browse {
 			transition: transform 0.3s;
 		}
 		&__slider-img {
-			transition: transform 0.8s ease-in-out;
+			transition: transform 0.4s;
 		}
 		&__slider-box:hover .browse-section__slider-img {
 			transform: scale(1.1);
+		}
+		&__slider-box {
+			&:hover {
+				transform: scale(0.95);
+			}
 		}
 		&__slider-btn {
 			opacity: 0;
