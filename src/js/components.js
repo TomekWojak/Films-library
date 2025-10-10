@@ -667,7 +667,6 @@ export const createBrowsePage = ({
 		aria: { userButton },
 	},
 }) => {
-	const wrapper = createElement("div", ["wrapper"]);
 	const header = createElement("header", ["browse-header"]);
 	const logoMainLink = createElement("a", ["browse-header__logo"], {
 		"aria-label": logoLink,
@@ -852,4 +851,120 @@ const createCarousellControls = (
 		carousellControls.append(carousellBtn);
 	});
 	return carousellControls;
+};
+
+export const createFilmSlider = (films, translations, index, title) => {
+	const properFilms = films[index].results;
+
+	const browseSection = createElement("section", [
+		"browse-section",
+		"browse-section__upcoming-films",
+	]);
+	const sectionTitle = createElement("h3", ["browse-section__title"]);
+	const sectionSlider = createElement("div", ["browse-section__slider"]);
+	const sectionImages = createElement("div", ["browse-section__slider-images"]);
+
+	const showPrevSlideBtn = createElement(
+		"button",
+		["browse-section__slider-btn", "browse-section__slider-prev-btn"],
+		{
+			"aria-label": translations?.browseSection?.aria?.showPrevSlideBtn,
+			disabled: true,
+		}
+	);
+	const showNextSlideBtn = createElement(
+		"button",
+		["browse-section__slider-btn", "browse-section__slider-next-btn"],
+		{ "aria-label": translations?.browseSection?.aria?.showNextSlideBtn }
+	);
+	const showPrevSlideIcon = createElement(
+		"img",
+		["browse-section__slider-btn-icon"],
+		{
+			src: "./src/icons/chevron-left.svg",
+			width: "24",
+			height: "24",
+			loading: "lazy",
+			alt: "",
+		}
+	);
+	const showNextSlideIcon = createElement(
+		"img",
+		["browse-section__slider-btn-icon"],
+		{
+			src: "./src/icons/chevron-right.svg",
+			width: "24",
+			height: "24",
+			loading: "lazy",
+			alt: "",
+		}
+	);
+
+	sectionTitle.textContent = title;
+
+	showNextSlideBtn.append(showNextSlideIcon);
+	showPrevSlideBtn.append(showPrevSlideIcon);
+
+	createFilmPosters(properFilms, translations, sectionImages);
+
+	sectionSlider.append(sectionImages, showPrevSlideBtn, showNextSlideBtn);
+	browseSection.append(sectionTitle, sectionSlider);
+
+	return browseSection;
+};
+
+const createFilmPosters = (properFilms, translations, parent) => {
+	properFilms.forEach(({ id, title, poster_path }) => {
+		const imgSrc = poster_path;
+		const sectionBox = createElement("div", ["browse-section__slider-box"]);
+
+		const sectionLink = createElement(
+			"a",
+			["browse-section__slider-img-link"],
+			{
+				href: "browse.html",
+				"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
+			}
+		);
+		const sectionFilmPoster = createElement(
+			"img",
+			["browse-section__slider-img"],
+			{
+				alt: `${translations?.carousellImages?.aria?.carousellImageAlt} ${title}`,
+				loading: "lazy",
+				width: "",
+				height: "",
+				src: imgSrc
+					? getImageUrl(imgSrc, "original")
+					: "./dist/img/img-placeholder.svg",
+			}
+		);
+		const sectionAddToListBtn = createElement(
+			"button",
+			["browse-section__add-to-list-btn"],
+			{
+				"aria-label": translations?.browseSection?.aria?.addToListBtn,
+				"data-movie": id,
+			}
+		);
+		const sectionAddToListIcon = createElement(
+			"img",
+			["browse-section__add-to-list-icon"],
+			{
+				src: "./src/icons/add-profile.svg",
+				width: "24",
+				height: "24",
+				loading: "lazy",
+				alt: "",
+			}
+		);
+
+		sectionAddToListBtn.append(sectionAddToListIcon);
+
+		sectionLink.append(sectionFilmPoster);
+
+		sectionBox.append(sectionLink, sectionAddToListBtn);
+
+		parent.append(sectionBox);
+	});
 };

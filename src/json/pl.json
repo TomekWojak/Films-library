@@ -54,14 +54,25 @@
 			"trailerBtnText": "Zobacz zwiastun",
 			"moreInfoBtnText": "Więcej informacji"
 		},
-		"carousellBtns":{
+		"carousellBtns": {
 			"aria": "Pokaż zdjęcie nr"
 		},
-		"carousellImages":{
+		"carousellImages": {
 			"aria": {
 				"carousellImageAlt": "Plakat z filmu"
 			}
 		},
-		"loadingDataError":"Bład pobierania danych"
+		"loadingDataError": "Bład pobierania danych"
+	},
+	"browseSection": {
+		"sectionNames": {
+			"upcoming": "Nadchodzące premiery"
+		},
+		"aria": {
+			"addToListBtn": "Przycisk dodający dany film do listy",
+			"showNextSlideBtn": "Przycisk pokazujacy następny film",
+			"showPrevSlideBtn": "Przycisk pokazujący poprzedni film",
+			"showMoreInfoAboutFilm": "Link pokazujący więcej informacji o filmie na osobnej stronie"
+		}
 	}
 }

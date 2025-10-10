@@ -63,5 +63,16 @@
 			}
 		},
 		"loadingDataError": "Data download error"
+	},
+	"browseSection": {
+		"sectionNames": {
+			"upcoming": "Upcoming releases"
+		},
+		"aria": {
+			"addToListBtn": "A button that adds a given movie to the list",
+			"showNextSlideBtn": "Button showing next video",
+			"showPrevSlideBtn": "Button showing prev video",
+			"showMoreInfoAboutFilm": "Link showing more information about the film on a separate page"
+		}
 	}
 }
