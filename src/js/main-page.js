@@ -314,65 +314,65 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	let smallCarousellIndex = 0;
-	const prepareCarouselItems = (container) => {
-		const slider = container.querySelector(".browse-section__slider-images");
-		const showNextSlideBtn = container.querySelector(
-			".browse-section__slider-next-btn"
-		);
-		const showPrevSlideBtn = container.querySelector(
-			".browse-section__slider-prev-btn"
-		);
-		const allPosters = container.querySelectorAll(
-			".browse-section__slider-box"
-		);
 
-		showNextSlideBtn.addEventListener("click", () => {
-			showNextSlide(slider, showPrevSlideBtn);
-		});
-		showPrevSlideBtn.addEventListener("click", (e) => {
-			showPrevSlide(e, slider);
-		});
+	const CAROUSEL_CONFIG = {
+		desktop: { maxIndex: 16, threshold: 25 },
+		tablet: { maxIndex: 6, threshold: 100 },
+		mobile: { maxIndex: 9, threshold: 100 },
+		desktopBig: { maxIndex: 10, threshold: 25 },
 	};
-	const getMaxIndex = () => {
+
+	const getCarouselConfig = () => {
 		const width = window.innerWidth;
-		if (width < 1200) return 16;
-		if (width < 992) return 6;
-		if (width < 576) return 9;
-
-		return 10;
+		if (width < 576) return CAROUSEL_CONFIG.mobile;
+		if (width < 992) return CAROUSEL_CONFIG.tablet;
+		if (width < 1200) return CAROUSEL_CONFIG.desktop;
+		if (width >= 1200) return CAROUSEL_CONFIG.desktopBig;
 	};
-	const showNextSlide = (slider, prevBtn) => {
-		const maxIndex = getMaxIndex();
 
-		let smallCarousellThreshold = window.innerWidth < 992 ? 100 : 25;
+	const updateButtonStates = (nextBtn, prevBtn) => {
+		const { maxIndex } = getCarouselConfig();
+
+		prevBtn.toggleAttribute("disabled", smallCarousellIndex === 0);
+		nextBtn.toggleAttribute("disabled", smallCarousellIndex >= maxIndex);
+	};
+
+	const moveSlider = (slider) => {
+		const { threshold } = getCarouselConfig();
+		slider.style.transform = `translateX(${-smallCarousellIndex * threshold}%)`;
+	};
+
+	const showNextSlide = (slider, nextBtn, prevBtn) => {
+		const { maxIndex } = getCarouselConfig();
 
 		if (smallCarousellIndex >= maxIndex) return;
 
 		smallCarousellIndex++;
-
-		if (smallCarousellIndex > 0) {
-			prevBtn.removeAttribute("disabled");
-		} else {
-			prevBtn.setAttribute("disabled", true);
-		}
-
-		slider.style.transform = `translateX(${
-			-smallCarousellIndex * smallCarousellThreshold
-		}%)`;
+		moveSlider(slider);
+		updateButtonStates(nextBtn, prevBtn);
 	};
-	const showPrevSlide = (e, slider) => {
-		let smallCarousellThreshold = window.innerWidth < 992 ? 100 : 25;
 
-		if (smallCarousellIndex <= 0) {
-			return;
-		} else if (smallCarousellIndex === 1) {
-			e.target.setAttribute("disabled", true);
-		}
+	const showPrevSlide = (slider, nextBtn, prevBtn) => {
+		if (smallCarousellIndex <= 0) return;
+
 		smallCarousellIndex--;
+		moveSlider(slider);
+		updateButtonStates(nextBtn, prevBtn);
+	};
 
-		slider.style.transform = `translateX(${
-			-smallCarousellIndex * smallCarousellThreshold
-		}%)`;
+	const prepareCarouselItems = (container) => {
+		const slider = container.querySelector(".browse-section__slider-images");
+		const nextBtn = container.querySelector(".browse-section__slider-next-btn");
+		const prevBtn = container.querySelector(".browse-section__slider-prev-btn");
+
+		nextBtn.addEventListener("click", () =>
+			showNextSlide(slider, nextBtn, prevBtn)
+		);
+		prevBtn.addEventListener("click", () =>
+			showPrevSlide(slider, nextBtn, prevBtn)
+		);
+
+		updateButtonStates(nextBtn, prevBtn);
 	};
 	checkAuthorization();
 });
