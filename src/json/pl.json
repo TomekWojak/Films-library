@@ -68,6 +68,7 @@
 		"sectionNames": {
 			"upcoming": "Nadchodzące premiery"
 		},
+		"info": "Dodaj do listy",
 		"aria": {
 			"addToListBtn": "Przycisk dodający dany film do listy",
 			"showNextSlideBtn": "Przycisk pokazujacy następny film",

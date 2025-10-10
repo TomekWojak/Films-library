@@ -958,12 +958,15 @@ const createFilmPosters = (properFilms, translations, parent) => {
 				alt: "",
 			}
 		);
+		const sectionTooltip = createElement("span", ["browse-section__tooltip"]);
+
+		sectionTooltip.textContent = translations.browseSection.info;
 
 		sectionAddToListBtn.append(sectionAddToListIcon);
 
 		sectionLink.append(sectionFilmPoster);
 
-		sectionBox.append(sectionLink, sectionAddToListBtn);
+		sectionBox.append(sectionLink, sectionAddToListBtn, sectionTooltip);
 
 		parent.append(sectionBox);
 	});

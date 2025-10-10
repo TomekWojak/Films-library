@@ -68,6 +68,7 @@
 		"sectionNames": {
 			"upcoming": "Upcoming releases"
 		},
+		"info": "Add to list",
 		"aria": {
 			"addToListBtn": "A button that adds a given movie to the list",
 			"showNextSlideBtn": "Button showing next video",

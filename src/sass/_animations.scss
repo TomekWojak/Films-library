@@ -81,3 +81,11 @@
 		left: 100%;
 	}
 }
+@keyframes showTooltip {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
