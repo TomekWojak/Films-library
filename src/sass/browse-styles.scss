@@ -291,6 +291,16 @@ body.browse {
 		&:has(.browse-section__slider-img-link:focus-visible) {
 			@include focusState;
 		}
+		&:has(.browse-section__slider-img-link:focus-visible)
+			.browse-section__slider-img,
+		&:has(.browse-section__add-to-list-btn:focus-visible)
+			.browse-section__slider-img {
+			transform: scale(1.1);
+		}
+		&:has(.browse-section__slider-img-link:focus-visible)::after,
+		&:has(.browse-section__add-to-list-btn:focus-visible)::after {
+			opacity: 1;
+		}
 	}
 	&__slider-img-link {
 		text-decoration: none;
@@ -311,6 +321,11 @@ body.browse {
 		border: none;
 		background: none;
 		cursor: pointer;
+		border-radius: radius(100);
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 	&__slider-btn {
 		position: absolute;
