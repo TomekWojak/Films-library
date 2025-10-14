@@ -864,7 +864,11 @@ export const createFilmSlider = (films, translations, index, title) => {
 	]);
 	const sectionTitle = createElement("h3", ["browse-section__title"]);
 	const sectionSlider = createElement("div", ["browse-section__slider"]);
-	const sectionImages = createElement("div", ["browse-section__slider-images"]);
+	const sectionImages = createElement(
+		"div",
+		["browse-section__slider-images"],
+		{ "data-index": 0 }
+	);
 
 	const showPrevSlideBtn = createElement(
 		"button",

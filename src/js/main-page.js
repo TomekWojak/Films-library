@@ -315,11 +315,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	let smallCarousellIndex = 0;
 
-	const updateButtonStates = (nextBtn, prevBtn) => {
-		const maxIndex = getCarouselConfig();
-
+	const updateButtonStates = (prevBtn) => {
 		prevBtn.toggleAttribute("disabled", smallCarousellIndex === 0);
-		nextBtn.toggleAttribute("disabled", smallCarousellIndex >= maxIndex);
+	};
+
+	const changeCarousellDataIndex = (slider, index) => {
+		slider.dataset.index = index;
 	};
 
 	const getCarouselConfig = () => {
@@ -344,6 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const moveSlider = (slider) => {
 		const threshold = setThreshold();
+		let sliderDataset = slider.dataset.index;
 
 		const allPosters = document.querySelectorAll(".browse-section__slider-box");
 
@@ -351,27 +353,33 @@ document.addEventListener("DOMContentLoaded", function () {
 			const posterWidth = poster.offsetWidth;
 
 			slider.style.transform = `translateX(${
-				-smallCarousellIndex * posterWidth * threshold
+				-sliderDataset * posterWidth * threshold
 			}px)`;
 		});
 	};
 
-	const showNextSlide = (slider, nextBtn, prevBtn) => {
+	const showNextSlide = (slider, prevBtn) => {
+		let sliderDataset = slider.dataset.index;
+
 		const maxIndex = getCarouselConfig();
 
-		if (smallCarousellIndex >= maxIndex) return;
+		if (sliderDataset >= maxIndex) return;
 
 		smallCarousellIndex++;
+		changeCarousellDataIndex(slider, smallCarousellIndex);
 		moveSlider(slider);
-		updateButtonStates(nextBtn, prevBtn);
+		updateButtonStates(prevBtn);
 	};
 
-	const showPrevSlide = (slider, nextBtn, prevBtn) => {
-		if (smallCarousellIndex <= 0) return;
+	const showPrevSlide = (slider, prevBtn) => {
+		let sliderDataset = slider.dataset.index;
+
+		if (sliderDataset <= 0) return;
 
 		smallCarousellIndex--;
+		changeCarousellDataIndex(slider, smallCarousellIndex);
 		moveSlider(slider);
-		updateButtonStates(nextBtn, prevBtn);
+		updateButtonStates(prevBtn);
 	};
 
 	const prepareCarouselItems = (container) => {
@@ -379,14 +387,28 @@ document.addEventListener("DOMContentLoaded", function () {
 		const nextBtn = container.querySelector(".browse-section__slider-next-btn");
 		const prevBtn = container.querySelector(".browse-section__slider-prev-btn");
 
-		nextBtn.addEventListener("click", () =>
-			showNextSlide(slider, nextBtn, prevBtn)
-		);
-		prevBtn.addEventListener("click", () =>
-			showPrevSlide(slider, nextBtn, prevBtn)
+		nextBtn.addEventListener("click", () => showNextSlide(slider, prevBtn));
+		prevBtn.addEventListener("click", () => showPrevSlide(slider, prevBtn));
+
+		updateButtonStates(prevBtn);
+	};
+
+	window.addEventListener("resize", () => {
+		const allSliders = document.querySelectorAll(
+			".browse-section__slider-images"
 		);
 
-		updateButtonStates(nextBtn, prevBtn);
-	};
+		smallCarousellIndex = 0;
+
+		allSliders.forEach((slider) => {
+			const prevBtn = slider
+				.closest(".browse-section")
+				.querySelector(".browse-section__slider-prev-btn");
+			changeCarousellDataIndex(slider, 0);
+			slider.style.transform = "translateX(0)";
+			updateButtonStates(prevBtn);
+		});
+	});
+
 	checkAuthorization();
 });
