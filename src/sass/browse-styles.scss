@@ -354,10 +354,11 @@ body.browse {
 		background-color: rgba(#0d0d0f, 0);
 		transition: background-color 0.3s;
 		z-index: 0;
+		outline: none;
 
 		&:hover,
 		&:active {
-			background-color: rgba(#0d0d0f, 0.3);
+			background-color: rgba(#0d0d0f, 0.6);
 		}
 		&:disabled {
 			display: none;

@@ -315,35 +315,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	let smallCarousellIndex = 0;
 
-	const CAROUSEL_CONFIG = {
-		desktop: { maxIndex: 16, threshold: 25 },
-		tablet: { maxIndex: 6, threshold: 100 },
-		mobile: { maxIndex: 9, threshold: 100 },
-		desktopBig: { maxIndex: 10, threshold: 25 },
-	};
-
-	const getCarouselConfig = () => {
-		const width = window.innerWidth;
-		if (width < 576) return CAROUSEL_CONFIG.mobile;
-		if (width < 992) return CAROUSEL_CONFIG.tablet;
-		if (width < 1200) return CAROUSEL_CONFIG.desktop;
-		if (width >= 1200) return CAROUSEL_CONFIG.desktopBig;
-	};
-
 	const updateButtonStates = (nextBtn, prevBtn) => {
-		const { maxIndex } = getCarouselConfig();
+		const maxIndex = getCarouselConfig();
 
 		prevBtn.toggleAttribute("disabled", smallCarousellIndex === 0);
 		nextBtn.toggleAttribute("disabled", smallCarousellIndex >= maxIndex);
 	};
 
+	const getCarouselConfig = () => {
+		let maxIndex;
+
+		if (window.innerWidth < 576) maxIndex = 9;
+		if (window.innerWidth >= 576 && window.innerWidth < 992) maxIndex = 17;
+		if (window.innerWidth >= 992 && window.innerWidth < 1200) maxIndex = 4;
+		if (window.innerWidth >= 1200) maxIndex = 7;
+
+		return maxIndex;
+	};
+
+	const setThreshold = () => {
+		let threshold = 2;
+
+		if (window.innerWidth > 576 && window.innerWidth < 992) threshold = 1;
+		if (window.innerWidth >= 992 && window.innerWidth < 1200) threshold = 4;
+
+		return threshold;
+	};
+
 	const moveSlider = (slider) => {
-		const { threshold } = getCarouselConfig();
-		slider.style.transform = `translateX(${-smallCarousellIndex * threshold}%)`;
+		const threshold = setThreshold();
+
+		const allPosters = document.querySelectorAll(".browse-section__slider-box");
+
+		allPosters.forEach((poster) => {
+			const posterWidth = poster.offsetWidth;
+
+			slider.style.transform = `translateX(${
+				-smallCarousellIndex * posterWidth * threshold
+			}px)`;
+		});
 	};
 
 	const showNextSlide = (slider, nextBtn, prevBtn) => {
-		const { maxIndex } = getCarouselConfig();
+		const maxIndex = getCarouselConfig();
 
 		if (smallCarousellIndex >= maxIndex) return;
 
