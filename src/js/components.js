@@ -858,24 +858,18 @@ const createCarousellControls = (
 export const createFilmSlider = (films, translations, index, title) => {
 	const properFilms = films[index].results;
 
-	const browseSection = createElement("section", [
-		"browse-section",
-		"browse-section__upcoming-films",
-	]);
+	const browseSection = createElement("section", ["browse-section"]);
 	const sectionTitle = createElement("h3", ["browse-section__title"]);
-	const sectionSlider = createElement("div", ["browse-section__slider"]);
-	const sectionImages = createElement(
-		"div",
-		["browse-section__slider-images"],
-		{ "data-index": 0 }
-	);
+	const sectionSlider = createElement("div", ["browse-section__slider"], {
+		"data-index": 0,
+	});
+	const sectionImages = createElement("div", ["browse-section__slider-images"]);
 
 	const showPrevSlideBtn = createElement(
 		"button",
 		["browse-section__slider-btn", "browse-section__slider-prev-btn"],
 		{
-			"aria-label": translations?.browseSection?.aria?.showPrevSlideBtn,
-			disabled: true,
+			"aria-label": translations?.browseSection?.aria?.showPrevSlideBtn
 		}
 	);
 	const showNextSlideBtn = createElement(
@@ -936,7 +930,7 @@ const createFilmPosters = (properFilms, translations, parent) => {
 			"img",
 			["browse-section__slider-img"],
 			{
-				alt: `${translations?.carousellImages?.aria?.carousellImageAlt} ${title}`,
+				alt: `${translations?.browsePage?.carousellImages?.aria?.carousellImageAlt} ${title}`,
 				loading: "lazy",
 				width: "",
 				height: "",

@@ -251,7 +251,11 @@ body.browse {
 }
 
 .browse-section {
-	padding: spacing(800) spacing("inline");
+	padding: 0 spacing("inline") spacing(300);
+
+	&:nth-child(2) {
+		padding: spacing(800) spacing("inline") spacing(400);
+	}
 
 	&__title {
 		font-size: clamp(
@@ -266,14 +270,15 @@ body.browse {
 		overflow: hidden;
 	}
 	&__slider-images {
+		display: flex;
 		white-space: nowrap;
 		overflow-x: visible;
 		transition: transform 0.65s cubic-bezier(0.33, 1, 0.68, 1);
-
 	}
 	&__slider-box {
 		display: inline-block;
 		position: relative;
+		flex-shrink: 0;
 		width: 50%;
 		overflow: hidden;
 		border-radius: radius(150);

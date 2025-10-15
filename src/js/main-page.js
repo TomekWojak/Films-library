@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	// https://api.themoviedb.org/3/discover/movie?language=pl
 	const CAROUSELL_LENGTH = 5;
 	const FILM_AMOUNT_PER_PAGE = 20;
-	const DOWNLOADED_PAGE = 1;
+	const PAGE_TO_SHOW_ON_SMALL_CAROUSELS = 1;
 	const options = {
 		method: "GET",
 		headers: {
@@ -30,6 +30,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const POPULAR_FILMS_URL = `https://api.themoviedb.org/3/movie/popular?language=`;
 	const UPCOMING_FILMS_URL = `https://api.themoviedb.org/3/movie/upcoming?language=`;
+	const TRENDING_FILMS_URL = `https://api.themoviedb.org/3/trending/all/week?language=`;
+	const TOP_RATED_TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=&sort_by=popularity.desc
+`;
+	const TOP_RATED_CUSTOM_TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?&with_origin_country=PL&sort_by=popularity.desc&language=
+`;
 	const FILMS_PAGES_AMOUNT = `&page=`;
 
 	const checkAuthorization = async () => {
@@ -67,8 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const films = await getAllFilms(
 				currentLanguage,
-				DOWNLOADED_PAGE,
-				UPCOMING_FILMS_URL
+				UPCOMING_FILMS_URL,
+				TRENDING_FILMS_URL,
+				TOP_RATED_TV_SERIES_URL
 			);
 
 			const main = document.querySelector("main");
@@ -77,8 +83,20 @@ document.addEventListener("DOMContentLoaded", function () {
 					createFilmSlider(
 						films,
 						translations,
+						1,
+						translations.browseSection.sectionNames.trending
+					),
+					createFilmSlider(
+						films,
+						translations,
 						0,
 						translations.browseSection.sectionNames.upcoming
+					),
+					createFilmSlider(
+						films,
+						translations,
+						2,
+						translations.browseSection.sectionNames.topRatedSeries
 					)
 				);
 			}
@@ -86,8 +104,20 @@ document.addEventListener("DOMContentLoaded", function () {
 				createFilmSlider(
 					films,
 					translations,
+					1,
+					translations.browseSection.sectionNames.trending
+				),
+				createFilmSlider(
+					films,
+					translations,
 					0,
 					translations.browseSection.sectionNames.upcoming
+				),
+				createFilmSlider(
+					films,
+					translations,
+					2,
+					translations.browseSection.sectionNames.topRatedSeries
 				)
 			);
 			prepareCarouselItems(container);
@@ -98,18 +128,30 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	};
 
-	const getAllFilms = async (lang, pageNum, ...urls) => {
-		const responses = [];
+	const getAllFilms = async (lang, ...urls) => {
+		const filmsArr = [];
+		const customSeries = await getCustomCountrySeries(lang)
 		for await (const url of urls) {
-			const URL = url + lang + FILMS_PAGES_AMOUNT + pageNum;
+			const URL =
+				url +
+				lang.toUpperCase() +
+				FILMS_PAGES_AMOUNT +
+				PAGE_TO_SHOW_ON_SMALL_CAROUSELS;
 			const response = await fetch(URL, options);
 			const data = await response.json();
 
-			responses.push(data);
+			filmsArr.push(data);
 		}
-		return responses;
+		filmsArr.push(customSeries)
+		console.log(filmsArr);
+		return filmsArr;
 	};
-
+	const getCustomCountrySeries = async (lang) => {
+		const response = await fetch(TOP_RATED_CUSTOM_TV_SERIES_URL + lang, options)
+		const data = await response.json()
+		
+		return data
+	}
 	const getFilms = async (lang, pageNum, url) => {
 		const URL = url + lang + FILMS_PAGES_AMOUNT + pageNum;
 
@@ -313,12 +355,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	};
 
-	let smallCarousellIndex = 0;
-
-	const updateButtonStates = (prevBtn) => {
-		prevBtn.toggleAttribute("disabled", smallCarousellIndex === 0);
-	};
-
 	const changeCarousellDataIndex = (slider, index) => {
 		slider.dataset.index = index;
 	};
@@ -346,67 +382,67 @@ document.addEventListener("DOMContentLoaded", function () {
 	const moveSlider = (slider) => {
 		const threshold = setThreshold();
 		let sliderDataset = slider.dataset.index;
-
-		const allPosters = document.querySelectorAll(".browse-section__slider-box");
-
-		allPosters.forEach((poster) => {
-			const posterWidth = poster.offsetWidth;
-
-			slider.style.transform = `translateX(${
-				-sliderDataset * posterWidth * threshold
-			}px)`;
-		});
-	};
-
-	const showNextSlide = (slider, prevBtn) => {
-		let sliderDataset = slider.dataset.index;
-
-		const maxIndex = getCarouselConfig();
-
-		if (sliderDataset >= maxIndex) return;
-
-		smallCarousellIndex++;
-		changeCarousellDataIndex(slider, smallCarousellIndex);
-		moveSlider(slider);
-		updateButtonStates(prevBtn);
-	};
-
-	const showPrevSlide = (slider, prevBtn) => {
-		let sliderDataset = slider.dataset.index;
-
-		if (sliderDataset <= 0) return;
-
-		smallCarousellIndex--;
-		changeCarousellDataIndex(slider, smallCarousellIndex);
-		moveSlider(slider);
-		updateButtonStates(prevBtn);
-	};
-
-	const prepareCarouselItems = (container) => {
-		const slider = container.querySelector(".browse-section__slider-images");
-		const nextBtn = container.querySelector(".browse-section__slider-next-btn");
-		const prevBtn = container.querySelector(".browse-section__slider-prev-btn");
-
-		nextBtn.addEventListener("click", () => showNextSlide(slider, prevBtn));
-		prevBtn.addEventListener("click", () => showPrevSlide(slider, prevBtn));
-
-		updateButtonStates(prevBtn);
-	};
-
-	window.addEventListener("resize", () => {
-		const allSliders = document.querySelectorAll(
+		const sliderCarousell = slider.querySelector(
 			".browse-section__slider-images"
 		);
 
-		smallCarousellIndex = 0;
+		const poster = slider.querySelector(".browse-section__slider-box");
+		if (!poster) return;
+
+		const posterWidth = poster.offsetWidth;
+		sliderCarousell.style.transform = `translateX(${
+			-sliderDataset * posterWidth * threshold
+		}px)`;
+	};
+
+	const showNextSlide = (slider, index) => {
+		let initialIndex = index === 0 ? parseInt(slider.dataset.index) : 0;
+		console.log(initialIndex);
+		const maxIndex = getCarouselConfig();
+
+		if (initialIndex >= maxIndex) return;
+
+		initialIndex++;
+		changeCarousellDataIndex(slider, initialIndex);
+		moveSlider(slider);
+	};
+
+	const showPrevSlide = (slider, index) => {
+		let initialIndex = index === 0 ? parseInt(slider.dataset.index) : 0;
+
+		if (initialIndex <= 0) return;
+
+		initialIndex--;
+		changeCarousellDataIndex(slider, initialIndex);
+		moveSlider(slider);
+	};
+
+	const prepareCarouselItems = (container) => {
+		const sliders = container.querySelectorAll(".browse-section__slider");
+
+		sliders.forEach((slider) =>
+			slider.addEventListener("click", (e) => {
+				let smallCarousellIndex = 0;
+
+				if (e.target.matches(".browse-section__slider-next-btn")) {
+					showNextSlide(slider, smallCarousellIndex);
+				} else if (e.target.matches(".browse-section__slider-prev-btn")) {
+					showPrevSlide(slider, smallCarousellIndex);
+				}
+			})
+		);
+	};
+
+	window.addEventListener("resize", () => {
+		const allSliders = document.querySelectorAll(".browse-section__slider");
 
 		allSliders.forEach((slider) => {
-			const prevBtn = slider
-				.closest(".browse-section")
-				.querySelector(".browse-section__slider-prev-btn");
+			const sliderCarousell = slider.querySelector(
+				".browse-section__slider-images"
+			);
+
 			changeCarousellDataIndex(slider, 0);
-			slider.style.transform = "translateX(0)";
-			updateButtonStates(prevBtn);
+			sliderCarousell.style.transform = "translateX(0)";
 		});
 	});
 
