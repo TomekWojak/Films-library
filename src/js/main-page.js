@@ -420,6 +420,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	window.addEventListener("resize", () => {
+		let lastWidth = window.innerWidth;
+		
+		if (window.innerWidth === lastWidth) return;
+
 		const allSliders = document.querySelectorAll(".browse-section__slider");
 
 		allSliders.forEach((slider) => {
