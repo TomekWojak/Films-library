@@ -419,18 +419,17 @@ document.addEventListener("DOMContentLoaded", function () {
 		);
 	};
 
+	let lastWidth = window.innerWidth;
+
 	window.addEventListener("resize", () => {
-		let lastWidth = window.innerWidth;
-		
 		if (window.innerWidth === lastWidth) return;
+		lastWidth = window.innerWidth;
 
 		const allSliders = document.querySelectorAll(".browse-section__slider");
-
 		allSliders.forEach((slider) => {
 			const sliderCarousell = slider.querySelector(
 				".browse-section__slider-images"
 			);
-
 			changeCarousellDataIndex(slider, 0);
 			sliderCarousell.style.transform = "translateX(0)";
 		});
