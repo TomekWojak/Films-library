@@ -29,9 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	let carousellInterval;
 
 	const POPULAR_FILMS_URL = `https://api.themoviedb.org/3/movie/popular?language=`;
-	const UPCOMING_FILMS_URL = `https://api.themoviedb.org/3/movie/upcoming?language=`;
+	const HOT_RATED_FILMS_URL = `https://api.themoviedb.org/3/movie/upcoming?language=`;
 	const TRENDING_FILMS_URL = `https://api.themoviedb.org/3/trending/all/week?language=`;
 	const TOP_RATED_TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=&sort_by=popularity.desc
+`;
+	const UPCOMING_FILMS = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&primary_release_year=2025&primary_release_date.gte=2025-10-15&sort_by=popularity.desc
 `;
 
 	const FILMS_PAGES_AMOUNT = `&page=`;
@@ -71,9 +73,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const films = await getAllFilms(
 				currentLanguage,
-				UPCOMING_FILMS_URL,
+				HOT_RATED_FILMS_URL,
 				TRENDING_FILMS_URL,
-				TOP_RATED_TV_SERIES_URL
+				TOP_RATED_TV_SERIES_URL,
+				UPCOMING_FILMS
 			);
 
 			const main = document.querySelector("main");
@@ -100,6 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					translations,
 					2,
 					translations.browseSection.sectionNames.topRatedSeries
+				),
+				createFilmSlider(
+					films,
+					translations,
+					3,
+					translations.browseSection.sectionNames.futureFilms
 				)
 			);
 			prepareCarouselItems(container);
@@ -368,7 +377,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const showNextSlide = (slider, index) => {
 		let initialIndex = index === 0 ? parseInt(slider.dataset.index) : 0;
-		console.log(initialIndex);
 		const maxIndex = getCarouselConfig();
 
 		if (initialIndex >= maxIndex) return;

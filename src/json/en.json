@@ -66,9 +66,10 @@
 	},
 	"browseSection": {
 		"sectionNames": {
-			"upcoming": "Recommended movies",
+			"upcoming": "Popular movies",
 			"trending": "Trending movies",
-			"topRatedSeries": "Recommended TV series"
+			"topRatedSeries": "Popular TV series",
+			"futureFilms": "Upcoming premieres"
 		},
 		"info": "Add to list",
 		"aria": {

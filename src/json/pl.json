@@ -66,9 +66,10 @@
 	},
 	"browseSection": {
 		"sectionNames": {
-			"upcoming": "Polecane filmy",
+			"upcoming": "Popularne filmy",
 			"trending": "Na czasie",
-			"topRatedSeries": "Polecane seriale"
+			"topRatedSeries": "Popularne seriale",
+			"futureFilms": "Nadchodzące premiery"
 		},
 		"info": "Dodaj do listy",
 		"aria": {
