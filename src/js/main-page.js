@@ -290,11 +290,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	let endY;
 
 	const handleTouchStartEvent = (e) => {
+		e.preventDefault();
+
 		startX = e.touches[0].clientX;
 		startY = e.touches[0].clientY;
 	};
 
 	const handleTouchEndEvent = (e, container, movies) => {
+		e.preventDefault();
+
 		endX = e.changedTouches[0].clientX;
 		endY = e.changedTouches[0].clientY;
 		handleSwipe(container, movies);
