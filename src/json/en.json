@@ -68,8 +68,7 @@
 		"sectionNames": {
 			"upcoming": "Recommended movies",
 			"trending": "Trending movies",
-			"topRatedSeries": "Recommended TV series",
-			"customSeries": "English TV series"
+			"topRatedSeries": "Recommended TV series"
 		},
 		"info": "Add to list",
 		"aria": {

@@ -33,8 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const TRENDING_FILMS_URL = `https://api.themoviedb.org/3/trending/all/week?language=`;
 	const TOP_RATED_TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=&sort_by=popularity.desc
 `;
-	const TOP_RATED_CUSTOM_TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?&with_origin_country=PL&sort_by=popularity.desc&language=
-`;
+
 	const FILMS_PAGES_AMOUNT = `&page=`;
 
 	const checkAuthorization = async () => {
@@ -78,28 +77,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			);
 
 			const main = document.querySelector("main");
+
 			if (!main) {
-				container.append(
-					createFilmSlider(
-						films,
-						translations,
-						1,
-						translations.browseSection.sectionNames.trending
-					),
-					createFilmSlider(
-						films,
-						translations,
-						0,
-						translations.browseSection.sectionNames.upcoming
-					),
-					createFilmSlider(
-						films,
-						translations,
-						2,
-						translations.browseSection.sectionNames.topRatedSeries
-					)
-				);
+				showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
 			}
+
 			main.append(
 				createFilmSlider(
 					films,
@@ -130,28 +112,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const getAllFilms = async (lang, ...urls) => {
 		const filmsArr = [];
-		const customSeries = await getCustomCountrySeries(lang)
 		for await (const url of urls) {
 			const URL =
-				url +
-				lang.toUpperCase() +
-				FILMS_PAGES_AMOUNT +
-				PAGE_TO_SHOW_ON_SMALL_CAROUSELS;
+				url + lang + FILMS_PAGES_AMOUNT + PAGE_TO_SHOW_ON_SMALL_CAROUSELS;
 			const response = await fetch(URL, options);
 			const data = await response.json();
 
 			filmsArr.push(data);
 		}
-		filmsArr.push(customSeries)
-		console.log(filmsArr);
+
 		return filmsArr;
 	};
-	const getCustomCountrySeries = async (lang) => {
-		const response = await fetch(TOP_RATED_CUSTOM_TV_SERIES_URL + lang, options)
-		const data = await response.json()
-		
-		return data
-	}
 	const getFilms = async (lang, pageNum, url) => {
 		const URL = url + lang + FILMS_PAGES_AMOUNT + pageNum;
 
