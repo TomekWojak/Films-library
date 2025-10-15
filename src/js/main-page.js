@@ -33,7 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	const TRENDING_FILMS_URL = `https://api.themoviedb.org/3/trending/all/week?language=`;
 	const TOP_RATED_TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=&sort_by=popularity.desc
 `;
-	const UPCOMING_FILMS = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&primary_release_year=2025&primary_release_date.gte=2025-10-15&sort_by=popularity.desc
+	const currentDate = new Date();
+	const UPCOMING_FILMS = `https://api.themoviedb.org/3/discover/movie?primary_release_year=2025&primary_release_date.gte=${currentDate.getFullYear()}-${
+		currentDate.getMonth() + 1
+	}-${currentDate.getDate()}&sort_by=popularity.desc
 `;
 
 	const FILMS_PAGES_AMOUNT = `&page=`;
