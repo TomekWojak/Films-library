@@ -8,6 +8,13 @@
 
 **Description:**
 <br>
+The project is unfinished.
+It will include in the future:
+Separate filtering for movies and TV series,
+View trailers for specific movies/TV series,
+Add movies/TV series to the list,
+Mini user panel
+<br>
 This project simulates a streaming platform interface with:
 <br>
 <br>
