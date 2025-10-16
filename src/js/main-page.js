@@ -290,22 +290,18 @@ document.addEventListener("DOMContentLoaded", function () {
 	let endY;
 
 	const handleTouchStartEvent = (e) => {
-		e.preventDefault();
-
 		startX = e.touches[0].clientX;
 		startY = e.touches[0].clientY;
 	};
 
 	const handleTouchEndEvent = (e, container, movies) => {
-		e.preventDefault();
-
 		endX = e.changedTouches[0].clientX;
 		endY = e.changedTouches[0].clientY;
 		handleSwipe(container, movies);
 	};
 
 	const handleSwipe = (container, movies) => {
-		const HORIZONTAL_RANGE = 50;
+		const HORIZONTAL_RANGE = 30;
 		const VERTICAL_RANGE = 30;
 
 		const horizontalDistance = Math.abs(startX - endX);
@@ -420,7 +416,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	let lastWidth = window.innerWidth;
-
 	window.addEventListener("resize", () => {
 		if (window.innerWidth === lastWidth) return;
 		lastWidth = window.innerWidth;
