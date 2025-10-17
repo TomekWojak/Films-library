@@ -1,7 +1,6 @@
 import { verifyCredentials } from "./firebase-auth.min.js";
 import { createElement, getImageUrl } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
-const HIDE_LOADER_TIME = 3000;
 const HIDE_POPUP_TIME = 2500;
 
 export const getData = () => {
@@ -19,6 +18,40 @@ export const getData = () => {
 		showErrorPopup("Error accessing user data. Please try again.", "#dc4a34");
 		return {};
 	}
+};
+const getCurrentDate = () => {
+	const currentDate = new Date().getFullYear();
+
+	return currentDate;
+};
+export const createFooter = ({
+	header: {
+		alt: { logo },
+	},
+}) => {
+	const currDate = getCurrentDate();
+
+	const footer = createElement("footer", ["browse-footer"]);
+	const footerLogo = createElement("span", ["browse-footer__logo"]);
+	const logoImg = createElement(
+		"img",
+		['browse-footer__img'],
+		{
+			src: "./src/icons/logo.svg",
+			alt: `${logo}`,
+			width: "24",
+			height: "24",
+		}
+	);
+	const info = createElement("p", ["browse-footer__info"]);
+
+	footerLogo.textContent = "Stream";
+	footerLogo.prepend(logoImg);
+	info.textContent = `©${currDate} Stream corporation | All rights reserved.`;
+
+	footer.append(footerLogo, info);
+
+	return footer;
 };
 
 export const createLoginHeader = (
@@ -192,7 +225,6 @@ const handleLoginValidation = async (
 	errorTxt.classList.remove("visible");
 
 	const result = await verifyCredentials(emailValue, passwordValue);
-
 
 	hideSmallLoader();
 	e.target.disabled = false;

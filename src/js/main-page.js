@@ -6,6 +6,7 @@ import {
 	showBigLoader,
 	hideBigLoader,
 	createFilmSlider,
+	createFooter,
 } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	const CAROUSELL_LENGTH = 5;
@@ -114,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				)
 			);
 			prepareCarouselItems(container);
+			container.append(createFooter(translations));
 		} catch {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
 		} finally {
