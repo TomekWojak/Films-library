@@ -2,7 +2,7 @@
 
 [See Demo page](https://tomekwojak.github.io/Films-library/)
 
-**Username:** handsomeUser404
+**Username:** handsomeuser404@test.com
 
 **Password:** 123456789
 
