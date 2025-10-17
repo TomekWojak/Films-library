@@ -27,11 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	let langAmount = langCodes.length;
 
 	const checkIfLoggedIn = () => {
-		const userData = getData();
-		if (!userData || userData == {}) return
-
-		const userIsLoggedIn = userData?.loggedIn
-		if(userIsLoggedIn) window.location.href = 'profiles.html'
+		try {
+			const userData = getData();
+			if (!userData || Object.keys(userData).length === 0) return;
+			if (userData.loggedIn) window.location.href = "profiles.html";
+		} catch (error) {
+			console.error("Error checking login status:", error);
+		}
 	};
 
 	checkIfLoggedIn();

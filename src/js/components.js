@@ -1,29 +1,25 @@
+import { verifyCredentials } from "./firebase-auth.min.js";
 import { createElement, getImageUrl } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
 const HIDE_LOADER_TIME = 3000;
 const HIDE_POPUP_TIME = 2500;
+
 export const getData = () => {
 	try {
 		const data = localStorage.getItem("userData");
-
 		if (!data) return null;
-
 		const parsedData = JSON.parse(data);
-
 		if (typeof parsedData !== "object" || parsedData === null) {
-			showErrorPopup("An unexpected error occurred", "#dc4a34");
-			throw new Error("Nieprawidłowa struktura danych");
+			showErrorPopup("Invalid user data. Resetting storage.", "#dc4a34");
+			throw new Error("Invalid data structure");
 		}
 		return parsedData;
 	} catch {
 		localStorage.removeItem("userData");
+		showErrorPopup("Error accessing user data. Please try again.", "#dc4a34");
 		return {};
 	}
 };
-
-// DEMO ONLY - Never hardcode credentials in production!
-const USERNAME = "handsomeUser404";
-const PASSWORD = "123456789";
 
 export const createLoginHeader = (
 	{
@@ -152,44 +148,32 @@ export const createLoginPage = ({
 			setUserPreference("preferredLanguage", "pl", userData);
 		}
 
-		const results = handleLoginValidation(
+		handleLoginValidation(
 			e,
 			usernameInput,
 			passwordInput,
 			translations.main.text.errorRequired,
 			translations.main.text.errorInvalid,
-			USERNAME,
-			PASSWORD,
 			errorTxt
-		);
-
-		if (!results) {
-			errorTxt.classList.remove("visible");
-			e.target.append(showSmallLoader());
-			e.target.disabled = true;
-
-			setTimeout(() => {
-				e.target.disabled = false;
-				hideSmallLoader();
-
+		).then((res) => {
+			if (!res) {
 				setUserPreference("translations", translations, userData);
 				setUserPreference("loggedIn", true, userData);
+
 				window.location.href = "profiles.html"; // przejście na stronę z profilami
-			}, HIDE_LOADER_TIME);
-		}
+			}
+		});
 	});
 
 	return mainContent;
 };
 
-const handleLoginValidation = (
+const handleLoginValidation = async (
 	e,
 	usernameInput,
 	passwordInput,
 	requireError,
 	invalidError,
-	username,
-	password,
 	errorTxt
 ) => {
 	e.preventDefault();
@@ -198,22 +182,24 @@ const handleLoginValidation = (
 		errorTxt.classList.add("visible");
 		errorTxt.textContent = requireError;
 		return requireError;
-	} else if (
-		usernameInput.value.trim() !== username ||
-		passwordInput.value.trim() !== password
-	) {
-		e.target.disabled = true;
-		e.target.append(showSmallLoader());
-		errorTxt.classList.remove("visible");
+	}
 
-		setTimeout(() => {
-			errorTxt.classList.add("visible");
-			errorTxt.textContent = invalidError;
+	const emailValue = usernameInput.value.trim();
+	const passwordValue = passwordInput.value.trim();
 
-			e.target.disabled = false;
+	e.target.disabled = true;
+	e.target.append(showSmallLoader());
+	errorTxt.classList.remove("visible");
 
-			hideSmallLoader();
-		}, HIDE_LOADER_TIME);
+	const result = await verifyCredentials(emailValue, passwordValue);
+
+
+	hideSmallLoader();
+	e.target.disabled = false;
+
+	if (!result.success) {
+		errorTxt.classList.add("visible");
+		errorTxt.textContent = invalidError;
 		return invalidError;
 	} else {
 		return null;
@@ -785,9 +771,8 @@ export const createMainHeroSection = (movies, translations, parent) => {
 
 		browseMainSection.append(imagesCarousell);
 		browseMain.append(browseMainSection);
-
-		parent.append(browseMain);
 	});
+	parent.append(browseMain);
 
 	imagesCarousell.append(createCarousellControls(movies, translations));
 };
@@ -856,7 +841,12 @@ const createCarousellControls = (
 };
 
 export const createFilmSlider = (films, translations, index, title) => {
-	const properFilms = films[index].results;
+	const properFilms = films[index]?.results || [];
+	if (!properFilms.length) {
+		console.error(`No films found for index ${index}`);
+		showErrorPopup(`No films found for index ${index}`, "#dc4a34");
+		return;
+	}
 
 	const browseSection = createElement("section", ["browse-section"]);
 	const sectionTitle = createElement("h3", ["browse-section__title"]);
@@ -869,7 +859,7 @@ export const createFilmSlider = (films, translations, index, title) => {
 		"button",
 		["browse-section__slider-btn", "browse-section__slider-prev-btn"],
 		{
-			"aria-label": translations?.browseSection?.aria?.showPrevSlideBtn
+			"aria-label": translations?.browseSection?.aria?.showPrevSlideBtn,
 		}
 	);
 	const showNextSlideBtn = createElement(

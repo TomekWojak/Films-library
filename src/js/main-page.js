@@ -8,7 +8,6 @@ import {
 	createFilmSlider,
 } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
-	// https://api.themoviedb.org/3/discover/movie?language=pl
 	const CAROUSELL_LENGTH = 5;
 	const FILM_AMOUNT_PER_PAGE = 20;
 	const PAGE_TO_SHOW_ON_SMALL_CAROUSELS = 1;
@@ -429,6 +428,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			sliderCarousell.style.transform = "translateX(0)";
 		});
 	});
-
+	window.addEventListener("unload", () => {
+		clearInterval(carousellInterval);
+		progressBarIntervals.forEach((interval) => clearInterval(interval));
+		progressBarIntervals.clear();
+	});
 	checkAuthorization();
 });
