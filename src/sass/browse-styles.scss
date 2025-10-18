@@ -12,7 +12,7 @@ body.browse {
 	top: 0;
 	display: flex;
 	align-items: center;
-	padding: spacing(250) spacing("inline");
+	padding: spacing(200) spacing("inline");
 	background-color: var(--main-bg);
 	z-index: 1000;
 
@@ -257,12 +257,8 @@ body.browse {
 	}
 
 	&__title {
-		font-size: clamp(
-			$font-size-200,
-			calc($font-size-100 + 5vw),
-			$font-size-600
-		);
-		margin-block-end: spacing(200);
+		font-size: clamp($font-size-100, calc($font-size-50 + 3vw), $font-size-600);
+		margin-block-end: spacing(150);
 	}
 	&__slider {
 		position: relative;
