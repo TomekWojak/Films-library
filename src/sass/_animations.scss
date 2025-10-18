@@ -97,3 +97,13 @@
 		opacity: 1;
 	}
 }
+@keyframes showUserPanel {
+	from {
+		opacity: 0;
+		transform: translateY(100%) scale(0);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(100%) scale(1);
+	}
+}

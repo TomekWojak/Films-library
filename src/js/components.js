@@ -33,16 +33,12 @@ export const createFooter = ({
 
 	const footer = createElement("footer", ["browse-footer"]);
 	const footerLogo = createElement("span", ["browse-footer__logo"]);
-	const logoImg = createElement(
-		"img",
-		['browse-footer__img'],
-		{
-			src: "./src/icons/logo.svg",
-			alt: `${logo}`,
-			width: "24",
-			height: "24",
-		}
-	);
+	const logoImg = createElement("img", ["browse-footer__img"], {
+		src: "./src/icons/logo.svg",
+		alt: `${logo}`,
+		width: "24",
+		height: "24",
+	});
 	const info = createElement("p", ["browse-footer__info"]);
 
 	footerLogo.textContent = "Stream";
@@ -654,6 +650,90 @@ export const showErrorPopup = (text, color) => {
 	}, HIDE_POPUP_TIME);
 };
 
+export const createUserPanel = () => {
+	const userData = getData();
+
+	if (!userData) showErrorPopup("An unexpected error occurred", "#dc4a34");
+
+	const currentProfile = userData?.currentProfile;
+	const currentProfileName = userData?.userProfiles[currentProfile]?.name;
+
+	const userPanel = createElement("div", ["browse-header__user-panel"]);
+	const userInfo = createElement("p", ["browse-header__user-info"]);
+	const username = createElement("span", ["browse-header__username"]);
+	const divider = createElement("hr", ["browse-header__hr"]);
+	const userPanelList = createElement("ul", ["browse-header__user-panel-list"]);
+
+	const settingsIcon = createElement(
+		"img",
+		["browse-header__icon", "browse-header__icon-settings"],
+		{
+			width: "24",
+			height: "24",
+			alt: "",
+			src: "./src/icons/settings-icon.svg",
+			loading: "lazy",
+		}
+	);
+	const logoutIcon = createElement(
+		"img",
+		["browse-header__icon", "browse-header__icon-settings"],
+		{
+			width: "24",
+			height: "24",
+			alt: "",
+			src: "./src/icons/logout-icon.svg",
+			loading: "lazy",
+		}
+	);
+
+	const userPanelSettings = createElement("li", [
+		"browse-header__user-panel-option",
+	]);
+	const userPanelSettingsLink = createElement(
+		"a",
+		[
+			"browse-header__user-panel-link",
+			"browse-header__user-panel-link--settings",
+		],
+		{ href: "" }
+	);
+
+	const userPanelLogout = createElement("li", [
+		"browse-header__user-panel-option",
+	]);
+	const userPanelLogoutLink = createElement(
+		"a",
+		[
+			"browse-header__user-panel-link",
+			"browse-header__user-panel-link--logout",
+		],
+		{ href: "" }
+	);
+
+	username.textContent = currentProfileName;
+	userInfo.textContent =
+		userData?.translations?.browsePage?.userPanel?.greeting;
+	userInfo.append(username);
+
+	userPanelSettingsLink.textContent =
+		userData?.translations?.browsePage?.userPanel?.settings;
+	userPanelLogoutLink.textContent =
+		userData?.translations?.browsePage?.userPanel?.login;
+
+	userPanelSettingsLink.append(settingsIcon);
+	userPanelLogoutLink.append(logoutIcon);
+
+	userPanelSettings.append(userPanelSettingsLink);
+	userPanelLogout.append(userPanelLogoutLink);
+
+	userPanelList.append(userPanelSettings, userPanelLogout);
+
+	userPanel.append(userInfo, divider, userPanelList);
+
+	return userPanel;
+};
+
 const removeUser = (e) => {
 	const userData = getData();
 	const userProfiles = userData?.userProfiles;
@@ -702,7 +782,8 @@ export const createBrowsePage = ({
 	header.append(
 		logoMainLink,
 		createBrowserNav(filmLink, seriesLink, myListLink, searchLink),
-		createUserBtn(userButton)
+		createUserBtn(userButton),
+		createUserPanel()
 	);
 
 	return header;
@@ -765,6 +846,10 @@ const createUserBtn = (userBtnAria) => {
 
 	userBtn.append(userIcon);
 	userBox.append(userBtn);
+
+	userBtn.addEventListener("click", () => {
+		showUserPanel(userBox);
+	});
 
 	return userBox;
 };
@@ -992,4 +1077,22 @@ const createFilmPosters = (properFilms, translations, parent) => {
 
 		parent.append(sectionBox);
 	});
+};
+
+const showUserPanel = (userBox) => {
+	const panel = userBox.nextElementSibling;
+	panel.classList.toggle("visible");
+};
+
+export const closeAllNotClicked = (e) => {
+	const userPanel = document.querySelector(".browse-header__user-panel");
+	const userBtn = document.querySelector(".browse-header__user");
+
+	if (
+		userPanel.classList.contains("visible") &&
+		e.target !== userPanel &&
+		e.target !== userBtn &&
+		!userPanel.contains(e.target)
+	)
+		userPanel.classList.remove("visible");
 };

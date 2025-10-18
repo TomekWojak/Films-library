@@ -79,23 +79,23 @@ body.browse {
 		position: relative;
 	}
 	&__user-panel {
-		position: fixed;
-		// visibility: hidden;
-		// opacity: 0;
-		// transform: scale(0);
-		right: 2rem;
-		top: 10rem;
+		position: absolute;
+		visibility: hidden;
+		opacity: 0;
+		transform: translateY(100%) scale(0);
+		right: 1rem;
+		bottom: 0;
 		background-color: var(--main-bg);
 		color: #fff;
 		border-radius: var(--card-radius);
 		z-index: 999;
 		transform-origin: top;
-		border: .1rem solid rgba($pure-white, 0.1);
+		border: 0.1rem solid rgba($pure-white, 0.1);
 		border-radius: radius(100);
 
 		&.visible {
 			visibility: visible;
-			animation: showUserPanel .3s forwards ease-out;
+			animation: showUserPanel 0.3s forwards ease-out;
 		}
 	}
 	&__user-panel-list {
@@ -147,7 +147,7 @@ body.browse {
 		width: 1.8rem;
 	}
 	&__username {
-		margin-inline-start: 0.2rem;
+		margin-inline-start: spacing(50);
 		font-weight: $fw-bold;
 		color: $login-accent;
 		text-transform: uppercase;
@@ -590,6 +590,9 @@ body.browse {
 			&:hover {
 				background-color: rgba(36, 42, 59, 0.3803921569);
 			}
+		}
+		&__username {
+			margin-inline-start: spacing(100);
 		}
 	}
 	.browse-main {

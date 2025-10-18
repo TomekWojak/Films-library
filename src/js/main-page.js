@@ -7,6 +7,7 @@ import {
 	hideBigLoader,
 	createFilmSlider,
 	createFooter,
+	closeAllNotClicked,
 } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	const CAROUSELL_LENGTH = 5;
@@ -46,10 +47,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		const translations = userData?.translations;
 		const currentLanguage = userData?.preferredLanguage;
 		const isLoggedIn = userData?.loggedIn;
-
 		const container = document.querySelector(".container");
+		const currentProfile = userData?.currentProfile;
+		const userProfiles = Object.keys(userData?.userProfiles);
 
-		if (!userData || !isLoggedIn) {
+		if (
+			!userData ||
+			!isLoggedIn ||
+			!currentProfile ||
+			userProfiles.length === 0
+		) {
 			window.location.href = "/";
 			return;
 		}
@@ -434,6 +441,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		clearInterval(carousellInterval);
 		progressBarIntervals.forEach((interval) => clearInterval(interval));
 		progressBarIntervals.clear();
+	});
+	window.addEventListener("click", (e) => {
+		closeAllNotClicked(e);
 	});
 	checkAuthorization();
 });

@@ -62,7 +62,12 @@
 				"carousellImageAlt": "Plakat z filmu"
 			}
 		},
-		"loadingDataError": "Bład pobierania danych"
+		"loadingDataError": "Bład pobierania danych",
+		"userPanel":{
+			"greeting": "Witaj",
+			"settings":"Ustawienia",
+			"login":"Wyloguj się"
+		}
 	},
 	"browseSection": {
 		"sectionNames": {

@@ -62,7 +62,12 @@
 				"carousellImageAlt": "Movie poster for"
 			}
 		},
-		"loadingDataError": "Data download error"
+		"loadingDataError": "Data download error",
+		"userPanel": {
+			"greeting": "Hello there",
+			"settings": "Settings",
+			"login": "Log out"
+		}
 	},
 	"browseSection": {
 		"sectionNames": {
