@@ -5,6 +5,7 @@
 
 body.browse {
 	--main-bg: #0d0d0f;
+	--user-panel-bg: #040d1b;
 }
 
 .browse-header {
@@ -78,8 +79,24 @@ body.browse {
 		position: relative;
 	}
 	&__user-panel {
-		position: absolute;
-		display: none;
+		position: fixed;
+		// visibility: hidden;
+		// opacity: 0;
+		// transform: scale(0);
+		right: 2rem;
+		top: 10rem;
+		background-color: var(--user-panel-bg);
+		color: #fff;
+		border-radius: var(--card-radius);
+		z-index: 999;
+		transform-origin: top;
+		border-radius: radius(100);
+	}
+	&__user-panel-list {
+		min-width: 20rem;
+		list-style: none;
+		padding: spacing(100);
+		font-size: 1.4rem;
 	}
 	&__user {
 		width: 3rem;
@@ -94,6 +111,23 @@ body.browse {
 			@include focusState;
 			border-radius: radius(100);
 		}
+	}
+	&__hr {
+		margin: 0 auto;
+		width: 90%;
+		border: 0.1rem solid hsla(0, 0%, 100%, 0.1);
+	}
+	&__user-info {
+		padding: spacing(150) spacing(200);
+	}
+	&__user-panel-link {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: spacing(100);
+		text-decoration: none;
+		color: $pure-white;
 	}
 }
 
