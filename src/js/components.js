@@ -731,7 +731,33 @@ export const createUserPanel = () => {
 
 	userPanel.append(userInfo, divider, userPanelList);
 
+	userPanel.addEventListener("click", (e) => {
+		if (e.target.matches(".browse-header__user-panel-link--logout")) {
+			handleLogOut(e);
+		}
+	});
+
 	return userPanel;
+};
+
+const handleLogOut = (e) => {
+	e.preventDefault();
+
+	const userData = getData();
+	const container = document.querySelector(".container");
+
+	if (!userData) return;
+
+	container.append(showBigLoader());
+	container.append(createOverlay())
+
+	setTimeout(() => {
+		hideBigLoader();
+		setUserPreference("loggedIn", false);
+		setUserPreference("currentProfile", null);
+		setUserPreference("userProfiles", null);
+		window.location.href = "/";
+	}, HIDE_POPUP_TIME);
 };
 
 const removeUser = (e) => {
@@ -1078,7 +1104,11 @@ const createFilmPosters = (properFilms, translations, parent) => {
 		parent.append(sectionBox);
 	});
 };
+const createOverlay = () => {
+	const overlay = createElement("div", ["overlay"]);
 
+	return overlay;
+};
 const showUserPanel = (userBox) => {
 	const panel = userBox.nextElementSibling;
 	panel.classList.toggle("visible");

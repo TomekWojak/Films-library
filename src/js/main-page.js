@@ -49,13 +49,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		const isLoggedIn = userData?.loggedIn;
 		const container = document.querySelector(".container");
 		const currentProfile = userData?.currentProfile;
-		const userProfiles = Object.keys(userData?.userProfiles);
+
+		const userProfiles = userData?.userProfiles;
+
+		if (!userProfiles) {
+			window.location.href = "/";
+			return;
+		}
+
+		const userProfilesArr = Object.keys(userProfiles);
 
 		if (
 			!userData ||
 			!isLoggedIn ||
 			!currentProfile ||
-			userProfiles.length === 0
+			userProfilesArr.length === 0
 		) {
 			window.location.href = "/";
 			return;

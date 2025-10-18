@@ -142,6 +142,10 @@ body.browse {
 		text-decoration: none;
 		border-radius: radius(50);
 		color: $pure-white;
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 	&__icon {
 		width: 1.8rem;
