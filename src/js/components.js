@@ -756,7 +756,7 @@ const handleLogOut = (e) => {
 		setUserPreference("loggedIn", false);
 		setUserPreference("currentProfile", null);
 		setUserPreference("userProfiles", null);
-		window.location.href = "/";
+		window.location.href = "index.html";
 	}, HIDE_POPUP_TIME);
 };
 
