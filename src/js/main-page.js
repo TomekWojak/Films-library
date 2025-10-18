@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	let index = 0;
 	let carousellInterval;
 
-	const POPULAR_FILMS_URL = `https://api.themoviedb.org/3/movie/popular?language=`;
+	const POPULAR_FILMS_URL = `https://api.themoviedb.org/3/movie/popular?with_origin_country=US|GB|CA&language=`;
 	const HOT_RATED_FILMS_URL = `https://api.themoviedb.org/3/movie/upcoming?language=`;
 	const TRENDING_FILMS_URL = `https://api.themoviedb.org/3/trending/all/week?language=`;
 	const TOP_RATED_TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=&sort_by=popularity.desc
