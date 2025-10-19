@@ -755,7 +755,6 @@ const handleLogOut = (e) => {
 		hideBigLoader();
 		setUserPreference("loggedIn", false);
 		setUserPreference("currentProfile", null);
-		setUserPreference("userProfiles", null);
 		window.location.href = "index.html";
 	}, HIDE_POPUP_TIME);
 };

@@ -50,21 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const container = document.querySelector(".container");
 		const currentProfile = userData?.currentProfile;
 
-		const userProfiles = userData?.userProfiles;
-
-		if (!userProfiles) {
-			window.location.href = "/";
-			return;
-		}
-
-		const userProfilesArr = Object.keys(userProfiles);
-
-		if (
-			!userData ||
-			!isLoggedIn ||
-			!currentProfile ||
-			userProfilesArr.length === 0
-		) {
+		if (!userData || !isLoggedIn || !currentProfile) {
 			window.location.href = "/";
 			return;
 		}
