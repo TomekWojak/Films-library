@@ -63,10 +63,16 @@
 			}
 		},
 		"loadingDataError": "Bład pobierania danych",
-		"userPanel":{
+		"userPanel": {
 			"greeting": "Witaj",
-			"settings":"Ustawienia",
-			"login":"Wyloguj się"
+			"settings": "Ustawienia",
+			"login": "Wyloguj się"
+		},
+		"categories": {
+			"animations": "Animacje",
+			"horror": "Horrory",
+			"comedy": "Komedie",
+			"fantasy": "Fantasy"
 		}
 	},
 	"browseSection": {

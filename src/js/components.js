@@ -749,7 +749,7 @@ const handleLogOut = (e) => {
 	if (!userData) return;
 
 	container.append(showBigLoader());
-	container.append(createOverlay())
+	container.append(createOverlay());
 
 	setTimeout(() => {
 		hideBigLoader();
@@ -1124,4 +1124,72 @@ export const closeAllNotClicked = (e) => {
 		!userPanel.contains(e.target)
 	)
 		userPanel.classList.remove("visible");
+};
+
+export const createFourCategories = ({
+	browsePage: {
+		categories: { animations, horror, comedy, fantasy },
+	},
+}) => {
+	const categoriesSection = createElement("section", ["categories"]);
+	const categoriesBox = createElement("div", ["categories__box"]);
+
+	const categoryAnimatedCard = createElement("div", [
+		"categories__box-card",
+		"categories__box-card--animations",
+	]);
+	const categoryFantasyCard = createElement("div", [
+		"categories__box-card",
+		"categories__box-card--fantasy",
+	]);
+	const categoryHorrorCard = createElement("div", [
+		"categories__box-card",
+		"categories__box-card--horrors",
+	]);
+	const categoryComedyCard = createElement("div", [
+		"categories__box-card",
+		"categories__box-card--comedy",
+	]);
+
+	const categoryAnimatedLink = createElement(
+		"a",
+		["categories__box-link", "categories__box-link--animations"],
+		{ href: "" }
+	);
+	const categoryFantasyLink = createElement(
+		"a",
+		["categories__box-link", "categories__box-link--fantasy"],
+		{ href: "" }
+	);
+	const categoryHorrorLink = createElement(
+		"a",
+		["categories__box-link", "categories__box-link--horrors"],
+		{ href: "" }
+	);
+	const categoryComedyLink = createElement(
+		"a",
+		["categories__box-link", "categories__box-link--comedy"],
+		{ href: "" }
+	);
+
+	categoryAnimatedLink.textContent = animations;
+	categoryFantasyLink.textContent = fantasy;
+	categoryHorrorLink.textContent = horror;
+	categoryComedyLink.textContent = comedy;
+
+	categoryAnimatedCard.append(categoryAnimatedLink);
+	categoryFantasyCard.append(categoryFantasyLink);
+	categoryHorrorCard.append(categoryHorrorLink);
+	categoryComedyCard.append(categoryComedyLink);
+
+	categoriesBox.append(
+		categoryAnimatedCard,
+		categoryFantasyCard,
+		categoryHorrorCard,
+		categoryComedyCard
+	);
+
+	categoriesSection.append(categoriesBox);
+
+	return categoriesSection;
 };

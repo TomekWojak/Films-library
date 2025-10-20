@@ -8,6 +8,7 @@ import {
 	createFilmSlider,
 	createFooter,
 	closeAllNotClicked,
+	createFourCategories,
 } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	const CAROUSELL_LENGTH = 5;
@@ -90,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 
 			main.append(
+				createFourCategories(translations),
 				createFilmSlider(
 					films,
 					translations,

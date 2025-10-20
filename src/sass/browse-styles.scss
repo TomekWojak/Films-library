@@ -459,7 +459,7 @@ body.browse {
 	}
 }
 .categories {
-	padding: spacing(200) spacing("inline");
+	padding: calc(spacing(400) + 2vw) spacing("inline");
 
 	&__box {
 		display: grid;

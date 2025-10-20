@@ -67,6 +67,12 @@
 			"greeting": "Hello there",
 			"settings": "Settings",
 			"login": "Log out"
+		},
+		"categories": {
+			"animations": "Animated",
+			"horror": "Horror movies",
+			"comedy": "Comedies",
+			"fantasy": "Fantasy"
 		}
 	},
 	"browseSection": {
