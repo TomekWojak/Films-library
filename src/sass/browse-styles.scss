@@ -748,16 +748,16 @@ body.browse {
 			}
 
 			&--horrors::before {
-				background-image: url("/dist/img/horror-bg.webp");
+				background-image: url("../../dist/img/horror-bg.webp");
 			}
 			&--animations::before {
-				background-image: url("/dist/img/cartoon-bg.webp");
+				background-image: url("../../dist/img/cartoon-bg.webp");
 			}
 			&--fantasy::before {
-				background-image: url("/dist/img/fantasy-bg.jpg");
+				background-image: url("../../dist/img/fantasy-bg.jpg");
 			}
 			&--comedy::before {
-				background-image: url("/dist/img/comedy-bg.jpg");
+				background-image: url("../../dist/img/comedy-bg.jpg");
 			}
 		}
 	}
