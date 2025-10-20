@@ -456,7 +456,23 @@ body.browse {
 		opacity: 0;
 	}
 }
+.categories {
+	padding: spacing(200) spacing("inline");
 
+	&__box {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: spacing(100);
+	}
+	&__box-card {
+		padding: spacing(200);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #1e1e22;
+		border-radius: radius(100);
+	}
+}
 .browse-footer {
 	padding: spacing(200) spacing("inline");
 	display: flex;
