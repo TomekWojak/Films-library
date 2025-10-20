@@ -2,10 +2,12 @@
 @use "./animations" as *;
 @use "./components" as *;
 @use "./mixins" as *;
+@use "./fonts" as *;
 
 body.browse {
 	--main-bg: #0d0d0f;
 	--user-panel-bg: #040d1b;
+	--categories-bg: #1e1e22;
 
 	height: 100%;
 }
@@ -462,15 +464,63 @@ body.browse {
 	&__box {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
+		grid-auto-rows: 1fr;
 		gap: spacing(100);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 0, 0, 0.7) inset;
 	}
 	&__box-card {
-		padding: spacing(200);
+		border-radius: radius(100);
+	}
+	&__box-link {
+		position: relative;
+		height: 100%;
+		width: 100%;
+		padding: calc(spacing(400) + 1vw) spacing(200);
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: #1e1e22;
+		text-decoration: none;
+		color: $pure-white;
+		font-size: clamp($font-size-200, $font-size-300 + 2vw, $font-size-800);
+		background-color: var(--categories-bg);
+		border: 0.2rem solid transparent;
 		border-radius: radius(100);
+		z-index: 0;
+		overflow: hidden;
+
+		&--animations {
+			font-family: "Badaboom", sans-serif;
+		}
+		&--fantasy {
+			font-family: "Ringbearer", sans-serif;
+		}
+		&--horrors {
+			font-family: "Creepster", sans-serif;
+		}
+		&--comedies {
+			font-family: "Hey Comic", sans-serif;
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			opacity: 0;
+			border-radius: inherit;
+			background-repeat: no-repeat;
+			background-position: 0 0;
+			background-size: cover;
+			z-index: -1;
+			transition: opacity 0.2s, transform 1s .1s;
+		}
+
+		&--horrors::before {
+			background-image: url("/dist/img/horror-bg.webp");
+		}
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 }
 .browse-footer {
@@ -688,6 +738,20 @@ body.browse {
 			}
 		}
 	}
+	.categories {
+		&__box-link {
+			transition: border-color 0.2s, transform 0.2s;
+
+			&:hover {
+				border-color: $pure-white;
+				transform: scale(1.02);
+			}
+			&:hover::before {
+				opacity: .4;
+				transform: scale(1.1);
+			}
+		}
+	}
 }
 @media (800px <= width) {
 	.browse-section {
@@ -735,6 +799,11 @@ body.browse {
 	.browse-section {
 		&__slider-box {
 			width: 25%;
+		}
+	}
+	.categories {
+		&__box {
+			grid-template-columns: repeat(4, 1fr);
 		}
 	}
 }
