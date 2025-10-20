@@ -497,25 +497,8 @@ body.browse {
 		&--horrors {
 			font-family: "Creepster", sans-serif;
 		}
-		&--comedies {
+		&--comedy {
 			font-family: "Hey Comic", sans-serif;
-		}
-
-		&::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			opacity: 0;
-			border-radius: inherit;
-			background-repeat: no-repeat;
-			background-position: 0 0;
-			background-size: cover;
-			z-index: -1;
-			transition: opacity 0.2s, transform 1s .1s;
-		}
-
-		&--horrors::before {
-			background-image: url("/dist/img/horror-bg.webp");
 		}
 
 		&:focus-visible {
@@ -744,11 +727,37 @@ body.browse {
 
 			&:hover {
 				border-color: $pure-white;
-				transform: scale(1.02);
+				transform: scale(1.03);
 			}
 			&:hover::before {
-				opacity: .4;
+				opacity: 0.5;
 				transform: scale(1.1);
+			}
+
+			&::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				opacity: 0;
+				border-radius: inherit;
+				background-repeat: no-repeat;
+				background-position: 0 0;
+				background-size: cover;
+				z-index: -1;
+				transition: opacity 0.2s, transform 0.8s;
+			}
+
+			&--horrors::before {
+				background-image: url("/dist/img/horror-bg.webp");
+			}
+			&--animations::before {
+				background-image: url("/dist/img/cartoon-bg.webp");
+			}
+			&--fantasy::before {
+				background-image: url("/dist/img/fantasy-bg.jpg");
+			}
+			&--comedy::before {
+				background-image: url("/dist/img/comedy-bg.jpg");
 			}
 		}
 	}
