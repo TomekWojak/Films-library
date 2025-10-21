@@ -1124,7 +1124,7 @@ const createFilmPosters = (properFilms, translations, parent) => {
 		);
 		const sectionTooltip = createElement("span", ["browse-section__tooltip"]);
 
-		sectionTooltip.textContent = translations.browseSection.info;
+		sectionTooltip.textContent = translations?.browseSection?.info;
 
 		sectionAddToListBtn.append(sectionAddToListIcon);
 
@@ -1224,4 +1224,70 @@ export const createFourCategories = ({
 	categoriesSection.append(categoriesBox);
 
 	return categoriesSection;
+};
+
+export const createSpecifiedSectionPoster = (filmsArr, translations) => {
+	const main = createElement("main", ["specified-category__main"]);
+	const section = createElement("section", ["specified-category"]);
+	const sectionContainer = createElement("div", [
+		"specified-category__container",
+	]);
+
+	filmsArr.forEach((arr) =>
+		arr.forEach(({ id, title, poster_path }) => {
+			const imgSrc = poster_path;
+
+			const sectionItem = createElement("div", ["specified-category__item"]);
+
+			const sectionLink = createElement("a", ["specified-category__link"], {
+				href: "",
+				"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
+			});
+			const sectionPoster = createElement(
+				"img",
+				["browse-section__slider-img"],
+				{
+					alt: `${translations?.browsePage?.carousellImages?.aria?.carousellImageAlt} ${title}`,
+					width: "",
+					height: "",
+					loading: "lazy",
+					src: imgSrc
+						? getImageUrl(imgSrc, "original")
+						: "./dist/img/img-placeholder.svg",
+				}
+			);
+			const sectionAddToListBtn = createElement(
+				"button",
+				["browse-section__add-to-list-btn"],
+				{
+					"aria-label": translations?.browseSection?.aria?.addToListBtn,
+					"data-movie": id,
+				}
+			);
+			const sectionAddToListIcon = createElement(
+				"img",
+				["browse-section__add-to-list-icon"],
+				{
+					width: "24",
+					height: "24",
+					loading: "lazy",
+					alt: "",
+					src: "./src/icons/add-profile.svg",
+				}
+			);
+			const sectionTooltip = createElement("span", ["browse-section__tooltip"]);
+
+			sectionTooltip.textContent = translations?.browseSection?.info;
+
+			sectionAddToListBtn.append(sectionAddToListIcon);
+			sectionLink.append(sectionPoster);
+			sectionItem.append(sectionLink, sectionAddToListBtn, sectionTooltip);
+
+			sectionContainer.append(sectionItem);
+		})
+	);
+	section.append(sectionContainer);
+	main.append(section);
+
+	return main;
 };

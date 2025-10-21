@@ -14,5 +14,19 @@
 	bottom: -0.8rem;
 	transform-origin: right;
 	background-color: rgba($pure-white, 0.9);
-	transition: transform .3s;
+	transition: transform 0.3s;
+}
+@mixin smallPosterOverlay {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		0deg,
+		rgba(#0d0d0f, 0.7),
+		rgba(#0d0d0f, 0.2),
+		transparent
+	);
+	opacity: 1;
+	transition: opacity 0.3s;
+	pointer-events: none;
 }

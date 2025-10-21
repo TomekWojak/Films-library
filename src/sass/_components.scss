@@ -6,11 +6,16 @@
 }
 .loader-big,
 .loader-small {
-	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 1001;
+}
+.loader-small {
+	position: absolute;
+}
+.loader-big {
+	position: fixed;
 }
 .loading-circle-big {
 	fill: none;
@@ -85,7 +90,11 @@
 		height: 80vh;
 	}
 	&__not-found-text {
-		font-size: clamp($font-size-300, calc($font-size-300 + 2vw), $font-size-800);
+		font-size: clamp(
+			$font-size-300,
+			calc($font-size-300 + 2vw),
+			$font-size-800
+		);
 	}
 }
 

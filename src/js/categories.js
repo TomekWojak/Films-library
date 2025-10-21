@@ -1,4 +1,12 @@
-import { createBrowsePage, getData, showErrorPopup } from "./components.min.js";
+import {
+	createBrowsePage,
+	getData,
+	showErrorPopup,
+	createSpecifiedSectionPoster,
+	showBigLoader,
+	hideBigLoader,
+	closeAllNotClicked,
+} from "./components.min.js";
 import { noPageFoundRedirection } from "./updateStateFunctions.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -40,46 +48,61 @@ document.addEventListener("DOMContentLoaded", function () {
 			window.location.href = "/";
 		} else {
 			container.append(createBrowsePage(translations));
-			getFilmsByCategory(param, currentLanguage);
+			getFilmsByCategory(param, currentLanguage, translations);
 		}
 	};
-	const getFilmsByCategory = async (param, currentLanguage) => {
+	const getFilmsByCategory = async (param, currentLanguage, translations) => {
 		const genre = specifyGenre(param);
-		const URL = `https://api.themoviedb.org/3/discover/movie?language=${currentLanguage}&page=1&sort_by=popularity.desc&with_genres=${genre}`;
+		const FILMS_URL = `https://api.themoviedb.org/3/discover/movie?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre}`;
+		const TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre}`;
+
+		const requests = [];
+		const pagesNum = 4;
+
+		container.append(showBigLoader());
 
 		try {
-			const response = await fetch(URL, options);
-			const data = await response.json();
+			for (let i = 1; i <= pagesNum; i++) {
+				requests.push(fetch(`${FILMS_URL}&page=${i}`, options));
+				requests.push(fetch(`${TV_SERIES_URL}&page=${i}`, options));
+			}
 
-			renderFilms(data);
+			const responses = await Promise.all(requests);
+			const data = await Promise.all(responses.map((res) => res.json()));
+
+			renderFilms(data, translations);
 		} catch {
 			showErrorPopup(`An unexpected error occured`, "#dc4a34");
 			return;
+		} finally {
+			hideBigLoader();
 		}
 	};
-	const renderFilms = (data) => {};
+	const renderFilms = (data, translations) => {
+		const allFilms = data.map((film) => film.results);
+		container.append(createSpecifiedSectionPoster(allFilms, translations));
+	};
 	const specifyGenre = (param) => {
 		let genre;
 		switch (param) {
 			case "animated":
-				console.log("animated");
 				genre = 16;
 				break;
 			case "horror":
-				console.log("horror");
 				genre = 27;
 				break;
 			case "fantasy":
-				console.log("fantasy");
 				genre = 14;
 				break;
 			case "comedy":
-				console.log("comedy");
 				genre = 35;
 				break;
 		}
 
 		return genre;
 	};
+	window.addEventListener("click", (e) => {
+		closeAllNotClicked(e);
+	});
 	checkAuthorization();
 });

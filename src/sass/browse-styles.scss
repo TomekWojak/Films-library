@@ -21,6 +21,7 @@ body.browse {
 	padding: spacing(200) spacing("inline");
 	background-color: #0d0d0f;
 	z-index: 1000;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 
 	&__logo {
 		min-width: fit-content;
@@ -348,18 +349,7 @@ body.browse {
 		transition: transform 0.2s;
 
 		&::after {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background: linear-gradient(
-				0deg,
-				rgba(#0d0d0f, 0.7),
-				rgba(#0d0d0f, 0.2),
-				transparent
-			);
-			opacity: 1;
-			transition: opacity 0.3s;
-			pointer-events: none;
+			@include smallPosterOverlay;
 		}
 
 		&:has(.browse-section__slider-img-link:focus-visible) {
@@ -442,6 +432,7 @@ body.browse {
 		pointer-events: none;
 	}
 	&__tooltip {
+		min-width: max-content;
 		display: none;
 		padding: spacing(100);
 		position: absolute;
@@ -507,6 +498,37 @@ body.browse {
 		}
 	}
 }
+
+.specified-category {
+	padding: spacing(200) spacing("inline");
+
+	&__container {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: spacing(200);
+	}
+	&__item {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		border-radius: radius(150);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 0, 0, 0.7) inset;
+		overflow: hidden;
+
+		&:has(.specified-category__link:focus-visible) {
+			@include focusState;
+		}
+		&:has(.specified-category__link:focus-visible)::after,
+		&:has(.browse-section__add-to-list-btn:focus-visible)::after {
+			opacity: 1;
+		}
+
+		&::after {
+			@include smallPosterOverlay;
+		}
+	}
+}
+
 .browse-footer {
 	padding: spacing(200) spacing("inline");
 	display: flex;
@@ -571,6 +593,18 @@ body.browse {
 	.browse-section {
 		&__slider-box {
 			width: 33.3333%;
+		}
+	}
+	.specified-category {
+		&__container {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+}
+@media (700px <= width) {
+	.specified-category {
+		&__container {
+			grid-template-columns: repeat(4, 1fr);
 		}
 	}
 }
@@ -722,6 +756,29 @@ body.browse {
 			}
 		}
 	}
+	.specified-category {
+		&__item {
+			border: 0.2rem solid transparent;
+			transition: border-color 0.2s, transform 0.2s;
+
+			&::after {
+				background: linear-gradient(
+					0deg,
+					rgba(#0d0d0f, 0.8),
+					rgba(#0d0d0f, 0.6),
+					rgba(#0d0d0f, 0.4),
+					transparent
+				);
+				opacity: 0;
+			}
+			&:hover::after {
+				opacity: 1;
+			}
+			&:hover {
+				border-color: rgba($pure-white, 0.8);
+			}
+		}
+	}
 	.categories {
 		&__box-link {
 			transition: border-color 0.2s, transform 0.2s;
@@ -816,11 +873,33 @@ body.browse {
 			grid-template-columns: repeat(4, 1fr);
 		}
 	}
+	.specified-category {
+		&__container {
+			grid-template-columns: repeat(5, 1fr);
+		}
+	}
 }
 @media (1200px <= width) {
 	.browse-section {
 		&__slider-box {
 			width: 16.66%;
+		}
+	}
+	.specified-category {
+		&__container {
+			grid-template-columns: repeat(6, 1fr);
+		}
+	}
+}
+@media (1400px <= width) {
+	.browse-section {
+		&__slider-box {
+			width: 16.66%;
+		}
+	}
+	.specified-category {
+		&__container {
+			grid-template-columns: repeat(7, 1fr);
 		}
 	}
 }
