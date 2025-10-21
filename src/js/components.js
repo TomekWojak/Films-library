@@ -781,6 +781,7 @@ const handleLogOut = (e) => {
 
 	container.append(showBigLoader());
 	container.append(createOverlay());
+	document.body.style.overflowY = 'hidden'
 
 	setTimeout(() => {
 		hideBigLoader();
