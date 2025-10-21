@@ -66,7 +66,8 @@
 		"userPanel": {
 			"greeting": "Hello there",
 			"settings": "Settings",
-			"login": "Log out"
+			"login": "Log out",
+			"profiles": "Change profile"
 		},
 		"categories": {
 			"animations": "Animated",

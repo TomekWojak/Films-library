@@ -675,6 +675,17 @@ export const createUserPanel = () => {
 			loading: "lazy",
 		}
 	);
+	const swapProfileIcon = createElement(
+		"img",
+		["browse-header__icon", "browse-header__icon-settings"],
+		{
+			width: "24",
+			height: "24",
+			alt: "",
+			src: "./src/icons/swap-icon.svg",
+			loading: "lazy",
+		}
+	);
 	const logoutIcon = createElement(
 		"img",
 		["browse-header__icon", "browse-header__icon-settings"],
@@ -710,24 +721,44 @@ export const createUserPanel = () => {
 		],
 		{ href: "" }
 	);
+	const userPanelSwapProfile = createElement("li", [
+		"browse-header__user-panel-option",
+	]);
+	const userPanelSwapProfileLink = createElement(
+		"a",
+		[
+			"browse-header__user-panel-link",
+			"browse-header__user-panel-link--swap-profile",
+		],
+		{ href: "profiles.html" }
+	);
 
 	username.textContent = currentProfileName;
 	userInfo.textContent =
 		userData?.translations?.browsePage?.userPanel?.greeting;
 	userInfo.append(username);
 
+	userPanelSwapProfileLink.textContent =
+		userData?.translations?.browsePage?.userPanel?.profiles;
+
 	userPanelSettingsLink.textContent =
 		userData?.translations?.browsePage?.userPanel?.settings;
 	userPanelLogoutLink.textContent =
 		userData?.translations?.browsePage?.userPanel?.login;
 
+	userPanelSwapProfileLink.append(swapProfileIcon);
 	userPanelSettingsLink.append(settingsIcon);
 	userPanelLogoutLink.append(logoutIcon);
 
+	userPanelSwapProfile.append(userPanelSwapProfileLink);
 	userPanelSettings.append(userPanelSettingsLink);
 	userPanelLogout.append(userPanelLogoutLink);
 
-	userPanelList.append(userPanelSettings, userPanelLogout);
+	userPanelList.append(
+		userPanelSwapProfile,
+		userPanelSettings,
+		userPanelLogout
+	);
 
 	userPanel.append(userInfo, divider, userPanelList);
 
