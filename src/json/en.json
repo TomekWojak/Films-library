@@ -90,5 +90,8 @@
 			"showPrevSlideBtn": "Button showing prev video",
 			"showMoreInfoAboutFilm": "Link showing more information about the film on a separate page"
 		}
+	},
+	"page404": {
+		"errorTxt": "The page with the given address does not exist!"
 	}
 }

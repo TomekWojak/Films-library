@@ -781,7 +781,7 @@ const handleLogOut = (e) => {
 
 	container.append(showBigLoader());
 	container.append(createOverlay());
-	document.body.style.overflowY = 'hidden'
+	document.body.style.overflowY = "hidden";
 
 	setTimeout(() => {
 		hideBigLoader();
@@ -1186,22 +1186,22 @@ export const createFourCategories = ({
 	const categoryAnimatedLink = createElement(
 		"a",
 		["categories__box-link", "categories__box-link--animations"],
-		{ href: "" }
+		{ href: "categories.html?category=animated" }
 	);
 	const categoryFantasyLink = createElement(
 		"a",
 		["categories__box-link", "categories__box-link--fantasy"],
-		{ href: "" }
+		{ href: "categories.html?category=fantasy" }
 	);
 	const categoryHorrorLink = createElement(
 		"a",
 		["categories__box-link", "categories__box-link--horrors"],
-		{ href: "" }
+		{ href: "categories.html?category=horror" }
 	);
 	const categoryComedyLink = createElement(
 		"a",
 		["categories__box-link", "categories__box-link--comedy"],
-		{ href: "" }
+		{ href: "categories.html?category=comedy" }
 	);
 
 	categoryAnimatedLink.textContent = animations;

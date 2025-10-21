@@ -90,5 +90,8 @@
 			"showPrevSlideBtn": "Przycisk pokazujący poprzedni film",
 			"showMoreInfoAboutFilm": "Link pokazujący więcej informacji o filmie na osobnej stronie"
 		}
+	},
+	"page404":{
+		"errorTxt": "Strona o podanym adresie nie istnieje!"
 	}
 }

@@ -26,3 +26,7 @@ export const setUserPreference = (option, value, userData) => {
 	userData = { ...userData, ...currentUserData };
 	localStorage.setItem("userData", JSON.stringify(userData));
 };
+
+export const noPageFoundRedirection = () => {
+	window.location.href = "404.html";
+};
