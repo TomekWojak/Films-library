@@ -825,7 +825,7 @@ export const createBrowsePage = ({
 	const header = createElement("header", ["browse-header"]);
 	const logoMainLink = createElement("a", ["browse-header__logo"], {
 		"aria-label": logoLink,
-		href: "",
+		href: "browse.html",
 	});
 	const logoMainImg = createElement("img", ["browse-header__logo-img"], {
 		alt: logo,

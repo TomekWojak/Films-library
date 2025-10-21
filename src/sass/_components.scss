@@ -74,6 +74,21 @@
 	z-index: 1000;
 }
 
+// 404
+
+.container {
+	&__not-found-main {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		height: 80vh;
+	}
+	&__not-found-text {
+		font-size: clamp($font-size-300, calc($font-size-300 + 2vw), $font-size-800);
+	}
+}
+
 @media (768px <= width) {
 	.error-popup {
 		top: auto;

@@ -1,4 +1,9 @@
-import { getData, showErrorPopup, createBrowsePage } from "./components.min.js";
+import {
+	getData,
+	showErrorPopup,
+	createBrowsePage,
+	closeAllNotClicked,
+} from "./components.min.js";
 import { createElement } from "./helpers.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,15 +20,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const translations = userData?.translations;
 
-	const createErrorTxt = ({ page404: { errorTxt } }) => {
+	const createErrorSection = ({ page404: { errorTxt } }) => {
+		const main = createElement("main", ["container__not-found-main"]);
 		const text = createElement("p", ["container__not-found-text"]);
 		text.textContent = errorTxt;
 
-		return text;
+		main.append(text);
+
+		return main;
 	};
 
 	container.append(
 		createBrowsePage(translations),
-		createErrorTxt(translations)
+		createErrorSection(translations)
 	);
+
+	window.addEventListener("click", (e) => {
+		closeAllNotClicked(e);
+	});
 });

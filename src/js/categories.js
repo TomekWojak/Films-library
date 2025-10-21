@@ -40,11 +40,46 @@ document.addEventListener("DOMContentLoaded", function () {
 			window.location.href = "/";
 		} else {
 			container.append(createBrowsePage(translations));
+			getFilmsByCategory(param, currentLanguage);
 		}
 	};
-	const renderFilms = () => {};
-	const getFilmsByCategory = () => {
-		const URL = `https://api.themoviedb.org/3/discover/movie?language=${currentLanguage}&page=1&sort_by=popularity.desc&with_genres=16`;
+	const getFilmsByCategory = async (param, currentLanguage) => {
+		const genre = specifyGenre(param);
+		const URL = `https://api.themoviedb.org/3/discover/movie?language=${currentLanguage}&page=1&sort_by=popularity.desc&with_genres=${genre}`;
+
+		try {
+			const response = await fetch(URL, options);
+			const data = await response.json();
+
+			renderFilms(data);
+		} catch {
+			showErrorPopup(`An unexpected error occured`, "#dc4a34");
+			return;
+		}
+	};
+	const renderFilms = (data) => {};
+	const specifyGenre = (param) => {
+		let genre;
+		switch (param) {
+			case "animated":
+				console.log("animated");
+				genre = 16;
+				break;
+			case "horror":
+				console.log("horror");
+				genre = 27;
+				break;
+			case "fantasy":
+				console.log("fantasy");
+				genre = 14;
+				break;
+			case "comedy":
+				console.log("comedy");
+				genre = 35;
+				break;
+		}
+
+		return genre;
 	};
 	checkAuthorization();
 });

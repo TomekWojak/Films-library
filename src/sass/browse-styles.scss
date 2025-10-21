@@ -19,7 +19,7 @@ body.browse {
 	display: flex;
 	align-items: center;
 	padding: spacing(200) spacing("inline");
-	background-color: var(--main-bg);
+	background-color: #0d0d0f;
 	z-index: 1000;
 
 	&__logo {
@@ -90,7 +90,7 @@ body.browse {
 		transform: translateY(100%) scale(0);
 		right: 1rem;
 		bottom: 0;
-		background-color: var(--main-bg);
+		background-color: #0d0d0f;
 		color: #fff;
 		border-radius: var(--card-radius);
 		z-index: 999;
