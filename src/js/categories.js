@@ -54,7 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	const getFilmsByCategory = async (param, currentLanguage, translations) => {
 		const genre = specifyGenre(param);
 		const FILMS_URL = `https://api.themoviedb.org/3/discover/movie?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre[0]}`;
-		const TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre[0]}|${genre[1]}`;
+		const TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${
+			genre[1] || genre[0]
+		}`;
 
 		const requests = [];
 		const pagesNum = 1;
@@ -87,10 +89,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		switch (param) {
 			case "animated":
 				genre = 16;
+				alternativeGenre = null;
 				break;
 			case "horror":
 				genre = 27;
-				alternativeGenre = 18;
+				alternativeGenre = 9648;
 				break;
 			case "fantasy":
 				genre = 14;
@@ -98,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 			case "comedy":
 				genre = 35;
+				alternativeGenre = null;
 				break;
 		}
 
