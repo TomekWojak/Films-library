@@ -53,11 +53,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 	const getFilmsByCategory = async (param, currentLanguage, translations) => {
 		const genre = specifyGenre(param);
-		const FILMS_URL = `https://api.themoviedb.org/3/discover/movie?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre}`;
-		const TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre}`;
+		const FILMS_URL = `https://api.themoviedb.org/3/discover/movie?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre[0]}`;
+		const TV_SERIES_URL = `https://api.themoviedb.org/3/discover/tv?with_origin_country=US|GB&language=${currentLanguage}&sort_by=popularity.desc&with_genres=${genre[0]}|${genre[1]}`;
 
 		const requests = [];
-		const pagesNum = 4;
+		const pagesNum = 1;
 
 		container.append(showBigLoader());
 
@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const responses = await Promise.all(requests);
 			const data = await Promise.all(responses.map((res) => res.json()));
-
 			renderFilms(data, translations);
 		} catch {
 			showErrorPopup(`An unexpected error occured`, "#dc4a34");
@@ -84,22 +83,25 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 	const specifyGenre = (param) => {
 		let genre;
+		let alternativeGenre;
 		switch (param) {
 			case "animated":
 				genre = 16;
 				break;
 			case "horror":
 				genre = 27;
+				alternativeGenre = 18;
 				break;
 			case "fantasy":
 				genre = 14;
+				alternativeGenre = 10765;
 				break;
 			case "comedy":
 				genre = 35;
 				break;
 		}
 
-		return genre;
+		return [genre, alternativeGenre];
 	};
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);
