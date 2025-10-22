@@ -23,14 +23,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	const checkAuthorization = () => {
 		const userData = getData();
 
-		if (!userData) {
-			showErrorPopup(`An unexpected error occured`, "#dc4a34");
-			return;
-		}
-
 		const isLoggedIn = userData?.loggedIn;
 		const translations = userData?.translations;
 		const currentLanguage = userData?.preferredLanguage;
+		const currentProfile = userData?.currentProfile;
+
+		if (!userData || !isLoggedIn || !currentProfile) {
+			window.location.href = "/";
+			return;
+		}
+
 		const searchParams = new URLSearchParams(window.location.search);
 
 		const param = searchParams.get("category");
@@ -45,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 
 		if (!userData || !isLoggedIn) {
-			window.location.href = "/";
+			noPageFoundRedirection();
 		} else {
 			container.append(createBrowsePage(translations));
 			getFilmsByCategory(param, currentLanguage, translations);
