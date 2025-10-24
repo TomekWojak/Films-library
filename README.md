@@ -12,7 +12,7 @@
 
 ## Table of Contents
 - [Authentication](#Authentication)
-- [Language Selection](#Language-Selection-&-Localization)
+- [Language Selection](#Language-Selection)
 - [Profile Management](#Profile-Management)
 - [Save User Preferences](#User-Preferences-&-State-Management)
 - [Navigation and Routing](#Navigation-&-Routing)
@@ -43,7 +43,7 @@ This project simulates a streaming platform interface with:
 - **Redirection** – users who are not logged in are automatically redirected to the login form page.
   <br>
   <br>
-## Language Selection & Localization
+## Language Selection
 
 - **Determining language based on user browser data**- After entering the website, the language in the browser is checked and automatically set
 
