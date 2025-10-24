@@ -114,7 +114,7 @@ This project simulates a streaming platform interface with:
     npm install
     ```
 
-4. Install the dependencies:
+4. Start the server:
 
     ```
     npx gulp
