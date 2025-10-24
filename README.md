@@ -1,10 +1,23 @@
-## 🎬 Movie Browser App — Overview 
+<h1 align="center">Movie Browser App — Overview </h1>
 
-[See Demo page](https://tomekwojak.github.io/Films-library/)
+<p align="center">
+  <a href="https://tomekwojak.github.io/Films-library/">See Demo Page</a>
+</p>
+
+<br>
 
 **Username:** handsomeuser404@test.com
-
+<br>
 **Password:** 123456789
+
+## Table of Contents
+- [Authentication](#Authentication-&-User-Simulation)
+- [Instalacja](#instalacja)
+  - [Wymagania](#wymagania)
+  - [Kroki instalacji](#kroki-instalacji)
+- [Funkcjonalności](#funkcjonalności)
+- [Licencja](#licencja)
+
 
 **Description:**
 <br>
@@ -20,52 +33,52 @@ This project simulates a streaming platform interface with:
 <br>
 ## 🔐 Authentication & User Simulation
 
-- **🧍‍♂️ Login process simulation** – mimics real authentication flow.
+- **Login process simulation** – mimics real authentication flow.
 
-- **✅ Form validation** – checks if fields are filled correctly.
+- **Form validation** – checks if fields are filled correctly.
 
-- **🧠 Fake database lookup** – simulates checking whether a user exists in a database.
+- **Fake database lookup** – simulates checking whether a user exists in a database.
 
-- **🚫 Redirection** – users who are not logged in are automatically redirected to the login form page.
+- **Redirection** – users who are not logged in are automatically redirected to the login form page.
   <br>
   <br>
-## 🌍 Language Selection & Localization
+## Language Selection & Localization
 - **Determining language based on user browser data**- After entering the website, the language in the browser is checked and automatically set
 
-- **🌐 Dynamic language switching** – users can select a preferred language.
+- **Dynamic language switching** – users can select a preferred language.
 
 - **Instant UI translation** – interface text updates automatically after choosing a new language.
 
-- **💾 Language persistence** – the selected language is stored in user preferences.
+- **Language persistence** – the selected language is stored in user preferences.
   <br>
   <br>
-## 👥 Profile Management
+## Profile Management
 
-- **➕ Create profiles** – users can create multiple profiles (just like Netflix).
+- **Create profiles** – users can create multiple profiles (just like Netflix).
 
-- **✏️ Edit profile names** – profile titles can be updated directly in the UI.
+- **Edit profile names** – profile titles can be updated directly in the UI.
 
-- **❌ Delete profiles** – users can remove unwanted profiles.
+- **Delete profiles** – users can remove unwanted profiles.
 
-- **🧭 Active profile tracking** – the system remembers which profile is currently selected.
+- **Active profile tracking** – the system remembers which profile is currently selected.
   <br>
   <br>
-## 💾 User Preferences & State Management
+## User Preferences & State Management
 
-- **📦 Persistent storage** – saves user data (language, profiles, active profile, login status).
+- **Persistent storage** – saves user data (language, profiles, active profile, login status).
 
-- **🔁 Session continuity** – preferences are automatically loaded on page refresh.
+- **Session continuity** – preferences are automatically loaded on page refresh.
 
-- **🧩 Personalized experience** – UI and data adapt based on the active profile and stored preferences.
+- **Personalized experience** – UI and data adapt based on the active profile and stored preferences.
   <br>
   <br>
-## 🚦 Navigation & Routing
+## Navigation & Routing
 
-- **🔄 Automatic redirects** – ensures users always end up on the correct page depending on login state.
+- **Automatic redirects** – ensures users always end up on the correct page depending on login state.
 
-- **🟢 Logged-in users** → redirected to browse page.
+- **Logged-in users** → redirected to browse page.
 
-- **🔴 Not logged-in users** → redirected to login form.
+- **Not logged-in users** → redirected to login form.
   <br>
   <br>
 ## Small gallery section
