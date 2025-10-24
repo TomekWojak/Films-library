@@ -7,17 +7,19 @@
 <br>
 
 **Username:** handsomeuser404@test.com
-<br>
+
 **Password:** 123456789
 
+For educational purposes only, the TMDb API key and Firebase configuration used in this project are hardcoded. They should not be used in production or shared publicly, as this poses a security risk.
+
 ## Table of Contents
+
 - [Authentication](#Authentication)
 - [Language Selection](#Language-Selection)
 - [Profile Management](#Profile-Management)
 - [Save User Preferences](#User-Preferences-and-State-Management)
 - [Navigation and Routing](#Navigation-and-Routing)
 - [Gallery](#Small-gallery-section)
-
 
 ## Description:
 
@@ -43,6 +45,7 @@ This project simulates a streaming platform interface with:
 - **Redirection** – users who are not logged in are automatically redirected to the login form page.
   <br>
   <br>
+
 ## Language Selection
 
 - **Determining language based on user browser data**- After entering the website, the language in the browser is checked and automatically set
@@ -54,6 +57,7 @@ This project simulates a streaming platform interface with:
 - **Language persistence** – the selected language is stored in user preferences.
   <br>
   <br>
+
 ## Profile Management
 
 - **Create profiles** – users can create multiple profiles (just like Netflix).
@@ -65,6 +69,7 @@ This project simulates a streaming platform interface with:
 - **Active profile tracking** – the system remembers which profile is currently selected.
   <br>
   <br>
+
 ## User Preferences and State Management
 
 - **Persistent storage** – saves user data (language, profiles, active profile, login status).
@@ -74,6 +79,7 @@ This project simulates a streaming platform interface with:
 - **Personalized experience** – UI and data adapt based on the active profile and stored preferences.
   <br>
   <br>
+
 ## Navigation and Routing
 
 - **Automatic redirects** – ensures users always end up on the correct page depending on login state.
@@ -83,7 +89,20 @@ This project simulates a streaming platform interface with:
 - **Not logged-in users** → redirected to login form.
   <br>
   <br>
+
+## Instalation
+1. Clone the repository
+   
+```
+git clone https://github.com/TomekWojak/Films-library.git
+```
+
+
+<br>
+<br>
+
 ## Small gallery section
+
 ![loginPage](https://i.imgur.com/JZtTU4h.png)
 ![profilesPage](https://i.imgur.com/6oWTj2B.png)
 ![mainPage](https://i.imgur.com/fZNnuXu.png)
