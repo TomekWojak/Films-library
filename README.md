@@ -11,7 +11,7 @@
 **Password:** 123456789
 
 ## Table of Contents
-- [Authentication](#Authentication-&-User-Simulation)
+- [Authentication](#Authentication)
 - [Language Selection](#Language-Selection-&-Localization)
 - [Profile Management](#Profile-Management)
 - [Save User Preferences](#User-Preferences-&-State-Management)
@@ -32,7 +32,7 @@ This project simulates a streaming platform interface with:
 <br>
 <br>
 
-## Authentication & User Simulation
+## Authentication
 
 - **Login process simulation** – mimics real authentication flow.
 
