@@ -91,11 +91,34 @@ This project simulates a streaming platform interface with:
   <br>
 
 ## Instalation
+### Requirements:
+- Installed Node.js
+- Installed gitBash
+
 1. Clone the repository
-   
-```
-git clone https://github.com/TomekWojak/Films-library.git
-```
+
+    ```
+    git clone https://github.com/TomekWojak/Films-library.git
+    ```
+
+2. Change path to the project directory:
+
+    ```
+    cd Films-library
+    ```
+
+
+3. Install the dependencies:
+
+    ```
+    npm install
+    ```
+
+4. Install the dependencies:
+
+    ```
+    npx gulp
+    ```
 
 
 <br>
