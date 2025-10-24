@@ -14,6 +14,7 @@ For educational purposes only, the TMDb API key and Firebase configuration used 
 
 ## Table of Contents
 
+- [Instalation](#Instalation)
 - [Authentication](#Authentication)
 - [Language Selection](#Language-Selection)
 - [Profile Management](#Profile-Management)
