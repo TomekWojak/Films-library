@@ -31,6 +31,7 @@ Mini user panel
 This project simulates a streaming platform interface with:
 <br>
 <br>
+
 ## Authentication & User Simulation
 
 - **Login process simulation** – mimics real authentication flow.
@@ -43,6 +44,7 @@ This project simulates a streaming platform interface with:
   <br>
   <br>
 ## Language Selection & Localization
+
 - **Determining language based on user browser data**- After entering the website, the language in the browser is checked and automatically set
 
 - **Dynamic language switching** – users can select a preferred language.
