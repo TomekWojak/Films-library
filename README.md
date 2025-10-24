@@ -12,14 +12,14 @@
 
 ## Table of Contents
 - [Authentication](#Authentication-&-User-Simulation)
-- [Instalacja](#instalacja)
-  - [Wymagania](#wymagania)
-  - [Kroki instalacji](#kroki-instalacji)
-- [Funkcjonalności](#funkcjonalności)
-- [Licencja](#licencja)
+- [Language Selection](#Language-Selection-&-Localization)
+- [Profile Management](#Profile-Management)
+- [Save User Preferences](#User-Preferences-&-State-Management)
+- [Navigation and Routing](#Navigation-&-Routing)
+- [Gallery](#Small-gallery-section)
 
 
-**Description:**
+## Description:
 <br>
 The project is **unfinished**.
 It will include in the future:
@@ -31,7 +31,7 @@ Mini user panel
 This project simulates a streaming platform interface with:
 <br>
 <br>
-## 🔐 Authentication & User Simulation
+## Authentication & User Simulation
 
 - **Login process simulation** – mimics real authentication flow.
 
