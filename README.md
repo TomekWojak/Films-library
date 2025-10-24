@@ -14,8 +14,8 @@
 - [Authentication](#Authentication)
 - [Language Selection](#Language-Selection)
 - [Profile Management](#Profile-Management)
-- [Save User Preferences](#User-Preferences-&-State-Management)
-- [Navigation and Routing](#Navigation-&-Routing)
+- [Save User Preferences](#User-Preferences-and-State-Management)
+- [Navigation and Routing](#Navigation-and-Routing)
 - [Gallery](#Small-gallery-section)
 
 
@@ -65,7 +65,7 @@ This project simulates a streaming platform interface with:
 - **Active profile tracking** – the system remembers which profile is currently selected.
   <br>
   <br>
-## User Preferences & State Management
+## User Preferences and State Management
 
 - **Persistent storage** – saves user data (language, profiles, active profile, login status).
 
@@ -74,7 +74,7 @@ This project simulates a streaming platform interface with:
 - **Personalized experience** – UI and data adapt based on the active profile and stored preferences.
   <br>
   <br>
-## Navigation & Routing
+## Navigation and Routing
 
 - **Automatic redirects** – ensures users always end up on the correct page depending on login state.
 
