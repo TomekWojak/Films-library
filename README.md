@@ -15,11 +15,12 @@ For educational purposes only, the TMDb API key and Firebase configuration used 
 ## Table of Contents
 
 - [Instalation](#Instalation)
-- [Authentication](#Authentication)
-- [Language Selection](#Language-Selection)
-- [Profile Management](#Profile-Management)
-- [Save User Preferences](#User-Preferences-and-State-Management)
-- [Navigation and Routing](#Navigation-and-Routing)
+- [Project functionality](#Authentication)
+  - [Authentication](#Authentication)
+  - [Language Selection](#Language-Selection)
+  - [Profile Management](#Profile-Management)
+  - [Save User Preferences](#User-Preferences-and-State-Management)
+  - [Navigation and Routing](#Navigation-and-Routing)
 - [Gallery](#Small-gallery-section)
 
 ## Description:
