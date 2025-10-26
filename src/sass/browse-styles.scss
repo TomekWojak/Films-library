@@ -775,6 +775,7 @@ body.browse {
 				opacity: 1;
 			}
 			&:hover {
+				transform: scale(1.05);
 				border-color: rgba($pure-white, 0.8);
 			}
 		}
