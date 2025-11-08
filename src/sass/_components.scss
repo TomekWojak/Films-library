@@ -79,6 +79,24 @@
 	z-index: 1000;
 }
 
+.login-box {
+	position: fixed;
+	bottom: 5vh;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 2rem;
+	background-color: $pure-white;
+	color: #000;
+	border-radius: $radius-100;
+
+	&__username,
+	&__password {
+		display: block;
+		font-size: $font-size-300;
+		margin-bottom: 0.5rem;
+	}
+}
+
 // 404
 
 .container {
@@ -110,5 +128,24 @@
 		&.hidden {
 			animation: hidePopupDesktop 0.35s forwards;
 		}
+	}
+}
+@media (992px <= width) {
+	.login-box {
+		bottom: 0;
+	}
+}
+@media (1100px <= width) {
+	.login-box {
+		bottom: 40%;
+		transform: translateY(50%);
+		left: unset;
+		right: 0;
+	}
+}
+@media (1300px <= width) {
+	.login-box {
+		bottom: 50%;
+		right: 5vw;
 	}
 }
