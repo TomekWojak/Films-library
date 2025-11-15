@@ -1291,3 +1291,9 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 
 	return main;
 };
+
+export const createExploreHeroSection = () => {
+	const mainBox = createElement("div", ["explore__film-poster"]);
+
+	return mainBox;
+};

@@ -4,13 +4,21 @@
 @use "./mixins" as *;
 @use "./fonts" as *;
 
-body.browse {
+body.browse,
+body.explore {
 	--main-bg: #0d0d0f;
 	--user-panel-bg: #040d1b;
 	--categories-bg: #1e1e22;
 
 	height: 100%;
 	background-color: var(--main-bg);
+}
+
+body.explore .container {
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .browse-header {
@@ -570,6 +578,17 @@ body.browse {
 	&__info {
 		text-align: center;
 		font-size: clamp($font-size-100, calc($font-size-50 + 1vw), $font-size-200);
+	}
+}
+
+.explore {
+	&__film-poster {
+		height: 100dvh;
+		background-image: url("https://img2.wallspic.com/previews/7/6/4/8/7/178467/178467-cillian_murphy-oppenheimer-poster-film_poster-painting-550x310.jpg");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		background-attachment: fixed;
 	}
 }
 
