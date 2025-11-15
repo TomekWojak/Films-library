@@ -1312,5 +1312,7 @@ export const createExploreHeroSection = (
 		imgSrc ? getImageUrl(imgSrc, "original") : "./dist/img/img-placeholder.svg"
 	}')`;
 
+	mainBox.append(mainTitle, description, trailerBtn);
+
 	return mainBox;
 };
