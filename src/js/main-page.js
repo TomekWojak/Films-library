@@ -136,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			filmsArr.push(data);
 		}
+		console.log(filmsArr);
 		return filmsArr;
 	};
 	const getFilms = async (lang, pageNum, url) => {

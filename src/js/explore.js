@@ -38,6 +38,18 @@ document.addEventListener("DOMContentLoaded", function () {
 			hideBigLoader();
 		}
 	};
+	const getFilmData = async () => {
+		const params = new URLSearchParams(window.location.search);
+		const filmID = params.get("id");
+
+        const movieURL = 'https://api.themoviedb.org/3/movie/'
+        const tvURL = 
+		
+        try {
+            const response = await fetch()
+        }
+	};
+	getFilmData();
 	checkAuthorization();
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);

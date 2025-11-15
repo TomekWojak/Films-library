@@ -1086,7 +1086,7 @@ const createFilmPosters = (properFilms, translations, parent) => {
 			"a",
 			["browse-section__slider-img-link"],
 			{
-				href: "browse.html",
+				href: `explore.html?id=${id}`,
 				"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
 			}
 		);
@@ -1292,8 +1292,25 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 	return main;
 };
 
-export const createExploreHeroSection = () => {
+export const createExploreHeroSection = (
+	{ title, backdrop_path, overview },
+	translations
+) => {
 	const mainBox = createElement("div", ["explore__film-poster"]);
+	const mainTitle = createElement("h1", ["explore__film-title"]);
+	const description = createElement("p", ["explore__film-info"]);
+	const trailerBtn = createElement("button", [
+		"explore__film-show-trailer-btn",
+	]);
+	const imgSrc = backdrop_path;
+
+	mainTitle.textContent = title;
+	description.textContent = overview;
+	trailerBtn.textContent = translations?.browsePage?.actionBtns?.trailerBtnText;
+
+	mainBox.style.backgroundImage = `url('${
+		imgSrc ? getImageUrl(imgSrc, "original") : "./dist/img/img-placeholder.svg"
+	}')`;
 
 	return mainBox;
 };
