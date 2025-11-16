@@ -144,12 +144,12 @@ export const createLoginPage = ({
 	const usernameInput = createElement(
 		"input",
 		["main__form-input", "main__form-input--username"],
-		{ type: "text", placeholder: username }
+		{ type: "text", placeholder: username, value: "handsomeUser404@test.com" }
 	);
 	const passwordInput = createElement(
 		"input",
 		["main__form-input", "main__form-input--password"],
-		{ type: "password", placeholder: password }
+		{ type: "password", placeholder: password, value: "123456789" }
 	);
 	const submitBtn = createElement("button", ["main__form-button"], {
 		type: "submit",

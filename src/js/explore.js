@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const params = new URLSearchParams(window.location.search);
 		const filmID = params.get("id");
 
-		const movieURL = `https://api.themoviedb.org/3/movie/${filmID}`;
+		const movieURL = `https://api.themoviedb.org/3/movie/${filmID}?language=pl`;
 		const tvURL = `https://api.themoviedb.org/3/tv/${filmID}`;
 
 		const movieRes = await fetch(movieURL, options);
