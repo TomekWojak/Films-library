@@ -53,21 +53,22 @@ document.addEventListener("DOMContentLoaded", function () {
 		const movieURL = `https://api.themoviedb.org/3/movie/${filmID}?language=${
 			currentLanguage || "en-US"
 		}`;
-		const tvURL = `https://api.themoviedb.org/3/tv/${filmID}?lan
-		guage=${currentLanguage || "en-US"}`;
-
-		const movieRes = await fetch(movieURL, options);
-
-		if (movieRes.ok) {
-			const data = await movieRes.json();
-			container.append(createExploreHeroSection(data, translations));
-			return;
-		}
+		const tvURL = `https://api.themoviedb.org/3/tv/${filmID}?language=${
+			currentLanguage || "en-US"
+		}`;
 
 		const tvRes = await fetch(tvURL, options);
 
 		if (tvRes.ok) {
 			const data = await tvRes.json();
+			container.append(createExploreHeroSection(data, translations));
+			return;
+		}
+
+		const movieRes = await fetch(movieURL, options);
+
+		if (movieRes.ok) {
+			const data = await movieRes.json();
 			container.append(createExploreHeroSection(data, translations));
 			return;
 		}

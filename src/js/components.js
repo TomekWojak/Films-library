@@ -1299,7 +1299,7 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 };
 
 export const createExploreHeroSection = (
-	{ title, name, backdrop_path, overview },
+	{ title, name, id, backdrop_path, overview },
 	translations
 ) => {
 	const mainBox = createElement("div", ["explore__film-poster"]);
@@ -1310,16 +1310,24 @@ export const createExploreHeroSection = (
 		"explore__film-show-trailer-btn",
 	]);
 	const imgSrc = backdrop_path;
-
+	const addToListBtn = createElement(
+		"button",
+		["explore__film-add-to-list-btn"],
+		{
+			"aria-label": translations?.browseSection?.aria?.addToListBtn,
+			"data-movie": id,
+		}
+	);
 	mainTitle.textContent = title || name;
 	description.textContent = overview;
 	trailerBtn.textContent = translations?.browsePage?.actionBtns?.trailerBtnText;
+	addToListBtn.innerHTML = `<img class="explore__film-add-icon" src="./src/icons/add-profile.svg" width="24" height="24" alt="" loading="lazy">`;
 
 	mainBox.style.backgroundImage = `url('${
 		imgSrc ? getImageUrl(imgSrc, "original") : "./dist/img/img-placeholder.svg"
 	}')`;
 
-	contentBox.append(mainTitle, description, trailerBtn);
+	contentBox.append(mainTitle, description, trailerBtn, addToListBtn);
 	mainBox.append(contentBox);
 	return mainBox;
 };
