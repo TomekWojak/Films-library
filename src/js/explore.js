@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		try {
 			container.append(createBrowsePage(translations));
-			await getFilmData(container);
+			await getFilmData(container, translations, currentLanguage);
 
 			container.append(showBigLoader());
 			container.append(createFooter(translations));
@@ -46,18 +46,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			hideBigLoader();
 		}
 	};
-	const getFilmData = async (container) => {
+	const getFilmData = async (container, translations, currentLanguage) => {
 		const params = new URLSearchParams(window.location.search);
 		const filmID = params.get("id");
 
-		const movieURL = `https://api.themoviedb.org/3/movie/${filmID}?language=pl`;
-		const tvURL = `https://api.themoviedb.org/3/tv/${filmID}`;
+		const movieURL = `https://api.themoviedb.org/3/movie/${filmID}?language=${
+			currentLanguage || "en-US"
+		}`;
+		const tvURL = `https://api.themoviedb.org/3/tv/${filmID}?lan
+		guage=${currentLanguage || "en-US"}`;
 
 		const movieRes = await fetch(movieURL, options);
 
 		if (movieRes.ok) {
 			const data = await movieRes.json();
-			container.append(createExploreHeroSection(data));
+			container.append(createExploreHeroSection(data, translations));
 			return;
 		}
 
@@ -65,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		if (tvRes.ok) {
 			const data = await tvRes.json();
-			container.append(createExploreHeroSection(data));
+			container.append(createExploreHeroSection(data, translations));
 			return;
 		}
 

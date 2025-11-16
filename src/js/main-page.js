@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			const pagesData = await data(currentLanguage, CAROUSELL_LENGTH);
 			const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
 			const choosenMovies = pagesData.map((page) => page.results[randomNumber]);
-
+			console.log(choosenMovies);
 			return choosenMovies;
 		} catch {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");

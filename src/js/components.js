@@ -920,11 +920,13 @@ export const createMainHeroSection = (movies, translations, parent) => {
 		"browse-main__image-carousell",
 	]);
 	const imagesInsideSlider = createElement("div", ["browse-main__images"]);
-	movies.forEach(({ id, title, overview = "", backdrop_path }) => {
+	movies.forEach(({ id, title, name, overview = "", backdrop_path }) => {
 		const imgSrc = backdrop_path;
 		const imageBox = createElement("div", ["browse-main__img-box"]);
 		const image = createElement("img", ["browse-main__img"], {
-			alt: `${translations?.browsePage?.carousellImages?.aria.carousellImageAlt} ${title}`,
+			alt: `${
+				translations?.browsePage?.carousellImages?.aria.carousellImageAlt
+			} ${title || name}`,
 			src: imgSrc
 				? getImageUrl(imgSrc, "original")
 				: "./dist/img/img-placeholder.svg",
@@ -965,7 +967,7 @@ const createActionButtons = (
 	const showTrailerText = createElement("span", ["browse-main__see-trailer"]);
 	const seeMoreBtn = createElement("a", ["browse-main__see-more-btn"], {
 		"data-movie": id,
-		href: "",
+		href: `explore.html?id=${id}`,
 	});
 
 	showTrailerText.textContent = trailerBtnText;
@@ -1078,7 +1080,7 @@ export const createFilmSlider = (films, translations, index, title) => {
 };
 
 const createFilmPosters = (properFilms, translations, parent) => {
-	properFilms.forEach(({ id, title, poster_path }) => {
+	properFilms.forEach(({ id, title, name, poster_path }) => {
 		const imgSrc = poster_path;
 		const sectionBox = createElement("div", ["browse-section__slider-box"]);
 
@@ -1094,7 +1096,9 @@ const createFilmPosters = (properFilms, translations, parent) => {
 			"img",
 			["browse-section__slider-img"],
 			{
-				alt: `${translations?.browsePage?.carousellImages?.aria?.carousellImageAlt} ${title}`,
+				alt: `${
+					translations?.browsePage?.carousellImages?.aria?.carousellImageAlt
+				} ${title || name}`,
 				loading: "lazy",
 				width: "",
 				height: "",
@@ -1234,20 +1238,22 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 	]);
 
 	filmsArr.forEach((arr) =>
-		arr.forEach(({ id, title, poster_path }) => {
+		arr.forEach(({ id, title, name, poster_path }) => {
 			const imgSrc = poster_path;
 
 			const sectionItem = createElement("div", ["specified-category__item"]);
 
 			const sectionLink = createElement("a", ["specified-category__link"], {
-				href: "",
+				href: `explore.html?id=${id}`,
 				"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
 			});
 			const sectionPoster = createElement(
 				"img",
 				["browse-section__slider-img"],
 				{
-					alt: `${translations?.browsePage?.carousellImages?.aria?.carousellImageAlt} ${title}`,
+					alt: `${
+						translations?.browsePage?.carousellImages?.aria?.carousellImageAlt
+					} ${title || name}`,
 					width: "",
 					height: "",
 					loading: "lazy",
@@ -1293,10 +1299,11 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 };
 
 export const createExploreHeroSection = (
-	{ title, backdrop_path, overview },
+	{ title, name, backdrop_path, overview },
 	translations
 ) => {
 	const mainBox = createElement("div", ["explore__film-poster"]);
+	const contentBox = createElement("div", ["explore__film-content"]);
 	const mainTitle = createElement("h1", ["explore__film-title"]);
 	const description = createElement("p", ["explore__film-info"]);
 	const trailerBtn = createElement("button", [
@@ -1304,7 +1311,7 @@ export const createExploreHeroSection = (
 	]);
 	const imgSrc = backdrop_path;
 
-	mainTitle.textContent = title;
+	mainTitle.textContent = title || name;
 	description.textContent = overview;
 	trailerBtn.textContent = translations?.browsePage?.actionBtns?.trailerBtnText;
 
@@ -1312,7 +1319,7 @@ export const createExploreHeroSection = (
 		imgSrc ? getImageUrl(imgSrc, "original") : "./dist/img/img-placeholder.svg"
 	}')`;
 
-	mainBox.append(mainTitle, description, trailerBtn);
-
+	contentBox.append(mainTitle, description, trailerBtn);
+	mainBox.append(contentBox);
 	return mainBox;
 };
