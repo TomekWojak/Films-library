@@ -1241,10 +1241,11 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 		"specified-category__container",
 	]);
 
-	filmsArr.forEach((arr, index) =>
+	filmsArr.forEach((arr, index) => {
+		if (!arr) return;
+
 		arr.forEach(({ id, title, name, poster_path }) => {
 			const type = index === 0 ? "movie" : "tv";
-			
 			const imgSrc = poster_path;
 
 			const sectionItem = createElement("div", ["specified-category__item"]);
@@ -1253,6 +1254,7 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 				href: `explore.html?id=${id}&type=${type}`,
 				"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
 			});
+
 			const sectionPoster = createElement(
 				"img",
 				["browse-section__slider-img"],
@@ -1260,14 +1262,13 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 					alt: `${
 						translations?.browsePage?.carousellImages?.aria?.carousellImageAlt
 					} ${title || name}`,
-					width: "",
-					height: "",
 					loading: "lazy",
 					src: imgSrc
 						? getImageUrl(imgSrc, "original")
 						: "./dist/img/img-placeholder.svg",
 				}
 			);
+
 			const sectionAddToListBtn = createElement(
 				"button",
 				["browse-section__add-to-list-btn"],
@@ -1276,6 +1277,7 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 					"data-movie": id,
 				}
 			);
+
 			const sectionAddToListIcon = createElement(
 				"img",
 				["browse-section__add-to-list-icon"],
@@ -1287,17 +1289,17 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 					src: "./src/icons/add-profile.svg",
 				}
 			);
-			const sectionTooltip = createElement("span", ["browse-section__tooltip"]);
 
+			const sectionTooltip = createElement("span", ["browse-section__tooltip"]);
 			sectionTooltip.textContent = translations?.browseSection?.info;
 
 			sectionAddToListBtn.append(sectionAddToListIcon);
 			sectionLink.append(sectionPoster);
 			sectionItem.append(sectionLink, sectionAddToListBtn, sectionTooltip);
-
 			sectionContainer.append(sectionItem);
-		})
-	);
+		});
+	});
+
 	section.append(sectionContainer);
 	main.append(section);
 

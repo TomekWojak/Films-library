@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		try {
 			container.append(showBigLoader());
-			
+
 			container.append(createBrowsePage(translations));
 
 			const section = await getFilmsOrSeries(currentLanguage, translations);
@@ -60,11 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (category.includes("movies.html")) {
 			// wyrenderuj filmy
 			const films = await renderFilms(currentLanguage);
-			console.log(films);
 			return createSpecifiedSectionPoster(films, translations);
 		}
 		if (category.includes("series.html")) {
 			// wyrenderuj seriale
+			const series = await renderSeries(currentLanguage);
+			return createSpecifiedSectionPoster(series, translations);
 			return;
 		}
 		if (category.includes("my-list.html")) {
@@ -94,6 +95,22 @@ document.addEventListener("DOMContentLoaded", function () {
 		filmsArr.push(choosenFilms);
 
 		return filmsArr;
+	};
+	const renderSeries = async (currentLanguage) => {
+		const seriesArr = [null];
+		const choosenSeries = [];
+		for (let i = 0; i < postersAmount; i++) {
+			const response = await fetch(
+				`${seriesURL}${currentLanguage || "en-US"}&page=${i + 1}`,
+				options
+			);
+			const seriesData = await response.json();
+			choosenSeries.push(...seriesData.results);
+		}
+
+		seriesArr.push(choosenSeries);
+
+		return seriesArr;
 	};
 
 	checkAuthorization();
