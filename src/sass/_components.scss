@@ -1,4 +1,5 @@
 @use "./variables" as *;
+@use "./mixins" as *;
 .loading-area,
 .loading-area-small {
 	position: absolute;
@@ -79,6 +80,34 @@
 	z-index: 1000;
 }
 
+.search-engine__box {
+	margin: spacing(200) spacing("inline");
+	position: relative;
+}
+.search-engine__input {
+	padding: spacing(200) spacing(400);
+	display: block;
+	width: 100%;
+	border-radius: radius(100);
+	border: 1px solid rgba($pure-white, 0.2);
+	background: rgba($pure-white, 0.1);
+	font-size: $font-size-200;
+	caret-color: rgba($pure-white, 0.5);
+	color: rgba($pure-white, 0.5);
+
+	&:focus,
+	&:focus-visible {
+		@include focusState;
+	}
+}
+.search-engine__icon {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 1rem;
+	pointer-events: none;
+	width: 2.25rem;
+}
 
 // 404
 

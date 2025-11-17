@@ -91,6 +91,9 @@
 			"showMoreInfoAboutFilm": "Link pokazujący więcej informacji o filmie na osobnej stronie"
 		}
 	},
+	"searchEngine":{
+		"placeholder":"Wyszukaj dowolny film lub serial"
+	},
 	"page404":{
 		"errorTxt": "Strona o podanym adresie nie istnieje!"
 	}

@@ -6,8 +6,8 @@ import {
 	hideBigLoader,
 	createFooter,
 	closeAllNotClicked,
-	createExploreHeroSection,
 	createSpecifiedSectionPoster,
+	createSearchEngine,
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 	};
 
-	const postersAmount = 2;
+	const postersAmount = 3;
 	const filmsURL = `https://api.themoviedb.org/3/discover/movie?language=`;
 	const seriesURL = `https://api.themoviedb.org/3/discover/tv?language=`;
 
@@ -42,7 +42,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			container.append(createBrowsePage(translations));
 
-			const section = await getFilmsOrSeries(currentLanguage, translations);
+			const section = await getFilmsOrSeries(
+				currentLanguage,
+				translations,
+				container
+			);
 
 			container.append(section);
 
@@ -54,37 +58,36 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	};
 
-	const getFilmsOrSeries = async (currentLanguage, translations) => {
+	const getFilmsOrSeries = async (currentLanguage, translations, container) => {
 		const category = window.location.href;
 
 		if (category.includes("movies.html")) {
-			// wyrenderuj filmy
 			const films = await renderFilms(currentLanguage);
 			return createSpecifiedSectionPoster(films, translations);
 		}
 		if (category.includes("series.html")) {
-			// wyrenderuj seriale
 			const series = await renderSeries(currentLanguage);
 			return createSpecifiedSectionPoster(series, translations);
 			return;
 		}
 		if (category.includes("my-list.html")) {
-			// wyrenderuj moja lista{
+			// wyrenderuj listę
 			return;
 		}
 		if (category.includes("search.html")) {
-			// wyrenderuj search
-			return;
+			const films = await renderFilms(currentLanguage, 1);
+			container.append(createSearchEngine(translations));
+			return createSpecifiedSectionPoster(films, translations);
 		}
 
 		window.location.href = "404.html";
 	};
 
-	const renderFilms = async (currentLanguage) => {
+	const renderFilms = async (currentLanguage, customAmount) => {
 		const filmsArr = [];
 		const choosenFilms = [];
 
-		for (let i = 0; i < postersAmount; i++) {
+		for (let i = 0; i < (customAmount || postersAmount); i++) {
 			const response = await fetch(
 				`${filmsURL}${currentLanguage || "en-US"}&page=${i + 1}`,
 				options
@@ -117,6 +120,4 @@ document.addEventListener("DOMContentLoaded", function () {
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);
 	});
-
-	
 });

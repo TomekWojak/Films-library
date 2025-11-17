@@ -1340,3 +1340,22 @@ export const createExploreHeroSection = (
 	mainBox.append(contentBox);
 	return mainBox;
 };
+
+export const createSearchEngine = (translations) => {
+	const searchEngineBox = createElement("div", ["search-engine__box"]);
+	const searchEngine = createElement("input", ["search-engine__input"], {
+		type: "text",
+		placeholder: translations?.searchEngine?.placeholder,
+	});
+	const searchEngineIcon = createElement("img", ["search-engine__icon"], {
+		src: "./src/icons/search-icon.svg",
+		width: "24",
+		height: "24",
+		loading: "lazy",
+		alt: "",
+	});
+
+	searchEngineBox.append(searchEngine, searchEngineIcon)
+
+	return searchEngineBox
+};
