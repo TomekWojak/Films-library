@@ -1312,15 +1312,16 @@ export const createExploreHeroSection = (
 ) => {
 	const mainBox = createElement("div", ["explore__film-poster"]);
 	const contentBox = createElement("div", ["explore__film-content"]);
-	const mainTitle = createElement("h1", ["explore__film-title"]);
-	const description = createElement("p", ["explore__film-info"]);
+	const mainTitle = createElement("h1", ["explore__film-title", "animated"]);
+	const description = createElement("p", ["explore__film-info", "animated"]);
 	const trailerBtn = createElement("button", [
 		"explore__film-show-trailer-btn",
+		"animated",
 	]);
 	const imgSrc = backdrop_path;
 	const addToListBtn = createElement(
 		"button",
-		["explore__film-add-to-list-btn"],
+		["explore__film-add-to-list-btn", "animated"],
 		{
 			"aria-label": translations?.browseSection?.aria?.addToListBtn,
 			"data-movie": id,

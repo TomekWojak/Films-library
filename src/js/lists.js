@@ -117,4 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);
 	});
+
+	
 });
