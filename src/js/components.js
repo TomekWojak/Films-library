@@ -863,9 +863,13 @@ const createBrowserNav = (filmLink, seriesLink, myListLink, searchLink) => {
 		{ name: searchLink, src: "./src/icons/search-icon.svg" },
 	];
 
-	linkNames.forEach((link) => {
+	linkNames.forEach((link, index) => {
+		const srcs = ["movies.html", "series.html", "my-list.html", "search.html"];
+
 		const listItem = createElement("li", ["browse-header__item"]);
-		const linkEl = createElement("a", ["browse-header__link"], { href: "" });
+		const linkEl = createElement("a", ["browse-header__link"], {
+			href: srcs[index],
+		});
 		const icon = createElement("img", ["browse-header__link-icon"], {
 			width: "24",
 			height: "24",
@@ -967,7 +971,7 @@ const createActionButtons = (
 	const showTrailerText = createElement("span", ["browse-main__see-trailer"]);
 	const seeMoreBtn = createElement("a", ["browse-main__see-more-btn"], {
 		"data-movie": id,
-		href: `explore.html?id=${id}`,
+		href: `explore.html?id=${id}&type=movie`,
 	});
 
 	showTrailerText.textContent = trailerBtnText;
@@ -1016,7 +1020,7 @@ const createCarousellControls = (
 	return carousellControls;
 };
 
-export const createFilmSlider = (films, translations, index, title) => {
+export const createFilmSlider = (films, translations, index, title, type) => {
 	const properFilms = films[index]?.results || [];
 	if (!properFilms.length) {
 		console.error(`No films found for index ${index}`);
@@ -1071,7 +1075,7 @@ export const createFilmSlider = (films, translations, index, title) => {
 	showNextSlideBtn.append(showNextSlideIcon);
 	showPrevSlideBtn.append(showPrevSlideIcon);
 
-	createFilmPosters(properFilms, translations, sectionImages);
+	createFilmPosters(properFilms, translations, sectionImages, type);
 
 	sectionSlider.append(sectionImages, showPrevSlideBtn, showNextSlideBtn);
 	browseSection.append(sectionTitle, sectionSlider);
@@ -1079,8 +1083,8 @@ export const createFilmSlider = (films, translations, index, title) => {
 	return browseSection;
 };
 
-const createFilmPosters = (properFilms, translations, parent) => {
-	properFilms.forEach(({ id, title, name, poster_path }) => {
+const createFilmPosters = (properFilms, translations, parent, type) => {
+	properFilms.forEach(({ id, title, name, poster_path, media_type }) => {
 		const imgSrc = poster_path;
 		const sectionBox = createElement("div", ["browse-section__slider-box"]);
 
@@ -1088,7 +1092,7 @@ const createFilmPosters = (properFilms, translations, parent) => {
 			"a",
 			["browse-section__slider-img-link"],
 			{
-				href: `explore.html?id=${id}`,
+				href: `explore.html?id=${id}&type=${media_type || type}`,
 				"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
 			}
 		);
@@ -1237,14 +1241,16 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 		"specified-category__container",
 	]);
 
-	filmsArr.forEach((arr) =>
+	filmsArr.forEach((arr, index) =>
 		arr.forEach(({ id, title, name, poster_path }) => {
+			const type = index === 0 ? "movie" : "tv";
+
 			const imgSrc = poster_path;
 
 			const sectionItem = createElement("div", ["specified-category__item"]);
 
 			const sectionLink = createElement("a", ["specified-category__link"], {
-				href: `explore.html?id=${id}`,
+				href: `explore.html?id=${id}&type=${type}`,
 				"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
 			});
 			const sectionPoster = createElement(

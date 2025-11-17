@@ -7,17 +7,10 @@ import {
 	createFooter,
 	closeAllNotClicked,
 	createExploreHeroSection,
+	createSpecifiedSectionPoster,
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-	const options = {
-		method: "GET",
-		headers: {
-			accept: "application/json",
-			Authorization:
-				"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTYwZjM4MjU3NDQ1ZGE1ZGZkYTYxYzE0YWM4YmM4MyIsIm5iZiI6MTc1OTc2NTAzOC45NCwic3ViIjoiNjhlM2UyMmUyNjY5NzY4MzhlYzI3NzI5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.nuGfEjclJLepmzzHi2omNhp29THgrJf9Nv6D4_gTdxA",
-		},
-	};
 	const checkAuthorization = async () => {
 		const userData = getData();
 		const translations = userData?.translations;
@@ -33,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		try {
 			container.append(createBrowsePage(translations));
-			await getFilmData(container, translations, currentLanguage);
 
 			container.append(showBigLoader());
 			container.append(createFooter(translations));
@@ -43,24 +35,30 @@ document.addEventListener("DOMContentLoaded", function () {
 			hideBigLoader();
 		}
 	};
-	const getFilmData = async (container, translations, currentLanguage) => {
-		const params = new URLSearchParams(window.location.search);
-		const filmID = params.get("id");
-		const type = params.get("type") || "movie";
-		const URL = `https://api.themoviedb.org/3/${type}/${filmID}?language=${
-			currentLanguage || "en-US"
-		}`;
-	
-		const response = await fetch(URL, options);
 
-		if (response.ok) {
-			const data = await response.json();
-			container.append(createExploreHeroSection(data, translations));
+	const getFilmsOrSeries = async () => {
+		const category = window.location.href;
+
+		if (category.includes("movies.html")) {
+			// wyrenderuj filmy
+			return;
+		}
+		if (category.includes("series.html")) {
+			// wyrenderuj seriale
+			return;
+		}
+		if (category.includes("my-list.html")) {
+			// wyrenderuj moja lista{
+			return;
+		}
+		if (category.includes("search.html")) {
+			// wyrenderuj search
 			return;
 		}
 
-		showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
+		window.location.href = "404.html";
 	};
+	getFilmsOrSeries();
 
 	checkAuthorization();
 	window.addEventListener("click", (e) => {
