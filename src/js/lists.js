@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const postersAmount = 3;
 	const filmsURL = `https://api.themoviedb.org/3/discover/movie?language=`;
 	const seriesURL = `https://api.themoviedb.org/3/discover/tv?language=`;
+	const category = window.location.href;
 
 	const checkAuthorization = async () => {
 		const userData = getData();
@@ -59,8 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	const getFilmsOrSeries = async (currentLanguage, translations, container) => {
-		const category = window.location.href;
-
 		if (category.includes("movies.html")) {
 			const films = await renderFilms(currentLanguage);
 			return createSpecifiedSectionPoster(films, translations);
@@ -77,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (category.includes("search.html")) {
 			const films = await renderFilms(currentLanguage, 1);
 			container.append(createSearchEngine(translations));
+
 			return createSpecifiedSectionPoster(films, translations);
 		}
 
@@ -119,5 +119,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	checkAuthorization();
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);
+	});
+	window.addEventListener("scroll", () => {
+		if (window.scrollY !== 0) {
+			const searchInput = document.querySelector(".search-engine__input");
+			searchInput.classList.add("scroll-active");
+		} else {
+			const searchInput = document.querySelector(".search-engine__input");
+			searchInput.classList.remove("scroll-active");
+		}
 	});
 });

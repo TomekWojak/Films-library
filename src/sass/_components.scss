@@ -81,8 +81,11 @@
 }
 
 .search-engine__box {
-	margin: spacing(200) spacing("inline");
-	position: relative;
+	position: sticky;
+	top: 13dvh;
+	margin-inline: spacing("inline");
+	margin-block-end: spacing(300);
+	z-index: 1000;
 }
 .search-engine__input {
 	padding: spacing(200) spacing(400);
@@ -93,7 +96,12 @@
 	background: rgba($pure-white, 0.1);
 	font-size: $font-size-200;
 	caret-color: rgba($pure-white, 0.5);
-	color: rgba($pure-white, 0.5);
+	color: $pure-white;
+	transition: background-color 0.2s ease-in-out;
+
+	&.scroll-active {
+		background-color: hsl(0deg 0% 3.89% / 90%);
+	}
 
 	&:focus,
 	&:focus-visible {
