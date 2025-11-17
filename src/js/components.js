@@ -1244,7 +1244,7 @@ export const createSpecifiedSectionPoster = (filmsArr, translations) => {
 	filmsArr.forEach((arr, index) =>
 		arr.forEach(({ id, title, name, poster_path }) => {
 			const type = index === 0 ? "movie" : "tv";
-
+			
 			const imgSrc = poster_path;
 
 			const sectionItem = createElement("div", ["specified-category__item"]);

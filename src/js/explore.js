@@ -32,10 +32,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 
 		try {
+			container.append(showBigLoader());
+
 			container.append(createBrowsePage(translations));
 			await getFilmData(container, translations, currentLanguage);
 
-			container.append(showBigLoader());
 			container.append(createFooter(translations));
 		} catch {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
@@ -50,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const URL = `https://api.themoviedb.org/3/${type}/${filmID}?language=${
 			currentLanguage || "en-US"
 		}`;
-	
+
 		const response = await fetch(URL, options);
 
 		if (response.ok) {

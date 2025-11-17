@@ -11,6 +11,19 @@ import {
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+	const options = {
+		method: "GET",
+		headers: {
+			accept: "application/json",
+			Authorization:
+				"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTYwZjM4MjU3NDQ1ZGE1ZGZkYTYxYzE0YWM4YmM4MyIsIm5iZiI6MTc1OTc2NTAzOC45NCwic3ViIjoiNjhlM2UyMmUyNjY5NzY4MzhlYzI3NzI5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.nuGfEjclJLepmzzHi2omNhp29THgrJf9Nv6D4_gTdxA",
+		},
+	};
+
+	const postersAmount = 2;
+	const filmsURL = `https://api.themoviedb.org/3/discover/movie?language=`;
+	const seriesURL = `https://api.themoviedb.org/3/discover/tv?language=`;
+
 	const checkAuthorization = async () => {
 		const userData = getData();
 		const translations = userData?.translations;
@@ -25,9 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 
 		try {
+			container.append(showBigLoader());
+			
 			container.append(createBrowsePage(translations));
 
-			container.append(showBigLoader());
+			const section = await getFilmsOrSeries(currentLanguage, translations);
+
+			container.append(section);
+
 			container.append(createFooter(translations));
 		} catch {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
@@ -36,12 +54,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	};
 
-	const getFilmsOrSeries = async () => {
+	const getFilmsOrSeries = async (currentLanguage, translations) => {
 		const category = window.location.href;
 
 		if (category.includes("movies.html")) {
 			// wyrenderuj filmy
-			return;
+			const films = await renderFilms(currentLanguage);
+			console.log(films);
+			return createSpecifiedSectionPoster(films, translations);
 		}
 		if (category.includes("series.html")) {
 			// wyrenderuj seriale
@@ -58,7 +78,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		window.location.href = "404.html";
 	};
-	getFilmsOrSeries();
+
+	const renderFilms = async (currentLanguage) => {
+		const filmsArr = [];
+		const choosenFilms = [];
+
+		for (let i = 0; i < postersAmount; i++) {
+			const response = await fetch(
+				`${filmsURL}${currentLanguage || "en-US"}&page=${i + 1}`,
+				options
+			);
+			const filmData = await response.json();
+			choosenFilms.push(...filmData.results);
+		}
+		filmsArr.push(choosenFilms);
+
+		return filmsArr;
+	};
 
 	checkAuthorization();
 	window.addEventListener("click", (e) => {
