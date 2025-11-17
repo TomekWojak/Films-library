@@ -121,6 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		closeAllNotClicked(e);
 	});
 	window.addEventListener("scroll", () => {
+		if (!category.includes("search.html")) return;
+
 		if (window.scrollY !== 0) {
 			const searchInput = document.querySelector(".search-engine__input");
 			searchInput.classList.add("scroll-active");
