@@ -120,15 +120,4 @@ document.addEventListener("DOMContentLoaded", function () {
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);
 	});
-	window.addEventListener("scroll", () => {
-		if (!category.includes("search.html")) return;
-
-		if (window.scrollY !== 0) {
-			const searchInput = document.querySelector(".search-engine__input");
-			searchInput.classList.add("scroll-active");
-		} else {
-			const searchInput = document.querySelector(".search-engine__input");
-			searchInput.classList.remove("scroll-active");
-		}
-	});
 });

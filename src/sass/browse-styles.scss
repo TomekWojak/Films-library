@@ -647,6 +647,10 @@ body.explore {
 		opacity: 0;
 		transform: translateY(2rem);
 		animation-delay: 0.25s;
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 	&__film-add-to-list-btn {
 		vertical-align: middle;
@@ -660,6 +664,30 @@ body.explore {
 		opacity: 0;
 		transform: translateY(2rem);
 		animation-delay: 0.25s;
+
+		&:focus-visible {
+			@include focusState;
+		}
+	}
+	&__back-btn {
+		display: grid;
+		place-items: center;
+		width: fit-content;
+		width: 3.4rem;
+		height: 3.4rem;
+		opacity: 0;
+		transform: translateY(2rem);
+		margin-block-start: spacing(200);
+		background-color: rgba(0, 0, 0, 0.5);
+		border-radius: radius(full);
+		border: none;
+		animation-delay: 0.30s;
+
+		cursor: pointer;
+
+		&:focus-visible {
+			@include focusState;
+		}
 	}
 }
 
@@ -931,6 +959,13 @@ body.explore {
 
 			&:hover {
 				background-color: #3997ca;
+			}
+		}
+		&__back-btn {
+			transition: background-color 0.3s;
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.8);
 			}
 		}
 	}

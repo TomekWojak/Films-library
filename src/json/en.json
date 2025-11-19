@@ -91,6 +91,9 @@
 			"showMoreInfoAboutFilm": "Link showing more information about the film on a separate page"
 		}
 	},
+	"explore":{
+		"backButton":"Button to return to the previous page"
+	},
 	"searchEngine": {
 		"placeholder": "Search for any movie or series"
 	},

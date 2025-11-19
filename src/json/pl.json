@@ -91,6 +91,9 @@
 			"showMoreInfoAboutFilm": "Link pokazujący więcej informacji o filmie na osobnej stronie"
 		}
 	},
+	"explore":{
+		"backButton":"Przycisk umożliwiający powrót na poprzednią stronę"
+	},
 	"searchEngine":{
 		"placeholder":"Wyszukaj dowolny film lub serial"
 	},

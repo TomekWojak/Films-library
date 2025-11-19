@@ -1327,16 +1327,25 @@ export const createExploreHeroSection = (
 			"data-movie": id,
 		}
 	);
+	const backBtn = createElement("button", ["explore__back-btn", "animated"], {
+		"aria-label": translations.explore.backButton,
+	});
+
 	mainTitle.textContent = title || name;
 	description.textContent = overview;
 	trailerBtn.textContent = translations?.browsePage?.actionBtns?.trailerBtnText;
 	addToListBtn.innerHTML = `<img class="explore__film-add-icon" src="./src/icons/add-profile.svg" width="24" height="24" alt="" loading="lazy">`;
+	backBtn.innerHTML = `<img class="explore__back-btn-icon" src="./src/icons/chevron-left.svg" width="24" height="24" alt="" loading="lazy">`;
 
 	mainBox.style.backgroundImage = `url('${
 		imgSrc ? getImageUrl(imgSrc, "original") : "./dist/img/img-placeholder.svg"
 	}')`;
 
-	contentBox.append(mainTitle, description, trailerBtn, addToListBtn);
+	backBtn.addEventListener("click", () => {
+		history.back();
+	});
+
+	contentBox.append(mainTitle, description, trailerBtn, addToListBtn, backBtn);
 	mainBox.append(contentBox);
 	return mainBox;
 };
@@ -1355,7 +1364,7 @@ export const createSearchEngine = (translations) => {
 		alt: "",
 	});
 
-	searchEngineBox.append(searchEngine, searchEngineIcon)
+	searchEngineBox.append(searchEngine, searchEngineIcon);
 
-	return searchEngineBox
+	return searchEngineBox;
 };

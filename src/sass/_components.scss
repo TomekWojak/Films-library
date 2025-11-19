@@ -81,11 +81,9 @@
 }
 
 .search-engine__box {
-	position: sticky;
-	top: 13dvh;
+	position: relative;
 	margin-inline: spacing("inline");
-	margin-block-end: spacing(300);
-	z-index: 1000;
+	margin-block-start: spacing(300);
 }
 .search-engine__input {
 	padding: spacing(200) spacing(400);
@@ -93,19 +91,20 @@
 	width: 100%;
 	border-radius: radius(100);
 	border: 1px solid rgba($pure-white, 0.2);
-	background: rgba($pure-white, 0.1);
+	background-color: rgba($pure-white, 0.1);
 	font-size: $font-size-200;
 	caret-color: rgba($pure-white, 0.5);
 	color: $pure-white;
-	transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.3s;
 
-	&.scroll-active {
-		background-color: hsl(0deg 0% 3.89% / 90%);
-	}
-
+	
 	&:focus,
 	&:focus-visible {
 		@include focusState;
+		background-color: rgba($pure-white, 0.15);
+	}
+	&:hover {
+		background-color: rgba($pure-white, 0.15);
 	}
 }
 .search-engine__icon {
