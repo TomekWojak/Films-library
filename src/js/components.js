@@ -1501,7 +1501,8 @@ const getVideoTrailerId = async (id, type) => {
 	const response = await fetch(URL, options);
 	const data = await response.json();
 	const trailer = data.results.find(
-		(el) => el.name === "Official Trailer" || el.name.includes("Trailer")
+		(el) =>
+			el.name === "Official Trailer" || el.name.includes("Official Trailer")
 	);
 
 	if (!trailer) {
