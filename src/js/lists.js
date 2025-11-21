@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const handleSearchEngine = (currentLanguage, translations) => {
 		const searchEngine = document.querySelector(".search-engine__input");
+		searchEngine.focus();
 
 		searchEngine?.addEventListener("keyup", async (e) => {
 			const value = e.target.value;
