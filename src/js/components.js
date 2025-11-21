@@ -3,6 +3,15 @@ import { createElement, getImageUrl } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
 const HIDE_POPUP_TIME = 2500;
 
+const options = {
+	method: "GET",
+	headers: {
+		accept: "application/json",
+		Authorization:
+			"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTYwZjM4MjU3NDQ1ZGE1ZGZkYTYxYzE0YWM4YmM4MyIsIm5iZiI6MTc1OTc2NTAzOC45NCwic3ViIjoiNjhlM2UyMmUyNjY5NzY4MzhlYzI3NzI5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.nuGfEjclJLepmzzHi2omNhp29THgrJf9Nv6D4_gTdxA",
+	},
+};
+
 export const getData = () => {
 	try {
 		const data = localStorage.getItem("userData");
@@ -967,6 +976,7 @@ const createActionButtons = (
 	const actionBtnsPanel = createElement("div", ["browse-main__action-btns"]);
 	const showTrailerBtn = createElement("button", ["browse-main__trailer-btn"], {
 		"data-trailer": id,
+		"data-type": "movie",
 	});
 	const showTrailerText = createElement("span", ["browse-main__see-trailer"]);
 	const seeMoreBtn = createElement("a", ["browse-main__see-more-btn"], {
@@ -1310,14 +1320,18 @@ export const createExploreHeroSection = (
 	{ title, name, id, backdrop_path, overview },
 	translations
 ) => {
+	const urlParams = new URLSearchParams(window.location.search);
+	const type = urlParams.get("type");
+
 	const mainBox = createElement("div", ["explore__film-poster"]);
 	const contentBox = createElement("div", ["explore__film-content"]);
 	const mainTitle = createElement("h1", ["explore__film-title", "animated"]);
 	const description = createElement("p", ["explore__film-info", "animated"]);
-	const trailerBtn = createElement("button", [
-		"explore__film-show-trailer-btn",
-		"animated",
-	]);
+	const trailerBtn = createElement(
+		"button",
+		["explore__film-show-trailer-btn", "animated"],
+		{ "data-trailer": id, "data-type": type }
+	);
 	const imgSrc = backdrop_path;
 	const addToListBtn = createElement(
 		"button",
@@ -1434,4 +1448,63 @@ export const createFilteredFilmsSection = (filteredFilms, translations) => {
 
 		sectionContainer.append(poster);
 	});
+};
+
+export const createTrailerWindow = async (e) => {
+	const windowExists = document.querySelector(".trailer-window");
+
+	if (windowExists) return;
+
+	const root = document.querySelector(".root");
+	const id = e.target.dataset.trailer;
+	const type = e.target.dataset.type;
+
+	const trailerID = await getVideoTrailerId(id, type);
+
+	if (!trailerID) return;
+
+	const mainWindow = createElement("div", ["trailer-window"]);
+	const videoFrame = createElement("iframe", ["trailer-frame"], {
+		src: `https://www.youtube.com/embed/${trailerID}`,
+		allowfullscreen: true,
+	});
+	const closeWindowBtn = createElement("button", ["close-trailer-window"]);
+	const closeWindowIcon = createElement("img", ["close-trailer-window-icon"], {
+		alt: "",
+		src: "./src/icons/close-icon.svg",
+		width: "24",
+		height: "24",
+	});
+
+	closeWindowBtn.append(closeWindowIcon);
+	mainWindow.append(videoFrame, closeWindowBtn);
+
+	root.append(mainWindow, createOverlay());
+};
+const getVideoTrailerId = async (id, type) => {
+	const URL = `https://api.themoviedb.org/3/${type}/${id}/videos
+`;
+	const response = await fetch(URL, options);
+	const data = await response.json();
+	const trailer = data.results.find(
+		(el) => el.name === "Official Trailer" || el.name.includes("Trailer")
+	);
+
+	if (!trailer) {
+		showErrorPopup(
+			"There was a problem loading the trailer for this video.",
+			"#dc4a34"
+		);
+		return;
+	}
+	const trailerKey = trailer.key;
+
+	return trailerKey;
+};
+export const hideTrailerWindow = () => {
+	const trailerWindow = document.querySelector(".trailer-window");
+	const overlay = document.querySelector(".overlay");
+
+	trailerWindow.remove();
+	overlay.remove();
 };

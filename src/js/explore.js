@@ -7,6 +7,8 @@ import {
 	createFooter,
 	closeAllNotClicked,
 	createExploreHeroSection,
+	createTrailerWindow,
+	hideTrailerWindow,
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -66,5 +68,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	checkAuthorization();
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);
+	});
+	document.body.addEventListener("click", (e) => {
+		const windowExists = document.querySelector(".trailer-window");
+
+		if (
+			e.target.matches(".browse-main__trailer-btn") ||
+			e.target.matches(".explore__film-show-trailer-btn")
+		) {
+			createTrailerWindow(e);
+		} else if (
+			windowExists &&
+			(e.target.matches(".close-trailer-window") ||
+				e.target.matches(".overlay"))
+		) {
+			hideTrailerWindow();
+		}
 	});
 });

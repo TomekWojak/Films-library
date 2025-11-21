@@ -219,6 +219,9 @@ body.explore {
 			pointer-events: none;
 		}
 	}
+	&__see-trailer {
+		pointer-events: none;
+	}
 	&__text-box {
 		position: absolute;
 		left: spacing("inline");

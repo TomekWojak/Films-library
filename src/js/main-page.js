@@ -9,6 +9,8 @@ import {
 	createFooter,
 	closeAllNotClicked,
 	createFourCategories,
+	createTrailerWindow,
+	hideTrailerWindow,
 } from "./components.min.js";
 document.addEventListener("DOMContentLoaded", function () {
 	const CAROUSELL_LENGTH = 5;
@@ -173,8 +175,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	const chooseFilmsToCarousell = async (data, currentLanguage) => {
 		try {
 			const pagesData = await data(currentLanguage, CAROUSELL_LENGTH);
+			const filteredData = pagesData.map((film) => filterData(film.results));
 			const randomNumber = Math.trunc(Math.random() * FILM_AMOUNT_PER_PAGE);
-			const choosenMovies = pagesData.map((page) => page.results[randomNumber]);
+			const choosenMovies = filteredData.map((page) => page[randomNumber]);
 			return choosenMovies;
 		} catch {
 			showErrorPopup(translations.browsePage.loadingDataError, "#dc4a34");
@@ -182,7 +185,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			hideBigLoader();
 		}
 	};
-
+	const filterData = (films) => {
+		const choosenFilms = films.filter((film) => film.popularity >= 10.0);
+		return choosenFilms;
+	};
 	// CAROUSELL
 
 	const handleFilmsCarousell = (container, movies) => {
@@ -442,6 +448,22 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	window.addEventListener("click", (e) => {
 		closeAllNotClicked(e);
+	});
+	document.body.addEventListener("click", (e) => {
+		const windowExists = document.querySelector(".trailer-window");
+
+		if (
+			e.target.matches(".browse-main__trailer-btn") ||
+			e.target.matches(".explore__film-show-trailer-btn")
+		) {
+			createTrailerWindow(e);
+		} else if (
+			windowExists &&
+			(e.target.matches(".close-trailer-window") ||
+				e.target.matches(".overlay"))
+		) {
+			hideTrailerWindow();
+		}
 	});
 	checkAuthorization();
 });
