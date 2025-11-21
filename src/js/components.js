@@ -1369,3 +1369,69 @@ export const createSearchEngine = (translations) => {
 	return searchEngineBox;
 };
 
+export const createFilteredFilmsSection = (filteredFilms, translations) => {
+	const sectionContainer = document.querySelector(
+		".specified-category__container"
+	);
+	sectionContainer.innerHTML = "";
+
+	if (filteredFilms.length === 0) {
+		const lackOfContent = createElement("p", ["lack-of-content__text"]);
+		lackOfContent.textContent = translations?.searchEngine?.lackOfContent;
+		sectionContainer.append(lackOfContent);
+
+		return;
+	}
+
+	const lackOfContentTxt = document.querySelector(".lack-of-content__text");
+	lackOfContentTxt?.remove();
+
+	filteredFilms.forEach(({ media_type, id, title, name, poster_path }) => {
+		const imgSrc = poster_path;
+
+		const poster = createElement("div", ["specified-category__item"]);
+
+		const posterLink = createElement("a", ["specified-category__link"], {
+			href: `explore.html?id=${id}&type=${media_type || "movie"}`,
+			"aria-label": translations?.browseSection?.aria?.showMoreInfoAboutFilm,
+		});
+
+		const sectionImg = createElement("img", ["browse-section__slider-img"], {
+			alt: `${
+				translations?.browsePage?.carousellImages?.aria?.carousellImageAlt
+			} ${title || name}`,
+			loading: "lazy",
+			src: getImageUrl(imgSrc, "original"),
+		});
+
+		const addToListBtn = createElement(
+			"button",
+			["browse-section__add-to-list-btn"],
+			{
+				"aria-label": translations?.browseSection?.aria?.addToListBtn,
+				"data-movie": id,
+			}
+		);
+
+		const addToListIcon = createElement(
+			"img",
+			["browse-section__add-to-list-icon"],
+			{
+				width: "24",
+				height: "24",
+				loading: "lazy",
+				alt: "",
+				src: "./src/icons/add-profile.svg",
+			}
+		);
+
+		const tooltip = createElement("span", ["browse-section__tooltip"]);
+		tooltip.textContent = translations?.browseSection?.info;
+
+		posterLink.append(sectionImg);
+		addToListBtn.append(addToListIcon);
+		poster.append(posterLink, addToListBtn, tooltip);
+
+		sectionContainer.append(poster);
+	});
+};

@@ -95,7 +95,8 @@
 		"backButton":"Przycisk umożliwiający powrót na poprzednią stronę"
 	},
 	"searchEngine":{
-		"placeholder":"Wyszukaj dowolny film lub serial"
+		"placeholder":"Wyszukaj dowolny film lub serial",
+		"lackOfContent": "Brak dopasowań do wyszukiwanej frazy"
 	},
 	"page404":{
 		"errorTxt": "Strona o podanym adresie nie istnieje!"

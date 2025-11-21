@@ -513,6 +513,7 @@ body.explore {
 	padding: spacing(200) spacing("inline");
 
 	&__container {
+		position: relative;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		gap: spacing(200);
@@ -681,7 +682,7 @@ body.explore {
 		background-color: rgba(0, 0, 0, 0.5);
 		border-radius: radius(full);
 		border: none;
-		animation-delay: 0.30s;
+		animation-delay: 0.3s;
 
 		cursor: pointer;
 

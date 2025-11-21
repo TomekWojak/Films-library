@@ -8,6 +8,7 @@ import {
 	closeAllNotClicked,
 	createSpecifiedSectionPoster,
 	createSearchEngine,
+	createFilteredFilmsSection,
 } from "./components.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -76,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			const films = await renderFilms(currentLanguage, 1);
 			container.append(createSearchEngine(translations));
 
-			handleSearchEngine(currentLanguage);
+			handleSearchEngine(currentLanguage, translations);
 
 			return createSpecifiedSectionPoster(films, translations);
 		}
@@ -117,34 +118,38 @@ document.addEventListener("DOMContentLoaded", function () {
 		return seriesArr;
 	};
 
-	const handleSearchEngine = (currentLanguage) => {
+	const handleSearchEngine = (currentLanguage, translations) => {
 		const searchEngine = document.querySelector(".search-engine__input");
 
-		let searchFlag = false;
-		let antiSpamTimeout = 1000;
-
-		searchEngine?.addEventListener("input", (e) => {
-			if (searchFlag) return;
-			searchFlag = true;
-
+		searchEngine?.addEventListener("keyup", async (e) => {
 			const value = e.target.value;
-			findFilmsByKeyword(value, currentLanguage);
 
-			setTimeout(() => {
-				searchFlag = false;
-				findFilmsByKeyword(value, currentLanguage);
-			}, antiSpamTimeout);
+			if (value.trim() === "") {
+				const films = await renderFilms(currentLanguage, 1);
+				createFilteredFilmsSection(films[0], translations);
+			} else {
+				findFilmsByKeyword(value, currentLanguage, translations);
+			}
 		});
 	};
 
-	const findFilmsByKeyword = async (inputValue, currentLanguage) => {
+	const findFilmsByKeyword = async (
+		inputValue,
+		currentLanguage,
+		translations
+	) => {
 		const searchFilmURL = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(
 			inputValue
 		)}&language=${currentLanguage}`;
 		const response = await fetch(searchFilmURL, options);
 		const data = await response.json();
-
-		console.log(data);
+		const filteredFilms = data.results.filter(
+			(film) =>
+				film.media_type !== "person" &&
+				film.poster_path &&
+				film.popularity >= 5.0
+		);
+		createFilteredFilmsSection(filteredFilms, translations);
 	};
 
 	checkAuthorization();

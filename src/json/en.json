@@ -91,11 +91,12 @@
 			"showMoreInfoAboutFilm": "Link showing more information about the film on a separate page"
 		}
 	},
-	"explore":{
-		"backButton":"Button to return to the previous page"
+	"explore": {
+		"backButton": "Button to return to the previous page"
 	},
 	"searchEngine": {
-		"placeholder": "Search for any movie or series"
+		"placeholder": "Search for any movie or series",
+		"lackOfContent": "No matches for the search phrase"
 	},
 	"page404": {
 		"errorTxt": "The page with the given address does not exist!"

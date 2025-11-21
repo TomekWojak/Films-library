@@ -97,7 +97,6 @@
 	color: $pure-white;
 	transition: background-color 0.3s;
 
-	
 	&:focus,
 	&:focus-visible {
 		@include focusState;
@@ -114,6 +113,16 @@
 	left: 1rem;
 	pointer-events: none;
 	width: 2.25rem;
+}
+.lack-of-content__text {
+	position: absolute;
+	width: 100%;
+	top: 15dvh;
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: clamp(1rem, calc(1rem + 3vw), 3rem);
+	color: $pure-white;
 }
 
 // 404
@@ -147,5 +156,13 @@
 		&.hidden {
 			animation: hidePopupDesktop 0.35s forwards;
 		}
+	}
+}
+@media (900px <= width) {
+	.clear-storage {
+		left: unset;
+		transform: translateX(0) translateY(-50%);
+		right: 1rem;
+		bottom: 50%;
 	}
 }
