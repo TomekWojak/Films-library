@@ -1368,3 +1368,4 @@ export const createSearchEngine = (translations) => {
 
 	return searchEngineBox;
 };
+

@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (category.includes("series.html")) {
 			const series = await renderSeries(currentLanguage);
 			return createSpecifiedSectionPoster(series, translations);
-			return;
 		}
 		if (category.includes("my-list.html")) {
 			// wyrenderuj listę
@@ -76,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (category.includes("search.html")) {
 			const films = await renderFilms(currentLanguage, 1);
 			container.append(createSearchEngine(translations));
+
+			handleSearchEngine(currentLanguage);
 
 			return createSpecifiedSectionPoster(films, translations);
 		}
@@ -114,6 +115,36 @@ document.addEventListener("DOMContentLoaded", function () {
 		seriesArr.push(choosenSeries);
 
 		return seriesArr;
+	};
+
+	const handleSearchEngine = (currentLanguage) => {
+		const searchEngine = document.querySelector(".search-engine__input");
+
+		let searchFlag = false;
+		let antiSpamTimeout = 1000;
+
+		searchEngine?.addEventListener("input", (e) => {
+			if (searchFlag) return;
+			searchFlag = true;
+
+			const value = e.target.value;
+			findFilmsByKeyword(value, currentLanguage);
+
+			setTimeout(() => {
+				searchFlag = false;
+				findFilmsByKeyword(value, currentLanguage);
+			}, antiSpamTimeout);
+		});
+	};
+
+	const findFilmsByKeyword = async (inputValue, currentLanguage) => {
+		const searchFilmURL = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(
+			inputValue
+		)}&language=${currentLanguage}`;
+		const response = await fetch(searchFilmURL, options);
+		const data = await response.json();
+
+		console.log(data);
 	};
 
 	checkAuthorization();
