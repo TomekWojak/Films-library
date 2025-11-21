@@ -644,17 +644,25 @@ body.explore {
 		border-radius: radius(50);
 		text-decoration: none;
 		gap: spacing(50);
+		opacity: 0;
+		vertical-align: middle;
+		transform: translateY(2rem);
 		font-weight: $fw-semi-bold;
 		font-size: clamp($font-size-150, $font-size-50 + 1.2vw, $font-size-200);
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 		cursor: pointer;
-		opacity: 0;
-		transform: translateY(2rem);
 		animation-delay: 0.25s;
 
 		&:focus-visible {
 			@include focusState;
 		}
+	}
+	&__trailer-play-icon {
+		width: 1.2rem;
+		pointer-events: none;
+	}
+	&__see-trailer {
+		pointer-events: none;
 	}
 	&__film-add-to-list-btn {
 		vertical-align: middle;
@@ -950,13 +958,17 @@ body.explore {
 	}
 	.explore {
 		&__film-show-trailer-btn {
-			padding: spacing(150) spacing(300);
+			padding: spacing(150) spacing(250);
 			transition: background-color 0.3s, color 0.3s;
 
 			&:hover {
 				background-color: $login-accent;
 				color: $pure-white;
 			}
+		}
+		&__film-show-trailer-btn:hover .explore__trailer-play-icon {
+			fill: $pure-white;
+			stroke: $pure-white;
 		}
 		&__film-add-to-list-btn {
 			transition: background-color 0.3s, transform 0.3s;
@@ -971,6 +983,12 @@ body.explore {
 			&:hover {
 				background-color: rgba(0, 0, 0, 0.8);
 			}
+		}
+		&__trailer-play-icon {
+			width: 1.5rem;
+		}
+		&__trailer-play-icon {
+			transition: fill 0.3s, stroke 0.3s;
 		}
 	}
 }

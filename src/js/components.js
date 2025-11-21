@@ -1347,7 +1347,21 @@ export const createExploreHeroSection = (
 
 	mainTitle.textContent = title || name;
 	description.textContent = overview;
-	trailerBtn.textContent = translations?.browsePage?.actionBtns?.trailerBtnText;
+
+	trailerBtn.innerHTML = `<svg class="explore__trailer-play-icon"
+	xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+	viewBox="0 0 24 24" fill="#000" stroke="#000" stroke-width="2"
+	stroke-linecap="round" stroke-linejoin="round"
+	class="feather feather-play">
+	<polygon points="5 3 19 12 5 21 5 3"></polygon>
+	</svg>`;
+
+	const trailerText = createElement("span", ["explore__see-trailer"]);
+	trailerText.textContent =
+		translations?.browsePage?.actionBtns?.trailerBtnText;
+
+	trailerBtn.append(trailerText);
+
 	addToListBtn.innerHTML = `<img class="explore__film-add-icon" src="./src/icons/add-profile.svg" width="24" height="24" alt="" loading="lazy">`;
 	backBtn.innerHTML = `<img class="explore__back-btn-icon" src="./src/icons/chevron-left.svg" width="24" height="24" alt="" loading="lazy">`;
 
