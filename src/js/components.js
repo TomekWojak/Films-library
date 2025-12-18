@@ -1,4 +1,3 @@
-import { once } from "gulp";
 import { verifyCredentials } from "./firebase-auth.min.js";
 import { createElement, getImageUrl } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
@@ -786,9 +785,10 @@ const handleLogOut = (e) => {
 
 	const userData = getData();
 	const container = document.querySelector(".container");
+	const loader = document.querySelector(".loader-big");
 
 	if (!userData) return;
-	if (showBigLoader() || createOverlay()) return;
+	if (loader) return;
 
 	container.append(showBigLoader());
 	container.append(createOverlay());
