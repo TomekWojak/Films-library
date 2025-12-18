@@ -1,3 +1,4 @@
+import { once } from "gulp";
 import { verifyCredentials } from "./firebase-auth.min.js";
 import { createElement, getImageUrl } from "./helpers.min.js";
 import { setUserPreference } from "./updateStateFunctions.min.js";
@@ -787,6 +788,7 @@ const handleLogOut = (e) => {
 	const container = document.querySelector(".container");
 
 	if (!userData) return;
+	if (showBigLoader() || createOverlay()) return;
 
 	container.append(showBigLoader());
 	container.append(createOverlay());
@@ -1505,7 +1507,7 @@ const getVideoTrailerId = async (id, type) => {
 			el.name === "Official Trailer" ||
 			el.name === "Official Trailer #1" ||
 			el.name === "Official Trailer #2" ||
-			el.name.includes("Official Trailer")  ||
+			el.name.includes("Official Trailer") ||
 			el.name.includes("Trailer")
 	);
 
